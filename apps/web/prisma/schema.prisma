@@ -1,0 +1,95 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+model Building {
+  id String @id
+
+  name String
+  area String
+  city String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  posts     Post[]
+  residents Resident[]
+}
+
+model User {
+  id String @id @db.Uuid
+
+  email    String  @unique
+  password String
+  name     String
+  image    String?
+  meta     Json    @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  comments    Comment[]
+  posts       Post[]
+  residencies Resident[]
+}
+
+enum ResidentRole {
+  resident
+}
+
+model Resident {
+  id String @id @default(cuid())
+
+  building   Building @relation(fields: [buildingId], references: [id])
+  buildingId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  floor     String?
+  apartment String?
+
+  role ResidentRole @default(resident)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Post {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  building   Building @relation(fields: [buildingId], references: [id])
+  buildingId String
+
+  body        String
+  attachments Json   @default("[]")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  comments Comment[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  body String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}

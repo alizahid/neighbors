@@ -6,6 +6,7 @@ import { type FunctionComponent, useEffect } from 'react'
 
 import { fonts } from '~/lib/fonts'
 import { theme } from '~/lib/theme'
+import { ApiProvider } from '~/providers/api'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -24,7 +25,9 @@ const Layout: FunctionComponent = () => {
 
   return (
     <ThemeProvider value={theme}>
-      <Slot />
+      <ApiProvider>
+        <Slot />
+      </ApiProvider>
     </ThemeProvider>
   )
 }

@@ -4,7 +4,8 @@
     "paths": {
       "~/*": ["src/*"]
     },
-    "strict": true
+    "strict": true,
+    "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
   "include": ["src", "app", "typings"]

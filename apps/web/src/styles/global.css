@@ -1,0 +1,9 @@
+/* tailwind */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply cursor-default bg-gray-1 text-gray-12 selection:bg-primary-9/25;
+}

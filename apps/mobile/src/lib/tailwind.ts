@@ -1,6 +1,15 @@
 import { create, type TwConfig } from 'twrnc'
 
-import config from '../../tailwind.config'
+import config from '../../../web/tailwind.config'
+
+if (config.theme?.extend?.fontFamily) {
+  config.theme.extend.fontFamily = {
+    'body-bold': ['body-bold'],
+    'body-medium': ['body-medium'],
+    'body-regular': ['body-regular'],
+    'body-semibold': ['body-semibold'],
+  }
+}
 
 export const tw = create(config as TwConfig)
 

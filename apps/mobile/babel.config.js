@@ -11,6 +11,7 @@ module.exports = (api) => {
           rootPathSuffix: 'src',
         },
       ],
+      'module:react-native-dotenv',
       'react-native-reanimated/plugin',
     ],
     presets: ['babel-preset-expo'],

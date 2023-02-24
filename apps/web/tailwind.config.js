@@ -28,7 +28,7 @@ const colors = [
   {}
 )
 
-// /** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['{app,src}/**/*.tsx'],
   plugins: [],
@@ -41,10 +41,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        'body-bold': ['body-bold'],
-        'body-medium': ['body-medium'],
-        'body-regular': ['body-regular'],
-        'body-semibold': ['body-semibold'],
+        sans: ['var(--font-sans)'],
       },
     },
   },

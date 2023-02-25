@@ -5,5 +5,5 @@ module.exports = {
   plugins: [tailwind],
   semi: false,
   singleQuote: true,
-  tailwindConfig: 'apps/web/tailwind.config.js',
+  tailwindConfig: 'packages/shared/tailwind.config.js',
 }

@@ -5,4 +5,5 @@ module.exports = {
     SUPABASE_URL: process.env.SUPABASE_URL,
   },
   reactStrictMode: true,
+  transpilePackages: ['shared'],
 }

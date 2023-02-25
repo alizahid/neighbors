@@ -1,8 +1,11 @@
 import '~/styles/global.css'
 
-import { type AppPropsWithLayout } from 'next'
+import { type AppProps } from 'next/app'
 import localFont from 'next/font/local'
+import { IntlProvider } from 'next-intl'
 import { type FunctionComponent } from 'react'
+
+import en from '~/intl/en.json'
 
 const hk = localFont({
   src: [
@@ -26,17 +29,17 @@ const hk = localFont({
   variable: '--font-sans',
 })
 
-const App: FunctionComponent<AppPropsWithLayout> = ({
-  Component,
-  pageProps,
-}) => {
-  const getLayout = Component.getLayout ?? ((page) => page)
-
-  return (
+const App: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
+  <IntlProvider
+    locale="en"
+    messages={en}
+    now={new Date()}
+    timeZone="Asia/Dubai"
+  >
     <div className={`${hk.variable} font-sans`}>
-      {getLayout(<Component {...pageProps} />)}
+      <Component {...pageProps} />
     </div>
-  )
-}
+  </IntlProvider>
+)
 
 export default App

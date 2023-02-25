@@ -1,0 +1,18 @@
+{
+  "name": "@neighbors/shared",
+  "version": "0.0.0",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.8.0",
+    "@tanstack/react-query": "^4.24.10",
+    "@trpc/next": "^10.12.0",
+    "@trpc/server": "^10.12.0",
+    "superjson": "^1.12.2",
+    "zod": "^3.20.6"
+  },
+  "devDependencies": {
+    "@radix-ui/colors": "^0.1.8",
+    "@types/color-convert": "^2.0.0",
+    "color-convert": "^2.0.1",
+    "typescript": "^4.9.5"
+  }
+}

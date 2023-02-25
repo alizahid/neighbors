@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*", "../../packages/shared/src/*"]
     },
+    "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true
   },

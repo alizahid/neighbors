@@ -5,19 +5,21 @@ import {
   type ViewStyle,
 } from 'react-native'
 
-import { tw } from '~/lib/tailwind'
+import { type TailwindColor, tw } from '~/lib/tailwind'
 
 import { Icon, type IconName } from './icon'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 
 type Props = Pick<PressableProps, 'disabled' | 'onPress'> & {
+  color?: TailwindColor
   loading?: boolean
-  style?: StyleProp<ViewStyle>
   name: IconName
+  style?: StyleProp<ViewStyle>
 }
 
 export const IconButton: FunctionComponent<Props> = ({
+  color,
   disabled,
   loading,
   name,
@@ -29,6 +31,10 @@ export const IconButton: FunctionComponent<Props> = ({
     onPress={onPress}
     style={[tw`h-12 w-12 items-center justify-center`, style]}
   >
-    {loading ? <Spinner size="small" /> : <Icon name={name} />}
+    {loading ? (
+      <Spinner color={color} size="small" />
+    ) : (
+      <Icon color={color} name={name} />
+    )}
   </Pressable>
 )

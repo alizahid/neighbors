@@ -10,6 +10,7 @@ import { type TailwindColor, tw } from '~/lib/tailwind'
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
+import { Gallery } from './gallery'
 
 type Props = {
   post: RouterOutput['posts']['list']['posts'][number]
@@ -65,17 +66,11 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
         <Typography>{post.body}</Typography>
       </Pressable>
 
-      {post.meta.attachments.length > 0 && (
-        <View style={tw`flex-row flex-wrap gap-2`}>
-          {post.meta.attachments.map(({ url }, index) => (
-            <Image
-              key={index}
-              source={url}
-              style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
-            />
-          ))}
-        </View>
-      )}
+      <Gallery
+        images={post.meta.attachments
+          .filter(({ type }) => type === 'image')
+          .map(({ url }) => url)}
+      />
 
       <Pressable
         onPress={() => router.push(`/posts/${post.id}`)}

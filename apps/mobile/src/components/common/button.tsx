@@ -45,6 +45,6 @@ export const Button: FunctionComponent<Props> = ({
       {children}
     </Typography>
 
-    {loading && <Spinner />}
+    {loading && <Spinner color={variant === 'text' ? 'gray-12' : 'gray-1'} />}
   </Pressable>
 )

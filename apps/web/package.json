@@ -12,12 +12,10 @@
   "dependencies": {
     "@neighbors/shared": "*",
     "@prisma/client": "^4.10.1",
-    "expo-splash-screen": "~0.18.1",
     "next": "13.2.1",
     "next-intl": "^2.10.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native-svg": "13.4.0"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "18.14.1",

@@ -98,8 +98,7 @@ const main = async () => {
         type === 'item'
           ? {
               currency: 'AED',
-              description: faker.commerce.productDescription(),
-              price: faker.commerce.price(),
+              price: Number(faker.commerce.price()),
               product: faker.commerce.productName(),
               quantity: faker.datatype.number(5),
             }
@@ -107,7 +106,10 @@ const main = async () => {
       )
 
       return {
-        body: faker.lorem.paragraph(),
+        body:
+          type === 'item'
+            ? faker.commerce.productDescription()
+            : faker.lorem.paragraph(),
         buildingId,
         createdAt: subMinutes(new Date(), faker.datatype.number(100_000)),
         meta,

@@ -24,7 +24,6 @@ const postMeta = z.object({
     })
   ),
   currency: z.string().optional(),
-  description: z.string().optional(),
   price: z.number().optional(),
   product: z.string().optional(),
   quantity: z.number().optional(),

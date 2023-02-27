@@ -57,6 +57,9 @@
       "signIn": "Sign in",
       "signUp": "Sign up",
       "title": "<primary>near</primary><accent>buds</accent>"
+    },
+    "user": {
+      "title": "Profile"
     }
   }
 }

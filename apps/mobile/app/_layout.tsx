@@ -1,11 +1,12 @@
 import en from '@neighbors/shared/src/intl/en.json'
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Slot, SplashScreen } from 'expo-router'
+import { SplashScreen, Stack } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { IntlProvider } from 'use-intl'
 
+import { StackHeader } from '~/components/navigation/header'
 import { fonts } from '~/lib/fonts'
 import { tw } from '~/lib/tailwind'
 import { theme } from '~/lib/theme'
@@ -32,7 +33,11 @@ const Layout: FunctionComponent = () => {
             enabled={Platform.OS === 'ios'}
             style={tw`flex-1`}
           >
-            <Slot />
+            <Stack
+              screenOptions={{
+                header: (props) => <StackHeader {...props} />,
+              }}
+            />
           </KeyboardAvoidingView>
         </IntlProvider>
       </ApiProvider>

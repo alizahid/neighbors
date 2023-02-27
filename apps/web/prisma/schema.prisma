@@ -76,8 +76,8 @@ model Post {
   building   Building @relation(fields: [buildingId], references: [id])
   buildingId String
 
-  body        String
-  attachments Json   @default("[]")
+  body String
+  meta Json   @default("{}")
 
   type PostType @default(post)
 

@@ -44,11 +44,23 @@ export const posts = (t: typeof server) =>
           },
         })
 
+        const likes = await db.like.findMany({
+          where: {
+            postId: {
+              in: posts.map(({ id }) => id),
+            },
+            userId: ctx.user.id,
+          },
+        })
+
         const next = posts.length > 100 ? posts.pop()?.id : undefined
 
         return {
           next,
-          posts,
+          posts: posts.map((post) => ({
+            ...post,
+            liked: !!likes.find(({ postId }) => postId === post.id),
+          })),
         }
       }),
   })

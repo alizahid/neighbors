@@ -16,22 +16,29 @@ const userMeta = z.object({
   bio: z.string().default(''),
 })
 
-const postAttachments = z.array(
-  z.object({
-    type: z.enum(['image']),
-    url: z.string(),
-  })
-)
+const postMeta = z.object({
+  attachments: z.array(
+    z.object({
+      type: z.enum(['image']),
+      url: z.string(),
+    })
+  ),
+  currency: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  product: z.string().optional(),
+  quantity: z.number().optional(),
+})
 
 export const db = prisma.$extends({
   result: {
     post: {
-      attachments: {
-        compute({ attachments }) {
-          return postAttachments.parse(attachments)
+      meta: {
+        compute({ meta }) {
+          return postMeta.parse(meta)
         },
         needs: {
-          attachments: true,
+          meta: true,
         },
       },
     },

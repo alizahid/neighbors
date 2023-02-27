@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import { addMinutes, subMinutes } from 'date-fns'
-import { range, sample } from 'lodash-es'
+import { merge, range, sample } from 'lodash-es'
 
 const prisma = new PrismaClient()
 
@@ -22,6 +22,7 @@ const main = async () => {
     },
   })
 
+  await prisma.like.deleteMany({})
   await prisma.comment.deleteMany({})
   await prisma.post.deleteMany({})
   await prisma.resident.deleteMany({})
@@ -55,6 +56,7 @@ const main = async () => {
     users.map((id) =>
       prisma.user.create({
         data: {
+          createdAt: subMinutes(new Date(), faker.datatype.number(200_000)),
           email: faker.internet.email().toLowerCase(),
           id,
           image: faker.image.people(800, 800, true),
@@ -69,20 +71,50 @@ const main = async () => {
     )
   )
 
+  const ali = await prisma.user.findUnique({
+    where: {
+      email: aliEmail,
+    },
+  })
+
+  if (ali) {
+    users.push(ali.id)
+  }
+
   await prisma.post.createMany({
-    data: range(1_000).map(() => ({
-      attachments:
-        faker.datatype.number(100) > 90
-          ? range(faker.datatype.number(5)).map(() => ({
-              type: 'image',
-              url: faker.image.food(800, 600, true),
-            }))
-          : [],
-      body: faker.lorem.paragraph(),
-      buildingId,
-      createdAt: subMinutes(new Date(), faker.datatype.number(100_000)),
-      userId: String(sample(users)),
-    })),
+    data: range(1_200).map(() => {
+      const type = faker.datatype.number(100) > 75 ? 'item' : 'post'
+
+      const meta = merge(
+        {
+          attachments:
+            type === 'item' || faker.datatype.number(100) > 90
+              ? range(faker.datatype.number(5)).map(() => ({
+                  type: 'image',
+                  url: faker.image.food(800, 600, true),
+                }))
+              : [],
+        },
+        type === 'item'
+          ? {
+              currency: 'AED',
+              description: faker.commerce.productDescription(),
+              price: faker.commerce.price(),
+              product: faker.commerce.productName(),
+              quantity: faker.datatype.number(5),
+            }
+          : {}
+      )
+
+      return {
+        body: faker.lorem.paragraph(),
+        buildingId,
+        createdAt: subMinutes(new Date(), faker.datatype.number(100_000)),
+        meta,
+        type,
+        userId: String(sample(users)),
+      }
+    }),
   })
 
   const posts = await prisma.post.findMany({

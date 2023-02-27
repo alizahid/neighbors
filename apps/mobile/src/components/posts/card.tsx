@@ -5,7 +5,7 @@ import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
-import { tw } from '~/lib/tailwind'
+import { type TailwindColor, tw } from '~/lib/tailwind'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -23,10 +23,12 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
 
   const footer: Array<{
     icon: IconName
+    iconColor?: TailwindColor
     label: string
   }> = [
     {
       icon: 'like',
+      iconColor: post.liked ? 'primary-11' : undefined,
       label: intl.formatNumber(post._count.likes, {
         notation: 'compact',
       }),
@@ -63,9 +65,9 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
         <Typography>{post.body}</Typography>
       </Pressable>
 
-      {post.attachments.length > 0 && (
+      {post.meta.attachments.length > 0 && (
         <View style={tw`flex-row flex-wrap gap-2`}>
-          {post.attachments.map(({ url }, index) => (
+          {post.meta.attachments.map(({ url }, index) => (
             <Image
               key={index}
               source={url}
@@ -79,9 +81,13 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
         onPress={() => router.push(`/posts/${post.id}`)}
         style={tw`flex-row gap-4`}
       >
-        {footer.map(({ icon, label }, index) => (
+        {footer.map(({ icon, iconColor, label }, index) => (
           <View key={index} style={tw`flex-row items-center gap-1`}>
-            <Icon color="gray-11" name={icon} style={tw`h-4 w-4`} />
+            <Icon
+              color={iconColor ?? 'gray-11'}
+              name={icon}
+              style={tw`h-4 w-4`}
+            />
 
             <Typography color="gray-11" size="sm">
               {label}

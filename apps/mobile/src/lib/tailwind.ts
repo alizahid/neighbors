@@ -17,7 +17,63 @@ export const tw = create(config as TwConfig)
 
 export const getColor = (name: TailwindColor) => tw.color(name) ?? 'magenta'
 
+const spaces = new Map<TailwindSpace, number>()
+
+export const getSpace = (name: TailwindSpace) => {
+  const exists = spaces.get(name)
+
+  if (exists !== undefined) {
+    return exists
+  }
+
+  const { marginTop } = tw.style(`mt-${name}`)
+
+  const space = Number(marginTop) ?? 0
+
+  spaces.set(name, space)
+
+  return space
+}
+
 // types
+
+export type TailwindSpace =
+  | 0
+  | 'px'
+  | 0.5
+  | 1
+  | 1.5
+  | 2
+  | 2.5
+  | 3
+  | 3.5
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 14
+  | 16
+  | 20
+  | 24
+  | 28
+  | 32
+  | 36
+  | 40
+  | 44
+  | 48
+  | 52
+  | 56
+  | 60
+  | 64
+  | 72
+  | 80
+  | 96
+  | 'auto'
 
 export type TailwindFontSize =
   | 'xs'

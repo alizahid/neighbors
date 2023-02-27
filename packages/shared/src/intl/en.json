@@ -1,7 +1,62 @@
 {
   "screen": {
+    "auth": {
+      "signIn": {
+        "form": {
+          "email": {
+            "error": "Email is required",
+            "label": "Email",
+            "placeholder": "me@example.com"
+          },
+          "password": {
+            "error": "Password must be 6 characters or longer",
+            "label": "Password",
+            "placeholder": "P@s$w0rd"
+          },
+          "submit": "Sign in"
+        },
+        "title": "Sign in"
+      },
+      "signUp": {
+        "form": {
+          "email": {
+            "error": "Email is required",
+            "label": "Email",
+            "placeholder": "me@example.com"
+          },
+          "name": {
+            "error": "Name is required",
+            "label": "Name",
+            "placeholder": "Michael Scott"
+          },
+          "password": {
+            "error": "Password must be 6 characters or longer",
+            "label": "Password",
+            "placeholder": "P@s$w0rd"
+          },
+          "submit": "Sign up"
+        },
+        "title": "Sign up"
+      }
+    },
     "home": {
-      "title": "nearbuds"
+      "account": {
+        "title": "Account"
+      },
+      "chat": {
+        "title": "Chat"
+      },
+      "home": {
+        "title": "Home"
+      },
+      "market": {
+        "title": "Marketplace"
+      }
+    },
+    "landing": {
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "title": "<primary>near</primary><accent>buds</accent>"
     }
   }
 }

@@ -2,8 +2,10 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'next/core-web-vitals',
     'universe/native',
+    'plugin:react-hooks/recommended',
     'turbo',
     'prettier',
   ],
@@ -24,12 +26,19 @@ module.exports = {
   ],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
+    '@typescript-eslint/array-type': [
+      'error',
+      {
+        default: 'generic',
+      },
+    ],
     '@typescript-eslint/consistent-type-imports': [
       'warn',
       {
         fixStyle: 'inline-type-imports',
       },
     ],
+    'import/order': 'off',
     'react/jsx-sort-props': 'error',
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': 'error',

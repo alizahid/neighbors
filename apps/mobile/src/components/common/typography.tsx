@@ -1,14 +1,12 @@
-import { type FunctionComponent, type ReactNode } from 'react'
-import { type StyleProp, Text, type TextStyle } from 'react-native'
+import { type FunctionComponent } from 'react'
+import { Text, type TextProps } from 'react-native'
 
 import { type TailwindColor, type TailwindFontSize, tw } from '~/lib/tailwind'
 
-type Props = {
-  children: ReactNode
+type Props = Pick<TextProps, 'children' | 'style'> & {
   color?: TailwindColor
   lines?: number
   size?: TailwindFontSize
-  style?: StyleProp<TextStyle>
   weight?: 'regular' | 'medium' | 'semibold' | 'bold'
 }
 

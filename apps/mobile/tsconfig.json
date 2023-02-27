@@ -6,7 +6,8 @@
     },
     "resolveJsonModule": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "useUnknownInCatchVariables": false
   },
   "extends": "expo/tsconfig.base",
   "include": ["src", "app", "typings"]

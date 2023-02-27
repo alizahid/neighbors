@@ -25,11 +25,10 @@ model Building {
 model User {
   id String @id @db.Uuid
 
-  email    String  @unique
-  password String
-  name     String
-  image    String?
-  meta     Json    @default("{}")
+  email String  @unique
+  name  String
+  image String?
+  meta  Json    @default("{}")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

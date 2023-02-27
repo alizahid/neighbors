@@ -11,7 +11,7 @@ const getSession = async (token?: string) => {
 
   const { data } = await supabase.auth.getUser(token)
 
-  return data
+  return data.user
 }
 
 const getUser = async (id?: string) => {
@@ -31,7 +31,7 @@ export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 
   const session = await getSession(token)
 
-  const user = await getUser(session?.user?.id)
+  const user = await getUser(session?.id)
 
   return {
     req,

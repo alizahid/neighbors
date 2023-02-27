@@ -2,8 +2,8 @@ const radix = require('@radix-ui/colors')
 const convert = require('color-convert')
 
 const colors = [
-  ['primary', radix.teal],
-  ['accent', radix.yellow],
+  ['primary', radix.indigo],
+  ['accent', radix.teal],
   ['gray', radix.gray],
   ['green', radix.green],
   ['red', radix.red],

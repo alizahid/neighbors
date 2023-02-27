@@ -1,16 +1,17 @@
 import { type FunctionComponent, type ReactNode } from 'react'
 import { ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
-import ModalReactNative from 'react-native-modal'
+import ReactNativeModal from 'react-native-modal'
 import {
   useSafeAreaFrame,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context'
 
-import { tw } from '~/lib/tailwind'
+import { getColor, getSpace, tw } from '~/lib/tailwind'
 
 import { Typography } from './typography'
 
 type Props = {
+  actions?: ReactNode
   children: ReactNode
   inset?: boolean
   scrollable?: boolean
@@ -22,6 +23,7 @@ type Props = {
 }
 
 export const Modal: FunctionComponent<Props> = ({
+  actions,
   children,
   inset,
   onClose,
@@ -35,7 +37,10 @@ export const Modal: FunctionComponent<Props> = ({
 
   const container = scrollable ? (
     <ScrollView
-      contentContainerStyle={[tw`p-4`, style]}
+      contentContainerStyle={[
+        tw.style('p-4', inset && `pb-[${bottom + getSpace(4)}px]`),
+        style,
+      ]}
       keyboardShouldPersistTaps="handled"
       scrollIndicatorInsets={{
         right: 1,
@@ -44,12 +49,21 @@ export const Modal: FunctionComponent<Props> = ({
       {children}
     </ScrollView>
   ) : (
-    <View style={[tw`p-4`, style]}>{children}</View>
+    <View
+      style={[
+        tw.style('p-4', inset && `pb-[${bottom + getSpace(4)}px]`),
+        style,
+      ]}
+    >
+      {children}
+    </View>
   )
 
   return (
-    <ModalReactNative
+    <ReactNativeModal
       avoidKeyboard
+      backdropColor={getColor('gray-12')}
+      backdropOpacity={0.75}
       isVisible={visible}
       onBackButtonPress={onClose}
       onBackdropPress={onClose}
@@ -57,20 +71,17 @@ export const Modal: FunctionComponent<Props> = ({
       useNativeDriver
       useNativeDriverForBackdrop
     >
-      <View
-        style={tw.style(
-          `bg-gray-1 rounded-t-xl max-h-[${height - top}px]`,
-          inset && `pb-[${bottom}px]`
-        )}
-      >
-        <View style={tw`p-4 border-b border-gray-6`}>
-          <Typography size="xl" weight="semibold">
+      <View style={tw`bg-gray-1 rounded-t-xl max-h-[${height - top}px]`}>
+        <View style={tw`h-12 flex-row border-b border-gray-6 items-center`}>
+          <Typography size="lg" style={tw`flex-1 mx-4`} weight="semibold">
             {title}
           </Typography>
+
+          {actions}
         </View>
 
         {container}
       </View>
-    </ModalReactNative>
+    </ReactNativeModal>
   )
 }

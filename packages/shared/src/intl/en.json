@@ -1,4 +1,11 @@
 {
+  "component": {
+    "buildings": {
+      "picker": {
+        "title": "Pick building"
+      }
+    }
+  },
   "screen": {
     "auth": {
       "signIn": {

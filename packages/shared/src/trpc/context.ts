@@ -21,7 +21,11 @@ const getUser = async (id?: string) => {
 
   return db.user.findUnique({
     include: {
-      residencies: true,
+      residencies: {
+        include: {
+          building: true,
+        },
+      },
     },
     where: {
       id,

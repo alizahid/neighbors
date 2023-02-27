@@ -25,7 +25,13 @@ export const StackHeader: FunctionComponent<
           />
         )}
 
-        <Typography weight="bold">{options.title}</Typography>
+        {typeof options.headerTitle === 'function' ? (
+          options.headerTitle({
+            children: options.title ?? 'Screen',
+          })
+        ) : (
+          <Typography weight="bold">{options.title}</Typography>
+        )}
       </View>
     </View>
   )

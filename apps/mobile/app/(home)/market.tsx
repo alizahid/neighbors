@@ -1,16 +1,24 @@
 import { FlashList } from '@shopify/flash-list'
+import { useFocusEffect, useNavigation } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 
+import { BuildingPicker } from '~/components/buildings/picker'
 import { ItemCard } from '~/components/items/card'
-import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
+import { useBuildingStore } from '~/stores/building'
 
 const Screen: FunctionComponent = () => {
-  const { profile } = useProfile()
+  const navigation = useNavigation()
 
-  const buildingId = profile?.residencies.at(0)?.buildingId
+  const { buildingId } = useBuildingStore()
+
+  useFocusEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <BuildingPicker />,
+    })
+  })
 
   const items = trpc.market.items.useInfiniteQuery(
     {

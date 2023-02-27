@@ -7,18 +7,30 @@ const prisma = new PrismaClient()
 
 const main = async () => {
   const aliEmail = 'ali.zahid@live.com'
-  const buildingId = '2423786279'
 
-  const building = await prisma.building.upsert({
+  const amna = await prisma.building.upsert({
     create: {
       area: 'Business Bay',
       city: 'Dubai',
-      id: buildingId,
+      id: '2423786279',
       name: 'Amna Tower',
     },
     update: {},
     where: {
-      id: buildingId,
+      id: '2423786279',
+    },
+  })
+
+  const ag = await prisma.building.upsert({
+    create: {
+      area: 'Canal Road',
+      city: 'Faisalabad',
+      id: 'agfsd',
+      name: 'Abdullah Gardens',
+    },
+    update: {},
+    where: {
+      id: 'agfsd',
     },
   })
 
@@ -39,7 +51,22 @@ const main = async () => {
     data: {
       building: {
         connect: {
-          id: buildingId,
+          id: amna.id,
+        },
+      },
+      user: {
+        connect: {
+          email: aliEmail,
+        },
+      },
+    },
+  })
+
+  await prisma.resident.create({
+    data: {
+      building: {
+        connect: {
+          id: ag.id,
         },
       },
       user: {
@@ -63,7 +90,7 @@ const main = async () => {
           name: `${faker.name.firstName()} ${faker.name.lastName()}`,
           residencies: {
             create: {
-              buildingId: building.id,
+              buildingId: amna.id,
             },
           },
         },
@@ -110,7 +137,7 @@ const main = async () => {
           type === 'item'
             ? faker.commerce.productDescription()
             : faker.lorem.paragraph(),
-        buildingId,
+        buildingId: amna.id,
         createdAt: subMinutes(new Date(), faker.datatype.number(100_000)),
         meta,
         type,

@@ -102,6 +102,16 @@ const main = async () => {
       }))
     ),
   })
+
+  await prisma.like.createMany({
+    data: posts.flatMap(({ createdAt, id }) =>
+      range(faker.datatype.number(5)).map(() => ({
+        createdAt: addMinutes(createdAt, faker.datatype.number(10_000)),
+        postId: id,
+        userId: String(sample(users)),
+      }))
+    ),
+  })
 }
 
 main()

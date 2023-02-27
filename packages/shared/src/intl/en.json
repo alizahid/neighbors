@@ -54,9 +54,19 @@
         "title": "Chat"
       },
       "home": {
+        "empty": {
+          "label": "Post something",
+          "message": "Nobody's posted anything in your building. Be the first one?",
+          "title": "Nothing here"
+        },
         "title": "Home"
       },
       "market": {
+        "empty": {
+          "label": "Post an item",
+          "message": "Nobody's put up anything for sale in your building. Be the first one?",
+          "title": "Nothing here"
+        },
         "title": "Marketplace"
       }
     },

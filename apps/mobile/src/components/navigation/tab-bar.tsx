@@ -7,7 +7,9 @@ import { getSpace, tw } from '~/lib/tailwind'
 
 import { Pressable } from '../common/pressable'
 
-export const TabBar: FunctionComponent<BottomTabBarProps> = ({
+type Props = BottomTabBarProps
+
+export const TabBar: FunctionComponent<Props> = ({
   descriptors,
   navigation,
   state,

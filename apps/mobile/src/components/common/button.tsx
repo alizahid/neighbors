@@ -2,6 +2,7 @@ import { type FunctionComponent, type ReactNode } from 'react'
 import {
   type PressableProps,
   type StyleProp,
+  type TextStyle,
   type ViewStyle,
 } from 'react-native'
 
@@ -15,6 +16,7 @@ type Props = Pick<PressableProps, 'disabled' | 'onPress'> & {
   children: ReactNode
   loading?: boolean
   style?: StyleProp<ViewStyle>
+  styleLabel?: StyleProp<TextStyle>
   variant?: 'primary' | 'accent' | 'text'
 }
 
@@ -24,6 +26,7 @@ export const Button: FunctionComponent<Props> = ({
   loading,
   onPress,
   style,
+  styleLabel,
   variant = 'primary',
 }) => (
   <Pressable
@@ -40,6 +43,7 @@ export const Button: FunctionComponent<Props> = ({
   >
     <Typography
       color={variant === 'text' ? 'gray-12' : 'gray-1'}
+      style={styleLabel}
       weight="semibold"
     >
       {children}

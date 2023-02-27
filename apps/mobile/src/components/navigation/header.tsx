@@ -9,9 +9,13 @@ import { tw } from '~/lib/tailwind'
 import { IconButton } from '../common/icon-button'
 import { Typography } from '../common/typography'
 
-export const StackHeader: FunctionComponent<
-  NativeStackHeaderProps | BottomTabHeaderProps
-> = ({ navigation, options, ...props }) => {
+type Props = NativeStackHeaderProps | BottomTabHeaderProps
+
+export const StackHeader: FunctionComponent<Props> = ({
+  navigation,
+  options,
+  ...props
+}) => {
   const { top } = useSafeAreaInsets()
 
   return (

@@ -4,6 +4,7 @@ import { Text, type TextProps } from 'react-native'
 import { type TailwindColor, type TailwindFontSize, tw } from '~/lib/tailwind'
 
 type Props = Pick<TextProps, 'children' | 'style'> & {
+  align?: 'left' | 'center' | 'right'
   color?: TailwindColor
   lines?: number
   size?: TailwindFontSize
@@ -11,6 +12,7 @@ type Props = Pick<TextProps, 'children' | 'style'> & {
 }
 
 export const Typography: FunctionComponent<Props> = ({
+  align = 'left',
   children,
   color = 'gray-12',
   lines,
@@ -20,7 +22,10 @@ export const Typography: FunctionComponent<Props> = ({
 }) => (
   <Text
     numberOfLines={lines}
-    style={[tw`font-body-${weight} text-${size} text-${color}`, style]}
+    style={[
+      tw`font-body-${weight} text-${size} text-${color} text-${align}`,
+      style,
+    ]}
   >
     {children}
   </Text>

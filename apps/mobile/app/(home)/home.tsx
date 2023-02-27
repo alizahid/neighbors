@@ -1,17 +1,49 @@
+import { FlashList } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 
-import { Typography } from '~/components/common/typography'
+import { Pressable } from '~/components/common/pressable'
+import { PostCard } from '~/components/posts/card'
 import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
+import { trpc } from '~/lib/trpc'
 
 const Screen: FunctionComponent = () => {
+  const router = useRouter()
+
   const { profile } = useProfile()
 
+  const buildingId = profile?.residencies.at(0)?.buildingId
+
+  const posts = trpc.posts.list.useInfiniteQuery(
+    {
+      buildingId: buildingId!,
+    },
+    {
+      enabled: !!buildingId,
+      getNextPageParam: ({ next }) => next,
+    }
+  )
+
+  const data = posts.data?.pages.flatMap(({ posts }) => posts) ?? []
+
   return (
-    <View style={tw`p-4 flex-1 justify-center`}>
-      <Typography size="sm">{JSON.stringify(profile, null, 2)}</Typography>
-    </View>
+    <FlashList
+      ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+      data={data}
+      estimatedItemSize={200}
+      onEndReached={() => {
+        if (posts.hasNextPage) {
+          posts.fetchNextPage()
+        }
+      }}
+      renderItem={({ item }) => (
+        <Pressable onPress={() => router.push(`/posts/${item.id}`)}>
+          <PostCard post={item} style={tw`p-4`} />
+        </Pressable>
+      )}
+    />
   )
 }
 

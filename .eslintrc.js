@@ -11,6 +11,12 @@ module.exports = {
   ],
   overrides: [
     {
+      files: 'apps/mobile/**/*.tsx',
+      rules: {
+        'jsx-a11y/alt-text': 'off',
+      },
+    },
+    {
       files: '*.js',
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
@@ -38,6 +44,7 @@ module.exports = {
         fixStyle: 'inline-type-imports',
       },
     ],
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'import/order': 'off',
     'react/jsx-sort-props': 'error',
     'simple-import-sort/exports': 'error',

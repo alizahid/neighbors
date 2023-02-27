@@ -23,3 +23,20 @@ export function isNotNull<Item>(
     })
   }
 }
+
+export function isResident(
+  context: Context,
+  buildingId: string
+): asserts context is WithUser {
+  isLoggedIn(context)
+
+  const exists = context.user.residencies.find(
+    (residency) => residency.buildingId === buildingId
+  )
+
+  if (!exists) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+    })
+  }
+}

@@ -20,6 +20,9 @@ const getUser = async (id?: string) => {
   }
 
   return db.user.findUnique({
+    include: {
+      residencies: true,
+    },
     where: {
       id,
     },

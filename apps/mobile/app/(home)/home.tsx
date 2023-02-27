@@ -1,17 +1,13 @@
 import { FlashList } from '@shopify/flash-list'
-import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 
-import { Pressable } from '~/components/common/pressable'
 import { PostCard } from '~/components/posts/card'
 import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 
 const Screen: FunctionComponent = () => {
-  const router = useRouter()
-
   const { profile } = useProfile()
 
   const buildingId = profile?.residencies.at(0)?.buildingId
@@ -38,11 +34,7 @@ const Screen: FunctionComponent = () => {
           posts.fetchNextPage()
         }
       }}
-      renderItem={({ item }) => (
-        <Pressable onPress={() => router.push(`/posts/${item.id}`)}>
-          <PostCard post={item} style={tw`p-4`} />
-        </Pressable>
-      )}
+      renderItem={({ item }) => <PostCard post={item} style={tw`p-4`} />}
     />
   )
 }

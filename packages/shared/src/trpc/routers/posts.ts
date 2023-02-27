@@ -38,6 +38,9 @@ export const posts = (t: typeof server) =>
           take: 100 + 1,
           where: {
             buildingId: input.buildingId,
+            type: {
+              not: 'item',
+            },
           },
         })
 

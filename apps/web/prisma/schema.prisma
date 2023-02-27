@@ -61,6 +61,12 @@ model Resident {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
+enum PostType {
+  ad
+  post
+  item
+}
+
 model Post {
   id String @id @default(cuid())
 
@@ -72,6 +78,8 @@ model Post {
 
   body        String
   attachments Json   @default("[]")
+
+  type PostType @default(post)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

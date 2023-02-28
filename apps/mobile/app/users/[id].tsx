@@ -16,12 +16,12 @@ import { trpc } from '~/lib/trpc'
 
 const Screen: FunctionComponent = () => {
   const navigation = useNavigation()
-  const { id } = useLocalSearchParams()
+  const params = useLocalSearchParams()
 
   const t = useTranslations('screen.user')
 
   const user = trpc.users.get.useQuery({
-    id,
+    id: String(params.id),
   })
 
   useFocusEffect(() => {

@@ -4,7 +4,9 @@ import { type FunctionComponent } from 'react'
 import { Empty } from '~/components/common/empty'
 
 const Screen: FunctionComponent = () => {
-  const { id } = useLocalSearchParams()
+  const params = useLocalSearchParams()
+
+  const id = String(params.id)
 
   return <Empty message={id} />
 }

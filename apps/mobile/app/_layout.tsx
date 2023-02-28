@@ -51,6 +51,13 @@ const Layout: FunctionComponent = () => {
                   presentation: 'modal',
                 }}
               />
+
+              <Stack.Screen
+                name="users/[id]"
+                options={{
+                  presentation: 'modal',
+                }}
+              />
             </Stack>
           </KeyboardAvoidingView>
         </IntlProvider>

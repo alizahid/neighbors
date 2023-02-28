@@ -14,11 +14,18 @@ import { Typography } from '../common/typography'
 import { Gallery } from '../posts/gallery'
 
 type Props = {
-  item: RouterOutput['market']['items']['items'][number]
+  disabled?: boolean
+  item:
+    | RouterOutput['posts']['list']['posts'][number]
+    | RouterOutput['posts']['get']
   style?: StyleProp<ViewStyle>
 }
 
-export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
+export const ItemCard: FunctionComponent<Props> = ({
+  disabled,
+  item,
+  style,
+}) => {
   const router = useRouter()
 
   const intl = useIntl()
@@ -60,6 +67,7 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
       </Pressable>
 
       <Pressable
+        disabled={disabled}
         onPress={() => router.push(`/posts/${item.id}`)}
         style={tw`gap-4`}
       >
@@ -87,10 +95,7 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
           title={item.meta.product}
         />
 
-        <Pressable
-          onPress={() => router.push(`/posts/${item.id}`)}
-          style={tw`flex-row gap-4`}
-        >
+        <View style={tw`flex-row gap-4`}>
           {footer.map(({ icon, label }, index) => (
             <View key={index} style={tw`flex-row items-center gap-1`}>
               <Icon color="gray-11" name={icon} style={tw`h-4 w-4`} />
@@ -100,7 +105,7 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
               </Typography>
             </View>
           ))}
-        </Pressable>
+        </View>
       </Pressable>
     </View>
   )

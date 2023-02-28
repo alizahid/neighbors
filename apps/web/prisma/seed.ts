@@ -160,7 +160,7 @@ const main = async () => {
     data: posts.flatMap(({ createdAt, id }) =>
       range(faker.datatype.number(5)).map(() => ({
         body: faker.lorem.sentence(),
-        createdAt: addMinutes(createdAt, faker.datatype.number(10_000)),
+        createdAt: addMinutes(createdAt, faker.datatype.number(1_000)),
         postId: id,
         userId: String(sample(users)),
       }))
@@ -170,7 +170,7 @@ const main = async () => {
   await prisma.like.createMany({
     data: posts.flatMap(({ createdAt, id }) =>
       range(faker.datatype.number(5)).map(() => ({
-        createdAt: addMinutes(createdAt, faker.datatype.number(10_000)),
+        createdAt: addMinutes(createdAt, faker.datatype.number(1_000)),
         postId: id,
         userId: String(sample(users)),
       }))

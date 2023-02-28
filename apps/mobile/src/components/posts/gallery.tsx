@@ -18,7 +18,7 @@ type Props = {
 }
 
 export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
-  const { bottom, top } = useSafeAreaInsets()
+  const { bottom } = useSafeAreaInsets()
 
   const [index, setIndex] = useState(0)
   const [imageIndex, setImageIndex] = useState(0)
@@ -56,12 +56,12 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
           </View>
         )}
         HeaderComponent={() => (
-          <View style={tw`flex-row mx-4 gap-2 mt-[${top + getSpace(4)}px]`}>
+          <View style={tw`flex-row items-center`}>
             {!!title && (
               <Typography
                 color="gray-1"
                 size="lg"
-                style={tw`flex-1`}
+                style={tw`flex-1 m-4`}
                 weight="semibold"
               >
                 {title}
@@ -83,6 +83,7 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
         }))}
         onImageIndexChange={(index) => setImageIndex(index)}
         onRequestClose={() => setVisible(false)}
+        presentationStyle="pageSheet"
         visible={visible}
       />
     </View>

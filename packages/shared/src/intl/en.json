@@ -5,6 +5,12 @@
         "title": "Pick building"
       }
     },
+    "comments": {
+      "form": {
+        "placeholder": "Say something nice",
+        "title": "Add comment"
+      }
+    },
     "common": {
       "imageUploader": {
         "label": "Images"
@@ -110,6 +116,18 @@
         "title": {
           "item": "New item",
           "post": "New post"
+        }
+      },
+      "post": {
+        "comments": {
+          "empty": "Nothing here",
+          "title": "Comments ({count, number})"
+        },
+        "title": {
+          "ad": "Ad",
+          "item": "Item",
+          "loading": "Loading",
+          "post": "Post"
         }
       }
     },

@@ -36,6 +36,7 @@ const Screen: FunctionComponent = () => {
   const posts = trpc.posts.list.useInfiniteQuery(
     {
       buildingId: buildingId!,
+      type: 'post',
     },
     {
       enabled: !!buildingId,

@@ -3,7 +3,7 @@ import { createNextApiHandler } from '@trpc/server/adapters/next'
 import transformer from 'superjson'
 
 import { type Context, createContext } from './context'
-import { market } from './routers/market'
+import { comments } from './routers/comments'
 import { posts } from './routers/posts'
 import { users } from './routers/users'
 
@@ -12,7 +12,7 @@ export const server = initTRPC.context<Context>().create({
 })
 
 export const router = server.router({
-  market: market(server),
+  comments: comments(server),
   posts: posts(server),
   users: users(server),
 })

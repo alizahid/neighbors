@@ -14,11 +14,18 @@ import { Typography } from '../common/typography'
 import { Gallery } from './gallery'
 
 type Props = {
-  post: RouterOutput['posts']['list']['posts'][number]
+  disabled?: boolean
+  post:
+    | RouterOutput['posts']['list']['posts'][number]
+    | RouterOutput['posts']['get']
   style?: StyleProp<ViewStyle>
 }
 
-export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
+export const PostCard: FunctionComponent<Props> = ({
+  disabled,
+  post,
+  style,
+}) => {
   const router = useRouter()
 
   const intl = useIntl()
@@ -30,7 +37,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
   }> = [
     {
       icon: 'like',
-      iconColor: post.liked ? 'primary-11' : undefined,
+      iconColor: post.likes.length > 0 ? 'primary-11' : undefined,
       label: intl.formatNumber(post._count.likes, {
         notation: 'compact',
       }),
@@ -64,6 +71,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
       </Pressable>
 
       <Pressable
+        disabled={disabled}
         onPress={() => router.push(`/posts/${post.id}`)}
         style={tw`gap-4`}
       >

@@ -2,8 +2,9 @@ import { z } from 'zod'
 
 import { db } from '~/lib/prisma'
 import { PostCreateSchema } from '~/schemas/posts/create'
+import { PostTypeSchema } from '~/schemas/posts/type'
 
-import { isResident } from '../helpers'
+import { isLoggedIn, isNotNull, isResident } from '../helpers'
 import { type server } from '../index'
 
 export const posts = (t: typeof server) =>
@@ -25,11 +26,50 @@ export const posts = (t: typeof server) =>
 
         return post.id
       }),
+    get: t.procedure
+      .input(
+        z.object({
+          id: z.string(),
+        })
+      )
+      .query(async ({ ctx, input }) => {
+        isLoggedIn(ctx)
+
+        const post = await db.post.findUnique({
+          include: {
+            _count: {
+              select: {
+                comments: true,
+                likes: true,
+              },
+            },
+            likes: {
+              select: {
+                id: true,
+              },
+              take: 1,
+              where: {
+                userId: ctx.user.id,
+              },
+            },
+            user: true,
+          },
+          where: {
+            id: input.id,
+          },
+        })
+
+        isNotNull(post)
+        isResident(ctx, post.buildingId)
+
+        return post
+      }),
     list: t.procedure
       .input(
         z.object({
           buildingId: z.string(),
           cursor: z.string().optional(),
+          type: PostTypeSchema,
         })
       )
       .query(async ({ ctx, input }) => {
@@ -48,6 +88,15 @@ export const posts = (t: typeof server) =>
                 likes: true,
               },
             },
+            likes: {
+              select: {
+                id: true,
+              },
+              take: 1,
+              where: {
+                userId: ctx.user.id,
+              },
+            },
             user: true,
           },
           orderBy: {
@@ -57,17 +106,8 @@ export const posts = (t: typeof server) =>
           where: {
             buildingId: input.buildingId,
             type: {
-              not: 'item',
+              not: input.type === 'item' ? 'post' : 'item',
             },
-          },
-        })
-
-        const likes = await db.like.findMany({
-          where: {
-            postId: {
-              in: posts.map(({ id }) => id),
-            },
-            userId: ctx.user.id,
           },
         })
 
@@ -75,10 +115,7 @@ export const posts = (t: typeof server) =>
 
         return {
           next,
-          posts: posts.map((post) => ({
-            ...post,
-            liked: !!likes.find(({ postId }) => postId === post.id),
-          })),
+          posts,
         }
       }),
   })

@@ -84,6 +84,7 @@ const Screen: FunctionComponent = () => {
       contentContainerStyle={tw`p-4 gap-4 flex-grow pb-[${
         (keyboard.visible ? 0 : bottom) + getSpace(4)
       }px]`}
+      keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
     >
       <Controller

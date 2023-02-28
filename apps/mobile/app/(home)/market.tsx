@@ -33,9 +33,10 @@ const Screen: FunctionComponent = () => {
     })
   })
 
-  const items = trpc.market.items.useInfiniteQuery(
+  const posts = trpc.posts.list.useInfiniteQuery(
     {
       buildingId: buildingId!,
+      type: 'item',
     },
     {
       enabled: !!buildingId,
@@ -43,13 +44,13 @@ const Screen: FunctionComponent = () => {
     }
   )
 
-  const data = items.data?.pages.flatMap(({ items }) => items) ?? []
+  const data = posts.data?.pages.flatMap(({ posts }) => posts) ?? []
 
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
       ListEmptyComponent={() =>
-        items.isLoading ? null : (
+        posts.isLoading ? null : (
           <Empty
             label={t('empty.label')}
             message={t('empty.message')}
@@ -61,14 +62,14 @@ const Screen: FunctionComponent = () => {
       data={data}
       estimatedItemSize={200}
       onEndReached={() => {
-        if (items.hasNextPage) {
-          items.fetchNextPage()
+        if (posts.hasNextPage) {
+          posts.fetchNextPage()
         }
       }}
       refreshControl={
         <Refresher
-          onRefresh={() => items.refetch()}
-          refreshing={items.isLoading}
+          onRefresh={() => posts.refetch()}
+          refreshing={posts.isLoading}
         />
       }
       renderItem={({ item }) => <ItemCard item={item} style={tw`p-4`} />}

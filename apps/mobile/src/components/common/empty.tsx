@@ -33,7 +33,7 @@ export const Empty: FunctionComponent<Props> = ({
         style={tw`h-[${width}px] w-[${width}px]`}
       />
 
-      <View style={tw`-mt-16 gap-2 items-center justify-center p-8`}>
+      <View style={tw`-mt-24 gap-2 items-center justify-center p-8`}>
         {!!title && (
           <Typography align="center" size="lg" weight="semibold">
             {title}

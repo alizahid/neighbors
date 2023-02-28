@@ -41,6 +41,8 @@ const Screen: FunctionComponent = () => {
 
   const createPost = trpc.posts.create.useMutation({
     onSuccess(id) {
+      router.back()
+
       router.push(`/posts/${id}`)
     },
   })
@@ -51,7 +53,6 @@ const Screen: FunctionComponent = () => {
       buildingId,
       meta: {
         attachments: [],
-        currency: type === 'item' ? 'AED' : undefined,
       },
       type,
     },

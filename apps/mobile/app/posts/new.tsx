@@ -97,37 +97,18 @@ const Screen: FunctionComponent = () => {
             multiline
             onBlur={onBlur}
             onChangeText={onChange}
-            onSubmitEditing={() => setFocus('meta.attachments')}
+            onSubmitEditing={() =>
+              setFocus(type === 'item' ? 'meta.product' : 'meta.attachments')
+            }
             placeholder={t(`form.body.placeholder.${type}`)}
             ref={ref}
-            style={tw`flex-1`}
-            styleInput={tw`flex-1`}
+            styleInput={tw`h-32`}
             value={value}
           />
         )}
         rules={{
           required: true,
         }}
-      />
-
-      <Controller
-        control={control}
-        name="meta.attachments"
-        render={({ field: { onChange, ref, value } }) => (
-          <ImageUploader
-            onChange={(value) =>
-              onChange(
-                value.map((url) => ({
-                  type: 'image',
-                  url,
-                }))
-              )
-            }
-            onUploading={setUploading}
-            ref={ref}
-            value={value.map(({ url }) => url)}
-          />
-        )}
       />
 
       {type === 'item' && (
@@ -194,10 +175,10 @@ const Screen: FunctionComponent = () => {
                 label={t('form.quantity.label')}
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(Number(value))}
-                onSubmitEditing={onSubmit}
+                onSubmitEditing={() => setFocus('meta.attachments')}
                 placeholder={t('form.quantity.placeholder')}
                 ref={ref}
-                returnKeyType="go"
+                returnKeyType="next"
                 value={value ? String(value) : ''}
               />
             )}
@@ -207,6 +188,26 @@ const Screen: FunctionComponent = () => {
           />
         </>
       )}
+
+      <Controller
+        control={control}
+        name="meta.attachments"
+        render={({ field: { onChange, ref, value } }) => (
+          <ImageUploader
+            onChange={(value) =>
+              onChange(
+                value.map((url) => ({
+                  type: 'image',
+                  url,
+                }))
+              )
+            }
+            onUploading={setUploading}
+            ref={ref}
+            value={value.map(({ url }) => url)}
+          />
+        )}
+      />
     </ScrollView>
   )
 }

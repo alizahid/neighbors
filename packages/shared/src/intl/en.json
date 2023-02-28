@@ -84,26 +84,26 @@
       "new": {
         "form": {
           "body": {
-            "error": "Needs to be 10 characters or longer",
+            "error": "Must be 10 characters or longer",
             "placeholder": {
               "item": "Describe your item",
               "post": "Say something nice"
             }
           },
           "price": {
-            "error": "Price must be more than 0",
+            "error": "Price must be higher than 0",
             "label": "Price",
-            "placeholder": "120.50"
+            "placeholder": "625"
           },
           "product": {
-            "error": "Product name is required",
+            "error": "Name is required",
             "label": "Product name",
             "placeholder": "iPhone 15 Pro"
           },
           "quantity": {
-            "error": "Quantity must be more than 0",
+            "error": "Quantity is required",
             "label": "Quantity",
-            "placeholder": "1"
+            "placeholder": "2"
           },
           "submit": "Create"
         },

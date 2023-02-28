@@ -18,6 +18,7 @@ export const posts = (t: typeof server) =>
             body: input.body,
             buildingId: input.buildingId,
             meta: input.meta,
+            type: input.type,
             userId: ctx.user.id,
           },
         })

@@ -28,6 +28,10 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
     label: string
   }> = [
     {
+      icon: 'boxes',
+      label: intl.formatNumber(item.meta.quantity ?? 1),
+    },
+    {
       icon: 'comment',
       label: intl.formatNumber(item._count.comments, {
         notation: 'compact',

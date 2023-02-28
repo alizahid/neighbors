@@ -63,33 +63,33 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
         </Typography>
       </Pressable>
 
-      <Pressable onPress={() => router.push(`/posts/${post.id}`)}>
-        <Typography>{post.body}</Typography>
-      </Pressable>
-
-      <Gallery
-        images={post.meta.attachments
-          .filter(({ type }) => type === 'image')
-          .map(({ url }) => url)}
-      />
-
       <Pressable
         onPress={() => router.push(`/posts/${post.id}`)}
-        style={tw`flex-row gap-4`}
+        style={tw`gap-4`}
       >
-        {footer.map(({ icon, iconColor, label }, index) => (
-          <View key={index} style={tw`flex-row items-center gap-1`}>
-            <Icon
-              color={iconColor ?? 'gray-11'}
-              name={icon}
-              style={tw`h-4 w-4`}
-            />
+        <Typography>{post.body}</Typography>
 
-            <Typography color="gray-11" size="sm">
-              {label}
-            </Typography>
-          </View>
-        ))}
+        <Gallery
+          images={post.meta.attachments
+            .filter(({ type }) => type === 'image')
+            .map(({ url }) => url)}
+        />
+
+        <View style={tw`flex-row gap-4`}>
+          {footer.map(({ icon, iconColor, label }, index) => (
+            <View key={index} style={tw`flex-row items-center gap-1`}>
+              <Icon
+                color={iconColor ?? 'gray-11'}
+                name={icon}
+                style={tw`h-4 w-4`}
+              />
+
+              <Typography color="gray-11" size="sm">
+                {label}
+              </Typography>
+            </View>
+          ))}
+        </View>
       </Pressable>
     </View>
   )

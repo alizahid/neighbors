@@ -61,7 +61,7 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
 
       <Pressable
         onPress={() => router.push(`/posts/${item.id}`)}
-        style={tw`gap-2`}
+        style={tw`gap-4`}
       >
         <View style={tw`flex-row gap-4`}>
           <Typography size="xl" style={tw`flex-1`} weight="medium">
@@ -79,28 +79,28 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
         </View>
 
         <Typography>{item.body}</Typography>
-      </Pressable>
 
-      <Gallery
-        images={item.meta.attachments
-          .filter(({ type }) => type === 'image')
-          .map(({ url }) => url)}
-        title={item.meta.product}
-      />
+        <Gallery
+          images={item.meta.attachments
+            .filter(({ type }) => type === 'image')
+            .map(({ url }) => url)}
+          title={item.meta.product}
+        />
 
-      <Pressable
-        onPress={() => router.push(`/posts/${item.id}`)}
-        style={tw`flex-row gap-4`}
-      >
-        {footer.map(({ icon, label }, index) => (
-          <View key={index} style={tw`flex-row items-center gap-1`}>
-            <Icon color="gray-11" name={icon} style={tw`h-4 w-4`} />
+        <Pressable
+          onPress={() => router.push(`/posts/${item.id}`)}
+          style={tw`flex-row gap-4`}
+        >
+          {footer.map(({ icon, label }, index) => (
+            <View key={index} style={tw`flex-row items-center gap-1`}>
+              <Icon color="gray-11" name={icon} style={tw`h-4 w-4`} />
 
-            <Typography color="gray-11" size="sm">
-              {label}
-            </Typography>
-          </View>
-        ))}
+              <Typography color="gray-11" size="sm">
+                {label}
+              </Typography>
+            </View>
+          ))}
+        </Pressable>
       </Pressable>
     </View>
   )

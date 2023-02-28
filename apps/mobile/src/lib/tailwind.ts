@@ -1,6 +1,7 @@
-import { create, type TwConfig } from 'twrnc'
-
-import config from '../../../../packages/shared/tailwind.config'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import config from 'shared/tailwind.config'
+import { create } from 'twrnc'
 
 if (config.theme?.extend?.fontFamily) {
   config.theme.extend.fontFamily = {
@@ -11,7 +12,7 @@ if (config.theme?.extend?.fontFamily) {
   }
 }
 
-export const tw = create(config as TwConfig)
+export const tw = create(config)
 
 // helpers
 

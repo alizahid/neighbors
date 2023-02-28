@@ -3,8 +3,12 @@ import { useCallback, useState } from 'react'
 
 import { supabase } from '~/lib/supabase'
 
+import { useProfile } from './profile'
+
 export const useSignIn = () => {
   const router = useRouter()
+
+  const { refetch } = useProfile()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -24,6 +28,8 @@ export const useSignIn = () => {
           throw new Error(error.message)
         }
 
+        refetch()
+
         router.back()
       } catch (error) {
         setError(error.message)
@@ -31,7 +37,7 @@ export const useSignIn = () => {
         setLoading(false)
       }
     },
-    [router]
+    [refetch, router]
   )
 
   return {

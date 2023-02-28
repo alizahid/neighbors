@@ -41,6 +41,7 @@ export const Modal: FunctionComponent<Props> = ({
         tw.style('p-4', inset && `pb-[${bottom + getSpace(4)}px]`),
         style,
       ]}
+      keyboardShouldPersistTaps="handled"
     >
       {children}
     </ScrollView>

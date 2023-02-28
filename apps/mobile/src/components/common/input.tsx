@@ -104,6 +104,7 @@ export const Input = forwardRef<TextInput, Props>(
             ),
             styleInput,
           ]}
+          textAlignVertical={multiline ? 'top' : 'center'}
           value={value}
         />
 

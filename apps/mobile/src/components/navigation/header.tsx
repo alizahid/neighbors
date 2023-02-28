@@ -2,7 +2,7 @@ import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import { type FunctionComponent } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { tw } from '~/lib/tailwind'
@@ -20,7 +20,8 @@ export const StackHeader: FunctionComponent<Props> = ({
   const { top } = useSafeAreaInsets()
 
   const modal =
-    (options as NativeStackHeaderProps['options']).presentation === 'modal'
+    (options as NativeStackHeaderProps['options']).presentation === 'modal' &&
+    Platform.OS === 'ios'
 
   return (
     <View

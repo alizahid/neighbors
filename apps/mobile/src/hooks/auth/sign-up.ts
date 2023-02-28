@@ -4,8 +4,12 @@ import { useCallback, useState } from 'react'
 import { supabase } from '~/lib/supabase'
 import { trpc } from '~/lib/trpc'
 
+import { useProfile } from './profile'
+
 export const useSignUp = () => {
   const router = useRouter()
+
+  const { refetch } = useProfile()
 
   const {
     error: mutationError,
@@ -43,6 +47,8 @@ export const useSignUp = () => {
           name,
         })
 
+        refetch()
+
         router.back()
       } catch (error) {
         setError(error.message)
@@ -50,7 +56,7 @@ export const useSignUp = () => {
         setLoading(false)
       }
     },
-    [mutateAsync, router]
+    [mutateAsync, refetch, router]
   )
 
   return {

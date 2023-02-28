@@ -30,7 +30,7 @@ export const Button: FunctionComponent<Props> = ({
   variant = 'primary',
 }) => (
   <Pressable
-    disabled={loading ?? disabled}
+    disabled={loading || disabled}
     onPress={onPress}
     style={[
       tw.style(

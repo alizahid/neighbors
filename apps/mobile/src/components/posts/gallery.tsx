@@ -4,6 +4,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import ImageViewer from 'react-native-image-viewing'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { getImageUrl } from '~/lib/supabase'
 import { getColor, getSpace, tw } from '~/lib/tailwind'
 
 import { IconButton } from '../common/icon-button'
@@ -31,7 +32,7 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
 
   return (
     <View style={[tw`flex-row flex-wrap gap-2`, style]}>
-      {images.map((source, index) => (
+      {images.map((url, index) => (
         <Pressable
           key={index}
           onPress={() => {
@@ -39,7 +40,10 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
             setVisible(true)
           }}
         >
-          <Image source={source} style={tw`bg-gray-3 h-20 w-20 rounded-lg`} />
+          <Image
+            source={getImageUrl(url)}
+            style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+          />
         </Pressable>
       ))}
 
@@ -74,8 +78,8 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
         )}
         backgroundColor={getColor('gray-12')}
         imageIndex={index}
-        images={images.map((uri) => ({
-          uri,
+        images={images.map((url) => ({
+          uri: getImageUrl(url),
         }))}
         onImageIndexChange={(index) => setImageIndex(index)}
         onRequestClose={() => setVisible(false)}

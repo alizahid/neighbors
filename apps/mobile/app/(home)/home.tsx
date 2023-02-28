@@ -1,11 +1,12 @@
 import { FlashList } from '@shopify/flash-list'
-import { useFocusEffect, useNavigation } from 'expo-router'
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { BuildingPicker } from '~/components/buildings/picker'
 import { Empty } from '~/components/common/empty'
+import { IconButton } from '~/components/common/icon-button'
 import { Refresher } from '~/components/common/refresher'
 import { PostCard } from '~/components/posts/card'
 import { tw } from '~/lib/tailwind'
@@ -13,6 +14,7 @@ import { trpc } from '~/lib/trpc'
 import { useBuildingStore } from '~/stores/building'
 
 const Screen: FunctionComponent = () => {
+  const router = useRouter()
   const navigation = useNavigation()
 
   const t = useTranslations('screen.home.home')
@@ -21,6 +23,12 @@ const Screen: FunctionComponent = () => {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          name="add"
+          onPress={() => router.push('/posts/new?type=post')}
+        />
+      ),
       headerTitle: () => <BuildingPicker />,
     })
   })
@@ -45,6 +53,7 @@ const Screen: FunctionComponent = () => {
           <Empty
             label={t('empty.label')}
             message={t('empty.message')}
+            onPress={() => router.push('/posts/new?type=post')}
             title={t('empty.title')}
           />
         )

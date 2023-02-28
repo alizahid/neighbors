@@ -10,3 +10,17 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     storage: AsyncStorage,
   },
 })
+
+export const SUPABASE_BUCKET = 'images'
+
+export const getImageUrl = (url?: string | null) => {
+  if (!url) {
+    return
+  }
+
+  if (url.startsWith('http')) {
+    return url
+  }
+
+  return supabase.storage.from(SUPABASE_BUCKET).getPublicUrl(url).data.publicUrl
+}

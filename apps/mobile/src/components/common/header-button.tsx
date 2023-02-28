@@ -1,40 +1,40 @@
-import { type FunctionComponent } from 'react'
+import { type FunctionComponent, type ReactNode } from 'react'
 import {
   type PressableProps,
   type StyleProp,
   type ViewStyle,
 } from 'react-native'
 
-import { type TailwindColor, tw } from '~/lib/tailwind'
+import { tw } from '~/lib/tailwind'
 
-import { Icon, type IconName } from './icon'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
+import { Typography } from './typography'
 
 type Props = Pick<PressableProps, 'disabled' | 'onPress'> & {
-  color?: TailwindColor
+  children: ReactNode
   loading?: boolean
-  name: IconName
   style?: StyleProp<ViewStyle>
 }
 
-export const IconButton: FunctionComponent<Props> = ({
-  color,
+export const HeaderButton: FunctionComponent<Props> = ({
+  children,
   disabled,
   loading,
-  name,
   onPress,
   style,
 }) => (
   <Pressable
     disabled={loading || disabled}
     onPress={onPress}
-    style={[tw`h-12 w-12 items-center justify-center`, style]}
+    style={[tw`h-12 px-3 items-center justify-center`, style]}
   >
     {loading ? (
-      <Spinner color={color} size="small" />
+      <Spinner size="small" />
     ) : (
-      <Icon color={color} name={name} />
+      <Typography color="primary-11" weight="semibold">
+        {children}
+      </Typography>
     )}
   </Pressable>
 )

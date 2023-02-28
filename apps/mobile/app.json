@@ -1,7 +1,15 @@
 {
   "expo": {
-    "name": "Neighbors",
-    "scheme": "neighbors",
-    "slug": "neighbors"
+    "name": "Nearbuds",
+    "slug": "nearbuds",
+    "scheme": "nearbuds",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Nearbuds accesses your photos to let you share them with your neighbors."
+        }
+      ]
+    ]
   }
 }

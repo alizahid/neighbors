@@ -37,7 +37,21 @@ const Layout: FunctionComponent = () => {
               screenOptions={{
                 header: (props) => <StackHeader {...props} />,
               }}
-            />
+            >
+              <Stack.Screen
+                name="posts/new"
+                options={{
+                  presentation: 'modal',
+                }}
+              />
+
+              <Stack.Screen
+                name="posts/[id]"
+                options={{
+                  presentation: 'modal',
+                }}
+              />
+            </Stack>
           </KeyboardAvoidingView>
         </IntlProvider>
       </ApiProvider>

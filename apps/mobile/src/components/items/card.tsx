@@ -5,6 +5,7 @@ import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
+import { getImageUrl } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
 
 import { Icon, type IconName } from '../common/icon'
@@ -45,7 +46,7 @@ export const ItemCard: FunctionComponent<Props> = ({ item, style }) => {
         style={tw`flex-row items-center gap-2`}
       >
         <Image
-          source={item.user.image}
+          source={getImageUrl(item.user.image)}
           style={tw`bg-gray-3 h-6 w-6 rounded-full`}
         />
 

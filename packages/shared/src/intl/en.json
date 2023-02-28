@@ -4,6 +4,11 @@
       "picker": {
         "title": "Pick building"
       }
+    },
+    "common": {
+      "imageUploader": {
+        "label": "Images"
+      }
     }
   },
   "screen": {
@@ -74,6 +79,39 @@
       "signIn": "Sign in",
       "signUp": "Sign up",
       "title": "<primary>near</primary><accent>buds</accent>"
+    },
+    "posts": {
+      "new": {
+        "form": {
+          "body": {
+            "error": "Needs to be 10 characters or longer",
+            "placeholder": {
+              "item": "Describe your item",
+              "post": "Say something nice"
+            }
+          },
+          "price": {
+            "error": "Price must be more than 0",
+            "label": "Price",
+            "placeholder": "120.50"
+          },
+          "product": {
+            "error": "Product name is required",
+            "label": "Product name",
+            "placeholder": "iPhone 15 Pro"
+          },
+          "quantity": {
+            "error": "Quantity must be more than 0",
+            "label": "Quantity",
+            "placeholder": "1"
+          },
+          "submit": "Create"
+        },
+        "title": {
+          "item": "New item",
+          "post": "New post"
+        }
+      }
     },
     "user": {
       "title": "Profile"

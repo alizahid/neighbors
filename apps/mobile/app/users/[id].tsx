@@ -10,6 +10,7 @@ import { useTranslations } from 'use-intl'
 
 import { Loading } from '~/components/common/loading'
 import { Typography } from '~/components/common/typography'
+import { getImageUrl } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 
@@ -40,7 +41,7 @@ const Screen: FunctionComponent = () => {
   return (
     <ScrollView contentContainerStyle={tw`p-4 flex-grow items-center gap-4`}>
       <Image
-        source={user.data.image}
+        source={getImageUrl(user.data.image)}
         style={tw`bg-gray-3 h-32 w-32 rounded-full`}
       />
 

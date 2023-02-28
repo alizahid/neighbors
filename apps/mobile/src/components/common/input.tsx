@@ -19,6 +19,7 @@ type Props = Pick<
   | 'autoCorrect'
   | 'autoFocus'
   | 'keyboardType'
+  | 'multiline'
   | 'onBlur'
   | 'onChangeText'
   | 'onFocus'
@@ -47,6 +48,7 @@ export const Input = forwardRef<TextInput, Props>(
       hint,
       keyboardType,
       label,
+      multiline,
       onBlur,
       onChangeText,
       onFocus,
@@ -76,6 +78,7 @@ export const Input = forwardRef<TextInput, Props>(
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
           keyboardType={keyboardType}
+          multiline={multiline}
           onBlur={(event) => {
             setFocused(false)
 
@@ -94,7 +97,8 @@ export const Input = forwardRef<TextInput, Props>(
           secureTextEntry={secureTextEntry}
           style={[
             tw.style(
-              'h-12 bg-gray-2 rounded-lg border border-gray-7 px-3',
+              'bg-gray-2 rounded-lg border border-gray-7 px-3',
+              multiline ? 'h-24 py-3' : 'h-12',
               error && 'border-red-7',
               focused && (error ? 'border-red-8' : 'border-primary-8')
             ),

@@ -5,6 +5,7 @@ import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
+import { getImageUrl } from '~/lib/supabase'
 import { type TailwindColor, tw } from '~/lib/tailwind'
 
 import { Icon, type IconName } from '../common/icon'
@@ -53,7 +54,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style }) => {
         style={tw`flex-row items-center gap-2`}
       >
         <Image
-          source={post.user.image}
+          source={getImageUrl(post.user.image)}
           style={tw`bg-gray-3 h-6 w-6 rounded-full`}
         />
 

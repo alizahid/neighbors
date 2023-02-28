@@ -1,12 +1,29 @@
 import { z } from 'zod'
 
 import { db } from '~/lib/prisma'
+import { PostCreateSchema } from '~/schemas/posts/create'
 
 import { isResident } from '../helpers'
 import { type server } from '../index'
 
 export const posts = (t: typeof server) =>
   t.router({
+    create: t.procedure
+      .input(PostCreateSchema)
+      .mutation(async ({ ctx, input }) => {
+        isResident(ctx, input.buildingId)
+
+        const post = await db.post.create({
+          data: {
+            body: input.body,
+            buildingId: input.buildingId,
+            meta: input.meta,
+            userId: ctx.user.id,
+          },
+        })
+
+        return post.id
+      }),
     list: t.procedure
       .input(
         z.object({

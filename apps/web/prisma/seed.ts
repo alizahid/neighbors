@@ -125,9 +125,12 @@ const main = async () => {
         type === 'item'
           ? {
               currency: 'AED',
-              price: Number(faker.commerce.price()),
+              price: Number(faker.commerce.price(1)),
               product: faker.commerce.productName(),
-              quantity: faker.datatype.number(5),
+              quantity: faker.datatype.number({
+                max: 5,
+                min: 1,
+              }),
             }
           : {}
       )

@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { z } from 'zod'
+
+import { PostMetaSchema } from '~/schemas/posts/meta'
+import { UserMetaSchema } from '~/schemas/users/meta'
 
 declare global {
   // eslint-disable-next-line no-var
@@ -12,29 +14,12 @@ if (process.env.NODE_ENV !== 'production') {
   global.prisma = prisma
 }
 
-const userMeta = z.object({
-  bio: z.string().default(''),
-})
-
-const postMeta = z.object({
-  attachments: z.array(
-    z.object({
-      type: z.enum(['image']),
-      url: z.string(),
-    })
-  ),
-  currency: z.string().optional(),
-  price: z.number().optional(),
-  product: z.string().optional(),
-  quantity: z.number().optional(),
-})
-
 export const db = prisma.$extends({
   result: {
     post: {
       meta: {
         compute({ meta }) {
-          return postMeta.parse(meta)
+          return PostMetaSchema.parse(meta)
         },
         needs: {
           meta: true,
@@ -44,7 +29,7 @@ export const db = prisma.$extends({
     user: {
       meta: {
         compute({ meta }) {
-          return userMeta.parse(meta)
+          return UserMetaSchema.parse(meta)
         },
         needs: {
           meta: true,

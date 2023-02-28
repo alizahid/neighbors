@@ -11,7 +11,7 @@ import { Button } from '~/components/common/button'
 import { Input } from '~/components/common/input'
 import { Message } from '~/components/common/message'
 import { useSignIn } from '~/hooks/auth/sign-in'
-import { useKeyboardVisible } from '~/hooks/keyboard'
+import { useKeyboard } from '~/hooks/keyboard'
 import { tw } from '~/lib/tailwind'
 
 const schema = z.object({
@@ -28,7 +28,7 @@ const Screen: FunctionComponent = () => {
 
   const t = useTranslations('screen.auth.signIn')
 
-  const keyboard = useKeyboardVisible()
+  const keyboard = useKeyboard()
 
   const { error, loading, signIn } = useSignIn()
 

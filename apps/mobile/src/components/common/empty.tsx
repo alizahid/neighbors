@@ -1,10 +1,10 @@
-import not_found from '@neighbors/shared/src/lottie/not-found.json'
 import LottieView from 'lottie-react-native'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 import { tw } from '~/lib/tailwind'
+import not_found from '~/lottie/not-found.json'
 
 import { Button } from './button'
 import { Typography } from './typography'

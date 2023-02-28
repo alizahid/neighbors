@@ -1,4 +1,3 @@
-import { type RouterOutput } from '@neighbors/shared/src/trpc/types'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
@@ -7,6 +6,7 @@ import { useIntl } from 'use-intl'
 
 import { getImageUrl } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
+import { type RouterOutput } from '~/trpc/types'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'

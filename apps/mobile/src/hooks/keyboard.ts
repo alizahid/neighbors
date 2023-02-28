@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 
-export const useKeyboardVisible = () => {
+export const useKeyboard = () => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {

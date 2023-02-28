@@ -1,9 +1,12 @@
+import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
 
 import { supabase } from '~/lib/supabase'
 import { trpc } from '~/lib/trpc'
 
 export const useSignUp = () => {
+  const router = useRouter()
+
   const {
     error: mutationError,
     isLoading,
@@ -27,21 +30,27 @@ export const useSignUp = () => {
       setLoading(true)
 
       try {
-        await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
         })
 
+        if (error) {
+          throw new Error(error.message)
+        }
+
         await mutateAsync({
           name,
         })
+
+        router.back()
       } catch (error) {
         setError(error.message)
       } finally {
         setLoading(false)
       }
     },
-    [mutateAsync]
+    [mutateAsync, router]
   )
 
   return {

@@ -10,14 +10,14 @@
     "start": "next start"
   },
   "dependencies": {
-    "@neighbors/shared": "*",
     "@prisma/client": "^4.10.1",
     "date-fns": "^2.29.3",
     "lottie-react-native": "5.1.4",
     "next": "13.2.1",
     "next-intl": "^2.10.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "shared": "*"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",

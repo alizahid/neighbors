@@ -1,10 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  PostCreateSchema,
-  type PostCreateView,
-} from '@neighbors/shared/src/schemas/posts/create'
-import { PostTypeSchema } from '@neighbors/shared/src/schemas/posts/type'
-import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
@@ -19,8 +14,11 @@ import { useTranslations } from 'use-intl'
 import { HeaderButton } from '~/components/common/header-button'
 import { ImageUploader } from '~/components/common/image-uploader'
 import { Input } from '~/components/common/input'
+import { useKeyboard } from '~/hooks/keyboard'
 import { getSpace, tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
+import { PostCreateSchema, type PostCreateView } from '~/schemas/posts/create'
+import { PostTypeSchema } from '~/schemas/posts/type'
 import { useBuildingStore } from '~/stores/building'
 
 const Screen: FunctionComponent = () => {
@@ -30,6 +28,8 @@ const Screen: FunctionComponent = () => {
   const navigation = useNavigation()
 
   const t = useTranslations('screen.posts.new')
+
+  const keyboard = useKeyboard()
 
   const params = useLocalSearchParams()
 
@@ -72,12 +72,16 @@ const Screen: FunctionComponent = () => {
     })
   })
 
-  const onSubmit = handleSubmit((data) => createPost.mutateAsync(data))
+  const onSubmit = handleSubmit((data) => {
+    keyboard.dismiss()
+
+    return createPost.mutateAsync(data)
+  })
 
   return (
     <ScrollView
       contentContainerStyle={tw`p-4 gap-4 flex-grow pb-[${
-        bottom + getSpace(4)
+        (keyboard.visible ? 0 : bottom) + getSpace(4)
       }px]`}
     >
       <Controller

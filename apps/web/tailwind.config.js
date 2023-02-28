@@ -1,1 +1,1 @@
-module.exports = require('@neighbors/shared/tailwind.config')
+module.exports = require('shared/tailwind.config')

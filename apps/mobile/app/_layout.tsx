@@ -1,4 +1,3 @@
-import en from '@neighbors/shared/src/intl/en.json'
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
@@ -7,6 +6,7 @@ import { KeyboardAvoidingView, Platform } from 'react-native'
 import { IntlProvider } from 'use-intl'
 
 import { StackHeader } from '~/components/navigation/header'
+import en from '~/intl/en.json'
 import { fonts } from '~/lib/fonts'
 import { tw } from '~/lib/tailwind'
 import { theme } from '~/lib/theme'

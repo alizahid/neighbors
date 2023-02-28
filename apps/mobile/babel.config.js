@@ -4,13 +4,7 @@ module.exports = (api) => {
   return {
     plugins: [
       require.resolve('expo-router/babel'), // TODO: remove this later
-      [
-        'babel-plugin-root-import',
-        {
-          rootPathPrefix: '~/',
-          rootPathSuffix: 'src',
-        },
-      ],
+      'babel-plugin-tsconfig-paths',
       'module:react-native-dotenv',
       'react-native-reanimated/plugin',
     ],

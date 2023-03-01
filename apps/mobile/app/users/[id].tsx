@@ -39,15 +39,17 @@ const Screen: FunctionComponent = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={tw`p-4 flex-grow items-center gap-4`}>
+    <ScrollView contentContainerStyle={tw`p-4 flex-grow items-center`}>
       <Image
         source={getImageUrl(user.data.image)}
         style={tw`bg-gray-3 h-32 w-32 rounded-full`}
       />
 
-      <Typography size="2xl" weight="bold">
+      <Typography size="2xl" style={tw`mt-4`} weight="bold">
         {user.data.name}
       </Typography>
+
+      <Typography>{user.data.meta.bio}</Typography>
     </ScrollView>
   )
 }

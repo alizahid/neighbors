@@ -6,7 +6,21 @@ import { merge, range, sample } from 'lodash-es'
 const prisma = new PrismaClient()
 
 const main = async () => {
-  const aliEmail = 'ali.zahid@live.com'
+  const ali = await prisma.user.upsert({
+    create: {
+      email: 'ali.zahid@live.com',
+      id: '671f2d02-a209-48c2-b5e1-4c103f995fda',
+      image: 'https://media.graphassets.com/GJrB3pURnqRlaj61Z3Qp',
+      meta: {
+        bio: 'Founder of nearbuds',
+      },
+      name: 'Ali Zahid',
+    },
+    update: {},
+    where: {
+      email: 'ali.zahid@live.com',
+    },
+  })
 
   const amna = await prisma.building.upsert({
     create: {
@@ -42,7 +56,7 @@ const main = async () => {
   await prisma.user.deleteMany({
     where: {
       email: {
-        not: aliEmail,
+        not: ali.email,
       },
     },
   })
@@ -56,7 +70,7 @@ const main = async () => {
       },
       user: {
         connect: {
-          email: aliEmail,
+          email: ali.email,
         },
       },
     },
@@ -71,7 +85,7 @@ const main = async () => {
       },
       user: {
         connect: {
-          email: aliEmail,
+          email: ali.email,
         },
       },
     },
@@ -97,16 +111,6 @@ const main = async () => {
       })
     )
   )
-
-  const ali = await prisma.user.findUnique({
-    where: {
-      email: aliEmail,
-    },
-  })
-
-  if (ali) {
-    users.push(ali.id)
-  }
 
   await prisma.post.createMany({
     data: range(1_200).map(() => {

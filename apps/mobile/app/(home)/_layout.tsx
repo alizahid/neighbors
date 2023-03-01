@@ -9,7 +9,7 @@ import { TabBar } from '~/components/navigation/tab-bar'
 const Layout: FunctionComponent = () => {
   const navigation = useNavigation()
 
-  const t = useTranslations('screen.home')
+  const t = useTranslations('screen')
 
   useFocusEffect(() => {
     navigation.setOptions({

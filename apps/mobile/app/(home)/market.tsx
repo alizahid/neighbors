@@ -17,7 +17,7 @@ const Screen: FunctionComponent = () => {
   const router = useRouter()
   const navigation = useNavigation()
 
-  const t = useTranslations('screen.home.market')
+  const t = useTranslations('screen.market')
 
   const { buildingId } = useBuildingStore()
 

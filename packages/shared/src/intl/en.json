@@ -18,6 +18,9 @@
     }
   },
   "screen": {
+    "account": {
+      "title": "Account"
+    },
     "auth": {
       "signIn": {
         "form": {
@@ -57,34 +60,29 @@
         "title": "Sign up"
       }
     },
+    "chat": {
+      "title": "Chat"
+    },
     "home": {
-      "account": {
-        "title": "Account"
+      "empty": {
+        "label": "Post something",
+        "message": "Nobody's posted anything in your building. Be the first one?",
+        "title": "Nothing here"
       },
-      "chat": {
-        "title": "Chat"
-      },
-      "home": {
-        "empty": {
-          "label": "Post something",
-          "message": "Nobody's posted anything in your building. Be the first one?",
-          "title": "Nothing here"
-        },
-        "title": "Home"
-      },
-      "market": {
-        "empty": {
-          "label": "Post an item",
-          "message": "Nobody's put up anything for sale in your building. Be the first one?",
-          "title": "Nothing here"
-        },
-        "title": "Marketplace"
-      }
+      "title": "Home"
     },
     "landing": {
       "signIn": "Sign in",
       "signUp": "Sign up",
       "title": "<primary>near</primary><accent>buds</accent>"
+    },
+    "market": {
+      "empty": {
+        "label": "Post an item",
+        "message": "Nobody's put up anything for sale in your building. Be the first one?",
+        "title": "Nothing here"
+      },
+      "title": "Marketplace"
     },
     "posts": {
       "new": {

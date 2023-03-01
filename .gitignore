@@ -38,3 +38,7 @@ yarn-error.log*
 *.p12
 *.p8
 dist
+
+# supabase
+.branches
+.temp

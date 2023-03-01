@@ -60,60 +60,56 @@ const Screen: FunctionComponent = () => {
   }
 
   return (
-    <View style={tw`flex-1 bg-gray-3`}>
-      <FlashList
-        ItemSeparatorComponent={() => <View style={tw`h-4`} />}
-        ListEmptyComponent={() => <Empty message={t('comments.empty')} />}
-        ListFooterComponent={() => (
-          <CommentForm
-            onComment={() => list.current?.scrollToEnd()}
-            postId={id}
-            ref={commentForm}
-            style={tw`mt-4`}
-          />
-        )}
-        ListFooterComponentStyle={tw`mt-auto`}
-        ListHeaderComponent={
-          <View>
-            {post.data.type === 'item' ? (
-              <ItemCard
-                disabled
-                item={post.data}
-                style={tw`border-b border-gray-6 p-4`}
-              />
-            ) : (
-              <PostCard
-                disabled
-                post={post.data}
-                style={tw`border-b border-gray-6 p-4`}
-              />
-            )}
+    <FlashList
+      ItemSeparatorComponent={() => <View style={tw`h-4`} />}
+      ListEmptyComponent={() => <Empty message={t('comments.empty')} />}
+      ListFooterComponent={() => (
+        <CommentForm
+          onComment={() => list.current?.scrollToEnd()}
+          postId={id}
+          ref={commentForm}
+          style={tw`mt-4`}
+        />
+      )}
+      ListFooterComponentStyle={tw`mt-auto`}
+      ListHeaderComponent={
+        <View>
+          {post.data.type === 'item' ? (
+            <ItemCard
+              disabled
+              item={post.data}
+              style={tw`border-b border-gray-6 p-4`}
+            />
+          ) : (
+            <PostCard
+              disabled
+              post={post.data}
+              style={tw`border-b border-gray-6 p-4`}
+            />
+          )}
 
-            <View style={tw`flex-row items-center justify-between`}>
-              <Typography style={tw`mx-4`} weight="semibold">
-                {t('comments.title', {
-                  count: comments.data.length,
-                })}
-              </Typography>
+          <View style={tw`flex-row items-center justify-between`}>
+            <Typography style={tw`mx-4`} weight="semibold">
+              {t('comments.title', {
+                count: comments.data.length,
+              })}
+            </Typography>
 
-              <IconButton
-                name="add"
-                onPress={() => commentForm.current?.focus()}
-              />
-            </View>
+            <IconButton
+              name="add"
+              onPress={() => commentForm.current?.focus()}
+            />
           </View>
-        }
-        automaticallyAdjustKeyboardInsets
-        contentContainerStyle={tw`bg-gray-1`}
-        data={comments.data}
-        estimatedItemSize={COMMENT_CARD_HEIGHT}
-        keyboardShouldPersistTaps="handled"
-        ref={list}
-        renderItem={({ item }) => (
-          <CommentCard comment={item} style={tw`mx-4`} />
-        )}
-      />
-    </View>
+        </View>
+      }
+      automaticallyAdjustKeyboardInsets
+      contentContainerStyle={tw`bg-gray-1`}
+      data={comments.data}
+      estimatedItemSize={COMMENT_CARD_HEIGHT}
+      keyboardShouldPersistTaps="handled"
+      ref={list}
+      renderItem={({ item }) => <CommentCard comment={item} style={tw`mx-4`} />}
+    />
   )
 }
 

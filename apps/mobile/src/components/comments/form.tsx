@@ -98,7 +98,7 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
     const height = padding + getSpace(12)
 
     return (
-      <View style={[tw`flex-row border-t border-gray-7 bg-gray-3`, style]}>
+      <View style={[tw`flex-row border-t border-gray-7`, style]}>
         <Controller
           control={control}
           name="body"

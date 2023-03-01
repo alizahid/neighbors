@@ -6,6 +6,12 @@ import { merge, range, sample } from 'lodash-es'
 const prisma = new PrismaClient()
 
 const main = async () => {
+  await prisma.like.deleteMany({})
+  await prisma.comment.deleteMany({})
+  await prisma.post.deleteMany({})
+  await prisma.resident.deleteMany({})
+  await prisma.user.deleteMany()
+
   const ali = await prisma.user.upsert({
     create: {
       email: 'ali.zahid@live.com',
@@ -19,6 +25,18 @@ const main = async () => {
     update: {},
     where: {
       email: 'ali.zahid@live.com',
+    },
+  })
+
+  const janet = await prisma.user.upsert({
+    create: {
+      email: 'hi@janetpaul.com',
+      id: 'd552c772-0e75-4a33-8b5c-f92a9fdfeea3',
+      name: 'Janet Paul',
+    },
+    update: {},
+    where: {
+      email: 'hi@janetpaul.com',
     },
   })
 
@@ -48,47 +66,25 @@ const main = async () => {
     },
   })
 
-  await prisma.like.deleteMany({})
-  await prisma.comment.deleteMany({})
-  await prisma.post.deleteMany({})
-  await prisma.resident.deleteMany({})
-
-  await prisma.user.deleteMany({
-    where: {
-      email: {
-        not: ali.email,
+  await prisma.resident.createMany({
+    data: [
+      {
+        buildingId: amna.id,
+        userId: ali.id,
       },
-    },
-  })
-
-  await prisma.resident.create({
-    data: {
-      building: {
-        connect: {
-          id: amna.id,
-        },
+      {
+        buildingId: ag.id,
+        userId: ali.id,
       },
-      user: {
-        connect: {
-          email: ali.email,
-        },
+      {
+        buildingId: amna.id,
+        userId: janet.id,
       },
-    },
-  })
-
-  await prisma.resident.create({
-    data: {
-      building: {
-        connect: {
-          id: ag.id,
-        },
+      {
+        buildingId: ag.id,
+        userId: janet.id,
       },
-      user: {
-        connect: {
-          email: ali.email,
-        },
-      },
-    },
+    ],
   })
 
   const users = range(200).map(() => faker.datatype.uuid())

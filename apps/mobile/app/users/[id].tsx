@@ -1,4 +1,3 @@
-import { Image } from 'expo-image'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -10,7 +9,7 @@ import { useTranslations } from 'use-intl'
 
 import { Loading } from '~/components/common/loading'
 import { Typography } from '~/components/common/typography'
-import { getImageUrl } from '~/lib/supabase'
+import { Avatar } from '~/components/users/avatar'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 
@@ -40,9 +39,10 @@ const Screen: FunctionComponent = () => {
 
   return (
     <ScrollView contentContainerStyle={tw`p-4 flex-grow items-center`}>
-      <Image
-        source={getImageUrl(user.data.image)}
-        style={tw`bg-gray-3 h-32 w-32 rounded-full`}
+      <Avatar
+        image={user.data.image}
+        name={user.data.name}
+        style={tw`h-32 w-32`}
       />
 
       <Typography size="2xl" style={tw`mt-4`} weight="bold">

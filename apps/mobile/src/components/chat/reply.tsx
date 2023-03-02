@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { produce } from 'immer'
 import { forwardRef, useImperativeHandle } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
@@ -9,75 +8,58 @@ import { useTranslations } from 'use-intl'
 import { useKeyboard } from '~/hooks/keyboard'
 import { getSpace, tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
-import {
-  CommentCreateSchema,
-  type CommentCreateView,
-} from '~/schemas/comments/create'
+import { ChatSendSchema, type ChatSendView } from '~/schemas/chat/create'
 
 import { IconButton } from '../common/icon-button'
 import { Input } from '../common/input'
 
-export type CommentFormComponent = {
+export type ChatReplyComponent = {
   focus: () => void
 }
 
 type Props = {
-  postId: string
+  channelId: string
+  disabled?: boolean
   style?: StyleProp<ViewStyle>
 
-  onComment?: () => void
+  onReply?: () => void
 }
 
 // eslint-disable-next-line react/display-name
-export const CommentForm = forwardRef<CommentFormComponent, Props>(
-  ({ onComment, postId, style }, ref) => {
+export const ChatReply = forwardRef<ChatReplyComponent, Props>(
+  ({ channelId, disabled, onReply, style }, ref) => {
     const { bottom } = useSafeAreaInsets()
 
-    const t = useTranslations('component.comments.form')
+    const t = useTranslations('component.chat.reply')
 
     useImperativeHandle(ref, () => ({
-      focus: () => setFocus('body'),
+      focus: () => setFocus('message'),
     }))
 
     const keyboard = useKeyboard()
 
-    const utils = trpc.useContext()
+    const send = trpc.chat.send.useMutation({
+      onSuccess() {
+        setValue('message', '')
 
-    const createComment = trpc.comments.create.useMutation({
-      onSuccess(comment) {
-        utils.posts.get.setData(
-          {
-            id: postId,
-          },
-          (post) =>
-            produce(post, (next) => {
-              if (!next) {
-                return next
-              }
-
-              next._count.comments += 1
-            })
-        )
-
-        setValue('body', '')
-
-        onComment?.()
+        onReply?.()
       },
     })
 
-    const { control, handleSubmit, setFocus, setValue } =
-      useForm<CommentCreateView>({
+    const { control, handleSubmit, setFocus, setValue } = useForm<ChatSendView>(
+      {
         defaultValues: {
-          body: '',
-          postId,
+          channelId,
+          message: '',
         },
-        resolver: zodResolver(CommentCreateSchema),
-      })
+        resolver: zodResolver(ChatSendSchema),
+      }
+    )
 
     const onSubmit = handleSubmit((data) => {
       keyboard.dismiss()
 
-      return createComment.mutateAsync(data)
+      return send.mutateAsync(data)
     })
 
     const padding = keyboard.visible ? 0 : bottom
@@ -87,9 +69,10 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
       <View style={[tw`flex-row border-t border-gray-7`, style]}>
         <Controller
           control={control}
-          name="body"
+          name="message"
           render={({ field: { onBlur, onChange, ref, value } }) => (
             <Input
+              editable={!disabled}
               onBlur={onBlur}
               onChangeText={onChange}
               onSubmitEditing={onSubmit}
@@ -107,7 +90,8 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
         />
 
         <IconButton
-          loading={createComment.isLoading}
+          disabled={disabled}
+          loading={send.isLoading}
           name="send"
           onPress={onSubmit}
           style={tw`h-[${height}px] pb-[${padding}px]`}

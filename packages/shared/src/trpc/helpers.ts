@@ -17,7 +17,7 @@ export function isLoggedIn(context: Context): asserts context is WithUser {
 export function isNotNull<Item>(
   item: Item | null
 ): asserts item is NonNullable<Item> {
-  if (item === null) {
+  if (item === null || item === undefined) {
     throw new TRPCError({
       code: 'NOT_FOUND',
     })

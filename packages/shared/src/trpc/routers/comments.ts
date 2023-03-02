@@ -36,6 +36,7 @@ export const comments = (t: typeof server) =>
     list: t.procedure
       .input(
         z.object({
+          cursor: z.string().optional(),
           postId: z.string(),
         })
       )
@@ -51,16 +52,29 @@ export const comments = (t: typeof server) =>
         isNotNull(post)
         isResident(ctx, post.buildingId)
 
-        return db.comment.findMany({
+        const comments = await db.comment.findMany({
+          cursor: input.cursor
+            ? {
+                id: input.cursor,
+              }
+            : undefined,
           include: {
             user: true,
           },
           orderBy: {
             createdAt: 'asc',
           },
+          take: 100 + 1,
           where: {
             postId: input.postId,
           },
         })
+
+        const next = comments.length > 100 ? comments.pop()?.id : undefined
+
+        return {
+          comments,
+          next,
+        }
       }),
   })

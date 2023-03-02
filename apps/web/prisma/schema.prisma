@@ -33,8 +33,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  channels    Member[]
   comments    Comment[]
   likes       Like[]
+  messages    Message[]
   posts       Post[]
   residencies Resident[]
 }
@@ -111,6 +113,48 @@ model Like {
 
   post   Post   @relation(fields: [postId], references: [id])
   postId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Channel {
+  id String @id @default(cuid())
+
+  message String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  members  Member[]
+  messages Message[]
+}
+
+model Member {
+  id String @id @default(cuid())
+
+  channel   Channel @relation(fields: [channelId], references: [id])
+  channelId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  checkedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  channel   Channel @relation(fields: [channelId], references: [id])
+  channelId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  body String
+  meta Json   @default("{}")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

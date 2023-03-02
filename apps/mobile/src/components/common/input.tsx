@@ -18,6 +18,7 @@ type Props = Pick<
   | 'autoComplete'
   | 'autoCorrect'
   | 'autoFocus'
+  | 'editable'
   | 'keyboardType'
   | 'multiline'
   | 'onBlur'
@@ -44,6 +45,7 @@ export const Input = forwardRef<TextInput, Props>(
       autoComplete,
       autoCorrect,
       autoFocus,
+      editable = true,
       error,
       hint,
       keyboardType,
@@ -77,6 +79,7 @@ export const Input = forwardRef<TextInput, Props>(
           autoComplete={autoComplete}
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
+          editable={editable}
           keyboardType={keyboardType}
           multiline={multiline}
           onBlur={(event) => {

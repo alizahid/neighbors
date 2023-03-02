@@ -5,10 +5,14 @@
         "title": "Pick building"
       }
     },
+    "chat": {
+      "reply": {
+        "placeholder": "Say something nice"
+      }
+    },
     "comments": {
       "form": {
-        "placeholder": "Say something nice",
-        "title": "Add comment"
+        "placeholder": "Say something nice"
       }
     },
     "common": {
@@ -61,6 +65,10 @@
       }
     },
     "chat": {
+      "empty": {
+        "title": "Nothing here"
+      },
+      "loading": "Loading",
       "title": "Chat"
     },
     "home": {

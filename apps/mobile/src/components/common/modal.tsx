@@ -69,13 +69,15 @@ export const Modal: FunctionComponent<Props> = ({
       useNativeDriverForBackdrop
     >
       <View style={tw`bg-gray-1 rounded-t-xl max-h-[${height - top}px]`}>
-        <View style={tw`h-12 flex-row border-b border-gray-6 items-center`}>
-          <Typography size="lg" style={tw`flex-1 mx-4`} weight="semibold">
-            {title}
-          </Typography>
+        {(!!title || actions) && (
+          <View style={tw`h-12 flex-row border-b border-gray-6 items-center`}>
+            <Typography size="lg" style={tw`flex-1 mx-4`} weight="semibold">
+              {title}
+            </Typography>
 
-          {actions}
-        </View>
+            {actions}
+          </View>
+        )}
 
         {container}
       </View>

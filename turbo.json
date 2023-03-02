@@ -6,7 +6,8 @@
     "PORT",
     "VERCEL_URL",
     "SUPABASE_URL",
-    "SUPABASE_PUBLIC_KEY"
+    "SUPABASE_PUBLIC_KEY",
+    "ABLY_KEY"
   ],
   "pipeline": {
     "build": {

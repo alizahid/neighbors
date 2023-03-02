@@ -11,6 +11,7 @@ import { fonts } from '~/lib/fonts'
 import { tw } from '~/lib/tailwind'
 import { theme } from '~/lib/theme'
 import { ApiProvider } from '~/providers/api'
+import { PresenceProvider } from '~/providers/presence'
 
 const Layout: FunctionComponent = () => {
   const [loaded] = useFonts(fonts)
@@ -28,38 +29,40 @@ const Layout: FunctionComponent = () => {
           now={new Date()}
           timeZone="Asia/Dubai"
         >
-          <KeyboardAvoidingView
-            behavior="padding"
-            enabled={Platform.OS === 'ios'}
-            style={tw`flex-1`}
-          >
-            <Stack
-              screenOptions={{
-                header: (props) => <StackHeader {...props} />,
-              }}
+          <PresenceProvider>
+            <KeyboardAvoidingView
+              behavior="padding"
+              enabled={Platform.OS === 'ios'}
+              style={tw`flex-1`}
             >
-              <Stack.Screen
-                name="posts/new"
-                options={{
-                  presentation: 'modal',
+              <Stack
+                screenOptions={{
+                  header: (props) => <StackHeader {...props} />,
                 }}
-              />
+              >
+                <Stack.Screen
+                  name="posts/new"
+                  options={{
+                    presentation: 'modal',
+                  }}
+                />
 
-              <Stack.Screen
-                name="posts/[id]"
-                options={{
-                  presentation: 'modal',
-                }}
-              />
+                <Stack.Screen
+                  name="posts/[id]"
+                  options={{
+                    presentation: 'modal',
+                  }}
+                />
 
-              <Stack.Screen
-                name="users/[id]"
-                options={{
-                  presentation: 'modal',
-                }}
-              />
-            </Stack>
-          </KeyboardAvoidingView>
+                <Stack.Screen
+                  name="users/[id]"
+                  options={{
+                    presentation: 'modal',
+                  }}
+                />
+              </Stack>
+            </KeyboardAvoidingView>
+          </PresenceProvider>
         </IntlProvider>
       </ApiProvider>
     </ThemeProvider>

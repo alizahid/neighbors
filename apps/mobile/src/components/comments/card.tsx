@@ -1,22 +1,22 @@
-import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
-import { getImageUrl } from '~/lib/supabase'
 import { getSpace, tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
 
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
+import { Avatar } from '../users/avatar'
 
 export const COMMENT_CARD_HEIGHT =
   getSpace(5) + // user
   getSpace(2) + // gap
   getSpace(6) // body
 
-export type CommentCardItem = RouterOutput['comments']['list'][number]
+export type CommentCardItem =
+  RouterOutput['comments']['list']['comments'][number]
 
 type Props = {
   comment: CommentCardItem
@@ -31,9 +31,10 @@ export const CommentCard: FunctionComponent<Props> = ({ comment, style }) => {
   return (
     <View style={[tw`flex-row gap-2`, style]}>
       <Pressable onPress={() => router.push(`/users/${comment.user.id}`)}>
-        <Image
-          source={getImageUrl(comment.user.image)}
-          style={tw`bg-gray-3 h-6 w-6 rounded-full`}
+        <Avatar
+          image={comment.user.image}
+          name={comment.user.name}
+          style={tw`h-6 w-6`}
         />
       </Pressable>
 

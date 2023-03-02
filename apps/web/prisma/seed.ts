@@ -6,11 +6,14 @@ import { merge, range, sample } from 'lodash-es'
 const prisma = new PrismaClient()
 
 const main = async () => {
-  await prisma.like.deleteMany({})
-  await prisma.comment.deleteMany({})
-  await prisma.post.deleteMany({})
-  await prisma.resident.deleteMany({})
+  await prisma.like.deleteMany()
+  await prisma.comment.deleteMany()
+  await prisma.post.deleteMany()
+  await prisma.resident.deleteMany()
   await prisma.user.deleteMany()
+  await prisma.message.deleteMany()
+  await prisma.member.deleteMany()
+  await prisma.channel.deleteMany()
 
   const ali = await prisma.user.upsert({
     create: {
@@ -175,6 +178,39 @@ const main = async () => {
         userId: String(sample(users)),
       }))
     ),
+  })
+
+  await prisma.channel.create({
+    data: {
+      members: {
+        createMany: {
+          data: [
+            {
+              userId: ali.id,
+            },
+            {
+              userId: janet.id,
+            },
+          ],
+        },
+      },
+      message: 'Nice!',
+      messages: {
+        createMany: {
+          data: [
+            ...range(300).map(() => ({
+              body: faker.lorem.sentence(),
+              createdAt: subMinutes(new Date(), faker.datatype.number(10_000)),
+              userId: String(sample([ali.id, janet.id])),
+            })),
+            {
+              body: 'Nice!',
+              userId: ali.id,
+            },
+          ],
+        },
+      },
+    },
   })
 }
 

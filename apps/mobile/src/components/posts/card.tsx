@@ -1,16 +1,15 @@
-import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
-import { getImageUrl } from '~/lib/supabase'
 import { type TailwindColor, tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
+import { Avatar } from '../users/avatar'
 import { Gallery } from './gallery'
 
 type Props = {
@@ -60,9 +59,10 @@ export const PostCard: FunctionComponent<Props> = ({
         onPress={() => router.push(`/users/${post.user.id}`)}
         style={tw`flex-row items-center gap-2`}
       >
-        <Image
-          source={getImageUrl(post.user.image)}
-          style={tw`bg-gray-3 h-6 w-6 rounded-full`}
+        <Avatar
+          image={post.user.image}
+          name={post.user.name}
+          style={tw`h-6 w-6`}
         />
 
         <Typography lines={1} size="sm" style={tw`flex-1`} weight="medium">

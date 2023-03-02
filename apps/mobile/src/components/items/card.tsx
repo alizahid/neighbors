@@ -1,10 +1,8 @@
-import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
-import { getImageUrl } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
 
@@ -12,6 +10,7 @@ import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
 import { Gallery } from '../posts/gallery'
+import { Avatar } from '../users/avatar'
 
 type Props = {
   disabled?: boolean
@@ -56,9 +55,10 @@ export const ItemCard: FunctionComponent<Props> = ({
         onPress={() => router.push(`/users/${item.user.id}`)}
         style={tw`flex-row items-center gap-2`}
       >
-        <Image
-          source={getImageUrl(item.user.image)}
-          style={tw`bg-gray-3 h-6 w-6 rounded-full`}
+        <Avatar
+          image={item.user.image}
+          name={item.user.name}
+          style={tw`h-6 w-6`}
         />
 
         <Typography lines={1} size="sm" style={tw`flex-1`} weight="medium">

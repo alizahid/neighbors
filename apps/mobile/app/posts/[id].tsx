@@ -3,8 +3,9 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
+  useRouter,
 } from 'expo-router'
-import { type FunctionComponent, useRef } from 'react'
+import { type FunctionComponent, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
@@ -23,12 +24,14 @@ import { Loading } from '~/components/common/loading'
 import { Typography } from '~/components/common/typography'
 import { ItemCard } from '~/components/items/card'
 import { PostCard } from '~/components/posts/card'
+import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 
 const Screen: FunctionComponent = () => {
   const t = useTranslations('screen.posts.post')
 
+  const router = useRouter()
   const navigation = useNavigation()
   const params = useLocalSearchParams()
 
@@ -36,6 +39,8 @@ const Screen: FunctionComponent = () => {
   const commentForm = useRef<CommentFormComponent>(null)
 
   const id = String(params.id)
+
+  const { profile } = useProfile()
 
   const post = trpc.posts.get.useQuery({
     id,
@@ -45,11 +50,38 @@ const Screen: FunctionComponent = () => {
     postId: id,
   })
 
+  const startChat = trpc.chat.start.useMutation({
+    onSuccess(id) {
+      router.back()
+      router.push(`/chat/${id}`)
+    },
+  })
+
   useFocusEffect(() => {
     navigation.setOptions({
       title: t(post.data ? `title.${post.data.type}` : 'title.loading'),
     })
   })
+
+  useEffect(() => {
+    if (!profile || !post.data || profile.id === post.data.userId) {
+      return
+    }
+
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          loading={startChat.isLoading}
+          name="speech"
+          onPress={() =>
+            startChat.mutateAsync({
+              userId: post.data.userId,
+            })
+          }
+        />
+      ),
+    })
+  }, [navigation, post.data, profile, startChat])
 
   if (post.isLoading || comments.isLoading) {
     return <Loading />
@@ -91,7 +123,7 @@ const Screen: FunctionComponent = () => {
           <View style={tw`flex-row items-center justify-between`}>
             <Typography style={tw`mx-4`} weight="semibold">
               {t('comments.title', {
-                count: comments.data.length,
+                count: comments.data.comments.length,
               })}
             </Typography>
 
@@ -104,7 +136,7 @@ const Screen: FunctionComponent = () => {
       }
       automaticallyAdjustKeyboardInsets
       contentContainerStyle={tw`bg-gray-1`}
-      data={comments.data}
+      data={comments.data.comments}
       estimatedItemSize={COMMENT_CARD_HEIGHT}
       keyboardShouldPersistTaps="handled"
       ref={list}

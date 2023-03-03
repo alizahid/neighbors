@@ -98,7 +98,10 @@ export const chat = (t: typeof server) =>
           },
         })
 
-        return member.id
+        return {
+          memberId: member.id,
+          userId: ctx.user.id,
+        }
       }),
     messages: t.procedure
       .input(
@@ -128,6 +131,7 @@ export const chat = (t: typeof server) =>
         const member = channel.members.find(
           ({ userId }) => userId === ctx.user.id
         )
+
         isNotNull(member)
 
         const messages = await db.message.findMany({
@@ -156,6 +160,9 @@ export const chat = (t: typeof server) =>
       isLoggedIn(ctx)
 
       const channel = await db.channel.findFirst({
+        include: {
+          members: true,
+        },
         where: {
           id: input.channelId,
           members: {
@@ -182,6 +189,21 @@ export const chat = (t: typeof server) =>
         },
         where: {
           id: channel.id,
+        },
+      })
+
+      const member = channel.members.find(
+        ({ userId }) => userId === ctx.user.id
+      )
+
+      isNotNull(member)
+
+      await db.member.update({
+        data: {
+          checkedAt: new Date(),
+        },
+        where: {
+          id: member.id,
         },
       })
 

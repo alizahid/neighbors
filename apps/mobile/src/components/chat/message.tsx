@@ -3,31 +3,25 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl } from 'use-intl'
 
 import { tw } from '~/lib/tailwind'
-import { type RouterOutput } from '~/trpc/types'
+import { type ChatMessageView } from '~/schemas/chat/message'
 
 import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
 
-export type MessageItem = RouterOutput['chat']['messages']['messages'][number]
-
 type Props = {
-  channel?: RouterOutput['chat']['channel']
-  message: MessageItem
+  message: ChatMessageView
   style?: StyleProp<ViewStyle>
   userId?: string
 }
 
 export const ChatMessage: FunctionComponent<Props> = ({
-  channel,
   message,
   style,
   userId,
 }) => {
   const intl = useIntl()
 
-  const member = channel?.members.find(({ user }) => user.id === message.userId)
-
-  const mine = member?.userId === userId
+  const mine = message.user.id === userId
 
   return (
     <View
@@ -41,8 +35,8 @@ export const ChatMessage: FunctionComponent<Props> = ({
     >
       {!mine && (
         <Avatar
-          image={member?.user.image}
-          name={member?.user.name}
+          image={message.user.image}
+          name={message.user.name}
           style={tw`h-6 w-6 bg-gray-9`}
         />
       )}

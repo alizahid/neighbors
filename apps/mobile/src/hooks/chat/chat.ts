@@ -1,47 +1,58 @@
-import { parseISO } from 'date-fns'
+import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from 'expo-router'
 import { produce } from 'immer'
 import { uniqBy } from 'lodash-es'
-import { useCallback, useState } from 'react'
-import { z } from 'zod'
+import { useCallback, useRef, useState } from 'react'
 
-import { type MessageItem } from '~/components/chat/message'
 import { supabase } from '~/lib/supabase'
-import { trpc } from '~/lib/trpc'
-
-const schema = z.object({
-  body: z.string(),
-  channelId: z.string().cuid(),
-  createdAt: z.string().transform((value) => parseISO(value)),
-  id: z.string().cuid(),
-  meta: z.object({}),
-  updatedAt: z.string().transform((value) => parseISO(value)),
-  userId: z.string().uuid(),
-})
+import { queryClient, trpc } from '~/lib/trpc'
+import { type ChatChannelView } from '~/schemas/chat/channel'
+import { ChatMessageSchema, type ChatMessageView } from '~/schemas/chat/message'
+import { type ChatUserView } from '~/schemas/chat/user'
+import { type Database } from '~/types/supabase'
 
 export const useChat = (channelId: string) => {
-  const utils = trpc.useContext()
+  const { isLoading, refetch } = useQuery(
+    ['chat', channelId],
+    async () => {
+      const { data } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('channelId', channelId)
+        .order('createdAt', {
+          ascending: false,
+        })
+        .limit(100)
 
-  const {
-    data: channel,
-    isLoading: isLoadingChannel,
-    refetch: refetchChannel,
-  } = trpc.chat.channel.useQuery({
-    id: channelId,
-  })
+      return data?.map((item) => ChatMessageSchema.parse(item))
+    },
+    {
+      onSuccess(data) {
+        if (!data) {
+          return
+        }
+
+        setMessages(data)
+
+        users.current = uniqBy(
+          data.map(({ user }) => user),
+          'id'
+        )
+      },
+    }
+  )
 
   const { mutateAsync: markChecked } = trpc.chat.markChecked.useMutation({
-    onSuccess(memberId) {
-      utils.chat.channels.setData(undefined, (data) =>
+    onSuccess({ userId }) {
+      queryClient.setQueryData<Array<ChatChannelView>>(['channels'], (data) =>
         produce(data, (next) => {
           if (!next) {
             return next
           }
 
           const channelIndex = next.findIndex(({ id }) => id === channelId)
-
           const memberIndex = next[channelIndex].members.findIndex(
-            ({ id }) => id === memberId
+            (member) => member.userId === userId
           )
 
           next[channelIndex].members[memberIndex].checkedAt = new Date()
@@ -50,39 +61,20 @@ export const useChat = (channelId: string) => {
     },
   })
 
-  const { isLoading: isLoadingMessages, refetch: refetchMessages } =
-    trpc.chat.messages.useInfiniteQuery(
-      {
-        channelId,
-      },
-      {
-        onSuccess(data) {
-          const items = data.pages.flatMap(({ messages }) => messages)
+  const users = useRef<Array<ChatUserView>>([])
 
-          setMessages((messages) => uniqBy([...messages, ...items], 'id'))
-        },
-      }
-    )
-
-  const [messages, setMessages] = useState<Array<MessageItem>>([])
+  const [messages, setMessages] = useState<Array<ChatMessageView>>([])
   const [connected, setConnected] = useState(false)
-
-  const refetch = useCallback(() => {
-    refetchChannel()
-    refetchMessages()
-  }, [refetchChannel, refetchMessages])
 
   useFocusEffect(
     useCallback(() => {
-      refetch()
-
       markChecked({
         channelId,
       })
 
       const onMessageInsert = supabase
         .channel('channels')
-        .on(
+        .on<Database['public']['Tables']['Message']['Row']>(
           'postgres_changes',
           {
             event: 'INSERT',
@@ -91,7 +83,10 @@ export const useChat = (channelId: string) => {
             table: 'Message',
           },
           (payload) => {
-            const message = schema.parse(payload.new)
+            const message = ChatMessageSchema.parse({
+              ...payload.new,
+              user: users.current.find(({ id }) => id === payload.new.userId),
+            })
 
             setMessages((messages) => [message, ...messages])
           }
@@ -101,13 +96,13 @@ export const useChat = (channelId: string) => {
       return () => {
         onMessageInsert.unsubscribe()
       }
-    }, [channelId, markChecked, refetch])
+    }, [channelId, markChecked, users])
   )
 
   return {
-    channel,
     connected,
-    loading: isLoadingChannel || isLoadingMessages,
+    loading: isLoading,
+    members: users.current,
     messages,
     refetch,
   }

@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { ConnectionStatus } from '~/components/chat/connection'
-import { ChatMessage, type MessageItem } from '~/components/chat/message'
+import { ChatMessage } from '~/components/chat/message'
 import { ChatReply, type ChatReplyComponent } from '~/components/chat/reply'
 import { ChatStatusCard } from '~/components/chat/status'
 import { Empty } from '~/components/common/empty'
@@ -17,6 +17,7 @@ import { useProfile } from '~/hooks/auth/profile'
 import { useChat } from '~/hooks/chat/chat'
 import { tw } from '~/lib/tailwind'
 import { usePresence } from '~/providers/presence'
+import { type ChatMessageView } from '~/schemas/chat/message'
 
 const Screen: FunctionComponent = () => {
   const navigation = useNavigation()
@@ -26,12 +27,12 @@ const Screen: FunctionComponent = () => {
 
   const { profile } = useProfile()
 
-  const list = useRef<FlashList<MessageItem>>(null)
+  const list = useRef<FlashList<ChatMessageView>>(null)
   const chatReply = useRef<ChatReplyComponent>(null)
 
   const id = String(params.id)
 
-  const { channel, connected, messages } = useChat(id)
+  const { connected, members, messages } = useChat(id)
   const { users } = usePresence()
 
   useFocusEffect(() => {
@@ -41,21 +42,17 @@ const Screen: FunctionComponent = () => {
   })
 
   useEffect(() => {
-    if (!channel) {
-      return
-    }
-
-    const them = channel.members.find(({ userId }) => userId !== profile?.id)
+    const them = members.find(({ id }) => id !== profile?.id)
 
     navigation.setOptions({
       headerRight: () => <ConnectionStatus online={connected} />,
       headerTitle: () => (
-        <ChatStatusCard online={them ? users.includes(them.userId) : false}>
-          {them?.user.name}
+        <ChatStatusCard online={them ? users.includes(them.id) : false}>
+          {them?.name}
         </ChatStatusCard>
       ),
     })
-  }, [channel, connected, navigation, profile?.id, users])
+  }, [connected, members, navigation, profile?.id, users])
 
   return (
     <>
@@ -69,12 +66,7 @@ const Screen: FunctionComponent = () => {
         keyboardShouldPersistTaps="handled"
         ref={list}
         renderItem={({ item }) => (
-          <ChatMessage
-            channel={channel}
-            message={item}
-            style={tw`mx-4`}
-            userId={profile?.id}
-          />
+          <ChatMessage message={item} style={tw`mx-4`} userId={profile?.id} />
         )}
       />
 

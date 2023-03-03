@@ -5,16 +5,14 @@ import { useIntl } from 'use-intl'
 
 import { tw } from '~/lib/tailwind'
 import { usePresence } from '~/providers/presence'
-import { type RouterOutput } from '~/trpc/types'
+import { type ChatChannelView } from '~/schemas/chat/channel'
 
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
 
-export type ChannelItem = RouterOutput['chat']['channels'][number]
-
 type Props = {
-  channel: ChannelItem
+  channel: ChatChannelView
   style?: StyleProp<ViewStyle>
   userId?: string
 }
@@ -30,8 +28,8 @@ export const ChannelCard: FunctionComponent<Props> = ({
 
   const { users } = usePresence()
 
-  const them = channel.members.find(({ user }) => user.id !== userId)
-  const me = channel.members.find(({ user }) => user.id === userId)
+  const them = channel.members.find((member) => member.userId !== userId)
+  const me = channel.members.find((member) => member.userId === userId)
 
   const online = them && users.includes(them.userId)
 
@@ -42,11 +40,11 @@ export const ChannelCard: FunctionComponent<Props> = ({
       onPress={() => router.push(`/chat/${channel.id}`)}
       style={[tw`flex-row items-center gap-2`, style]}
     >
-      <Avatar badge={online} image={them?.user.image} name={them?.user.name} />
+      <Avatar badge={online} image={them?.image} name={them?.name} />
 
       <View style={tw`flex-1`}>
         <View style={tw`flex-row justify-between gap-4`}>
-          <Typography weight="medium">{them?.user.name}</Typography>
+          <Typography weight="medium">{them?.name}</Typography>
 
           <Typography color="gray-11" size="sm">
             {intl.formatRelativeTime(channel.updatedAt)}

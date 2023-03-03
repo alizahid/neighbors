@@ -5,7 +5,6 @@ import {
   useNavigation,
 } from 'expo-router'
 import { type FunctionComponent, useEffect, useRef } from 'react'
-import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { ConnectionStatus } from '~/components/chat/connection'
@@ -57,16 +56,21 @@ const Screen: FunctionComponent = () => {
   return (
     <>
       <FlashList
-        ItemSeparatorComponent={() => <View style={tw`h-4`} />}
         ListEmptyComponent={() => <Empty title={t('empty.title')} />}
-        contentContainerStyle={tw`pb-4 bg-gray-1`}
+        contentContainerStyle={tw`py-4 bg-gray-1`}
         data={messages}
         estimatedItemSize={100}
         inverted
         keyboardShouldPersistTaps="handled"
         ref={list}
-        renderItem={({ item }) => (
-          <ChatMessage message={item} style={tw`mx-4`} userId={profile?.id} />
+        renderItem={({ index, item }) => (
+          <ChatMessage
+            first={index === messages.length - 1}
+            last={index === 0}
+            message={item}
+            style={tw`mx-4`}
+            userId={profile?.id}
+          />
         )}
       />
 

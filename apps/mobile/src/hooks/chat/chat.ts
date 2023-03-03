@@ -2,8 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from 'expo-router'
 import { produce } from 'immer'
 import { uniqBy } from 'lodash-es'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
+import { groupMessages } from '~/lib/chat'
 import { supabase } from '~/lib/supabase'
 import { queryClient, trpc } from '~/lib/trpc'
 import { type ChatChannelView } from '~/schemas/chat/channel'
@@ -99,11 +100,13 @@ export const useChat = (channelId: string) => {
     }, [channelId, markChecked, users])
   )
 
+  const grouped = useMemo(() => groupMessages(messages), [messages])
+
   return {
     connected,
     loading: isLoading,
     members: users.current,
-    messages,
+    messages: grouped,
     refetch,
   }
 }

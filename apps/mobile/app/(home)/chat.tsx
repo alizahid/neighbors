@@ -5,7 +5,6 @@ import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { ChannelCard } from '~/components/chat/channel'
-import { ConnectionStatus } from '~/components/chat/connection'
 import { Empty } from '~/components/common/empty'
 import { Refresher } from '~/components/common/refresher'
 import { useProfile } from '~/hooks/auth/profile'
@@ -29,7 +28,6 @@ const Screen: FunctionComponent = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <ConnectionStatus online={connected} />,
       title: t('title'),
     })
   }, [connected, navigation, t])

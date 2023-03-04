@@ -7,7 +7,6 @@ import {
 import { type FunctionComponent, useEffect, useRef } from 'react'
 import { useTranslations } from 'use-intl'
 
-import { ConnectionStatus } from '~/components/chat/connection'
 import { ChatMessage } from '~/components/chat/message'
 import { ChatReply, type ChatReplyComponent } from '~/components/chat/reply'
 import { ChatStatusCard } from '~/components/chat/status'
@@ -44,7 +43,6 @@ const Screen: FunctionComponent = () => {
     const them = channel?.members.find(({ userId }) => userId !== profile?.id)
 
     navigation.setOptions({
-      headerRight: () => <ConnectionStatus online={connected} />,
       headerTitle: () => (
         <ChatStatusCard online={them ? users.includes(them.userId) : false}>
           {them?.name}

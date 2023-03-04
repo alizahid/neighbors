@@ -21,6 +21,7 @@ import {
 import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
+import { Refresher } from '~/components/common/refresher'
 import { Typography } from '~/components/common/typography'
 import { ItemCard } from '~/components/items/card'
 import { PostCard } from '~/components/posts/card'
@@ -140,6 +141,11 @@ const Screen: FunctionComponent = () => {
       estimatedItemSize={COMMENT_CARD_HEIGHT}
       keyboardShouldPersistTaps="handled"
       ref={list}
+      refreshControl={
+        <Refresher
+          onRefresh={() => Promise.all([post.refetch(), comments.refetch()])}
+        />
+      }
       renderItem={({ item }) => <CommentCard comment={item} style={tw`mx-4`} />}
     />
   )

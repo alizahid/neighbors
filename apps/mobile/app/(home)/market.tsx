@@ -66,12 +66,7 @@ const Screen: FunctionComponent = () => {
           posts.fetchNextPage()
         }
       }}
-      refreshControl={
-        <Refresher
-          onRefresh={() => posts.refetch()}
-          refreshing={posts.isLoading}
-        />
-      }
+      refreshControl={<Refresher onRefresh={posts.refetch} />}
       renderItem={({ item }) => <ItemCard item={item} style={tw`p-4`} />}
     />
   )

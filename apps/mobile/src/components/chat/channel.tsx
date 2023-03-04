@@ -40,7 +40,7 @@ export const ChannelCard: FunctionComponent<Props> = ({
       onPress={() => router.push(`/chat/${channel.id}`)}
       style={[tw`flex-row items-center gap-2`, style]}
     >
-      <Avatar badge={online} image={them?.image} name={them?.name} />
+      <Avatar image={them?.image} name={them?.name} online={online} />
 
       <View style={tw`flex-1`}>
         <View style={tw`flex-row justify-between gap-4`}>

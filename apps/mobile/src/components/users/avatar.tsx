@@ -10,16 +10,16 @@ import { tw } from '~/lib/tailwind'
 import { Typography } from '../common/typography'
 
 type Props = {
-  badge?: boolean
   image?: string | null
   name?: string
+  online?: boolean
   style?: StyleProp<ViewStyle>
 }
 
 export const Avatar: FunctionComponent<Props> = ({
-  badge,
   image,
   name,
+  online,
   style,
 }) => {
   const [height, setHeight] = useState(24)
@@ -52,9 +52,12 @@ export const Avatar: FunctionComponent<Props> = ({
         </Typography>
       ) : null}
 
-      {badge && (
+      {online !== undefined && (
         <View
-          style={tw`h-3 w-3 rounded-lg bg-green-9 absolute bottom-0 right-0`}
+          style={tw.style(
+            'h-3 w-3 rounded-lg absolute bottom-0 right-0',
+            online ? 'bg-green-9' : 'bg-gray-9'
+          )}
         />
       )}
     </View>

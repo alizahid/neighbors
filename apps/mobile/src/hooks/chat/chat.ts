@@ -94,11 +94,17 @@ export const useChat = (channelId: string) => {
             table: 'Message',
           },
           (payload) => {
+            const user = channel?.members.find(
+              ({ userId }) => userId === payload.new.userId
+            )
+
             const message = ChatMessageSchema.parse({
               ...payload.new,
-              user: channel?.members.find(
-                ({ userId }) => userId === payload.new.userId
-              ),
+              user: {
+                id: user?.userId,
+                image: user?.image,
+                name: user?.name,
+              },
             })
 
             setMessages((messages) => [message, ...messages])

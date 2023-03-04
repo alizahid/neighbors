@@ -45,6 +45,20 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
 
     const createComment = trpc.comments.create.useMutation({
       onSuccess(comment) {
+        utils.comments.list.setData(
+          {
+            postId,
+          },
+          (comments) =>
+            produce(comments, (next) => {
+              if (!next) {
+                return next
+              }
+
+              next.comments.push(comment)
+            })
+        )
+
         utils.posts.get.setData(
           {
             id: postId,

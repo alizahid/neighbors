@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import { StatusBar } from 'expo-status-bar'
 import { type FunctionComponent, useState } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import ImageViewer from 'react-native-image-viewing'
@@ -18,7 +19,7 @@ type Props = {
 }
 
 export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
-  const { bottom } = useSafeAreaInsets()
+  const { bottom, top } = useSafeAreaInsets()
 
   const [index, setIndex] = useState(0)
   const [imageIndex, setImageIndex] = useState(0)
@@ -31,21 +32,23 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
   const show = imageIndex ?? index
 
   return (
-    <View style={[tw`flex-row flex-wrap gap-2`, style]}>
-      {images.map((url, index) => (
-        <Pressable
-          key={index}
-          onPress={() => {
-            setIndex(index)
-            setVisible(true)
-          }}
-        >
-          <Image
-            source={getImageUrl(url)}
-            style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
-          />
-        </Pressable>
-      ))}
+    <>
+      <View style={[tw`flex-row flex-wrap gap-2`, style]}>
+        {images.map((url, index) => (
+          <Pressable
+            key={index}
+            onPress={() => {
+              setIndex(index)
+              setVisible(true)
+            }}
+          >
+            <Image
+              source={getImageUrl(url)}
+              style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+            />
+          </Pressable>
+        ))}
+      </View>
 
       <ImageViewer
         FooterComponent={() => (
@@ -56,7 +59,9 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
           </View>
         )}
         HeaderComponent={() => (
-          <View style={tw`flex-row items-center`}>
+          <View style={tw`flex-row items-center mt-[${top + getSpace(4)}px]`}>
+            <StatusBar style="light" />
+
             {!!title && (
               <Typography
                 color="gray-1"
@@ -83,9 +88,9 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
         }))}
         onImageIndexChange={(index) => setImageIndex(index)}
         onRequestClose={() => setVisible(false)}
-        presentationStyle="pageSheet"
+        presentationStyle="fullScreen"
         visible={visible}
       />
-    </View>
+    </>
   )
 }

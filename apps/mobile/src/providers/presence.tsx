@@ -24,7 +24,7 @@ type Props = {
 }
 
 export const PresenceProvider: FunctionComponent<Props> = ({ children }) => {
-  const [users, setUers] = useState<PresenceValue['users']>([])
+  const [users, setUsers] = useState<PresenceValue['users']>([])
 
   const { profile } = useProfile()
 
@@ -41,8 +41,12 @@ export const PresenceProvider: FunctionComponent<Props> = ({ children }) => {
       },
     })
 
-    channel.on('presence', { event: 'sync' }, () =>
-      setUers(Object.keys(channel.presenceState()))
+    channel.on(
+      'presence',
+      {
+        event: 'sync',
+      },
+      () => setUsers(Object.keys(channel.presenceState()))
     )
 
     channel.subscribe(async (status) => {

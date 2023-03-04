@@ -6,6 +6,7 @@ import { tw } from '~/lib/tailwind'
 import { type ChatMessageView } from '~/schemas/chat/message'
 
 import { Typography } from '../common/typography'
+import { Gallery } from '../posts/gallery'
 import { Avatar } from '../users/avatar'
 
 type Props = {
@@ -72,6 +73,13 @@ export const ChatMessage: FunctionComponent<Props> = ({
           )}
         >
           <Typography color="gray-1">{message.body}</Typography>
+
+          {message.meta.attachments && (
+            <Gallery
+              images={message.meta.attachments.map(({ url }) => url)}
+              style={tw`my-1`}
+            />
+          )}
         </View>
 
         {(message.grouping === 'single' || message.grouping === 'bottom') && (

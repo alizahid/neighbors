@@ -179,6 +179,7 @@ export const chat = (t: typeof server) =>
         data: {
           body: input.message,
           channelId: channel.id,
+          meta: input.meta,
           userId: ctx.user.id,
         },
       })

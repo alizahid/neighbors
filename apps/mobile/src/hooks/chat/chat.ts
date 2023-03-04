@@ -1,18 +1,34 @@
 import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from 'expo-router'
 import { produce } from 'immer'
-import { uniqBy } from 'lodash-es'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { groupMessages } from '~/lib/chat'
 import { supabase } from '~/lib/supabase'
 import { queryClient, trpc } from '~/lib/trpc'
-import { type ChatChannelView } from '~/schemas/chat/channel'
+import { ChatChannelSchema, type ChatChannelView } from '~/schemas/chat/channel'
 import { ChatMessageSchema, type ChatMessageView } from '~/schemas/chat/message'
-import { type ChatUserView } from '~/schemas/chat/user'
 import { type Database } from '~/types/supabase'
 
 export const useChat = (channelId: string) => {
+  useQuery(
+    ['channels', channelId],
+    async () => {
+      const { data } = await supabase
+        .from('channels')
+        .select('*')
+        .eq('id', channelId)
+        .single()
+
+      return ChatChannelSchema.parse(data)
+    },
+    {
+      onSuccess(data) {
+        setChannel(data)
+      },
+    }
+  )
+
   const { isLoading, refetch } = useQuery(
     ['chat', channelId],
     async () => {
@@ -34,11 +50,6 @@ export const useChat = (channelId: string) => {
         }
 
         setMessages(data)
-
-        users.current = uniqBy(
-          data.map(({ user }) => user),
-          'id'
-        )
       },
     }
   )
@@ -62,8 +73,7 @@ export const useChat = (channelId: string) => {
     },
   })
 
-  const users = useRef<Array<ChatUserView>>([])
-
+  const [channel, setChannel] = useState<ChatChannelView>()
   const [messages, setMessages] = useState<Array<ChatMessageView>>([])
   const [connected, setConnected] = useState(false)
 
@@ -86,7 +96,9 @@ export const useChat = (channelId: string) => {
           (payload) => {
             const message = ChatMessageSchema.parse({
               ...payload.new,
-              user: users.current.find(({ id }) => id === payload.new.userId),
+              user: channel?.members.find(
+                ({ userId }) => userId === payload.new.userId
+              ),
             })
 
             setMessages((messages) => [message, ...messages])
@@ -97,15 +109,15 @@ export const useChat = (channelId: string) => {
       return () => {
         onMessageInsert.unsubscribe()
       }
-    }, [channelId, markChecked, users])
+    }, [channel?.members, channelId, markChecked])
   )
 
   const grouped = useMemo(() => groupMessages(messages), [messages])
 
   return {
+    channel,
     connected,
     loading: isLoading,
-    members: users.current,
     messages: grouped,
     refetch,
   }

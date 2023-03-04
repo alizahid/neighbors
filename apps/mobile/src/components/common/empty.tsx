@@ -1,6 +1,6 @@
 import LottieView from 'lottie-react-native'
 import { type FunctionComponent } from 'react'
-import { View } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 import { tw } from '~/lib/tailwind'
@@ -10,9 +10,10 @@ import { Button } from './button'
 import { Typography } from './typography'
 
 type Props = {
-  title?: string
-  message?: string
   label?: string
+  message?: string
+  style?: StyleProp<ViewStyle>
+  title?: string
 
   onPress?: () => void
 }
@@ -21,12 +22,13 @@ export const Empty: FunctionComponent<Props> = ({
   label,
   message,
   onPress,
+  style,
   title,
 }) => {
   const { width } = useSafeAreaFrame()
 
   return (
-    <View style={tw`flex-1 items-center justify-center`}>
+    <View style={[tw`flex-1 items-center justify-center`, style]}>
       <LottieView
         autoPlay
         source={not_found}

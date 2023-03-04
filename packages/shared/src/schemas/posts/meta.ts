@@ -1,12 +1,9 @@
 import { z } from 'zod'
 
+import { AttachmentsSchema } from '../attachments'
+
 export const PostMetaSchema = z.object({
-  attachments: z.array(
-    z.object({
-      type: z.enum(['image']),
-      url: z.string(),
-    })
-  ),
+  attachments: AttachmentsSchema,
   currency: z.string().optional(),
   price: z.number().min(1).optional(),
   product: z.string().min(2).optional(),

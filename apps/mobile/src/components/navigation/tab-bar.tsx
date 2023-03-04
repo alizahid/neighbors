@@ -32,7 +32,7 @@ export const TabBar: FunctionComponent<Props> = ({
 
           if (!focused && !event.defaultPrevented) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+            // @ts-expect-error
             navigation.navigate({
               merge: true,
               name: route.name,

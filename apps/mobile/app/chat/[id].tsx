@@ -31,7 +31,7 @@ const Screen: FunctionComponent = () => {
 
   const id = String(params.id)
 
-  const { connected, members, messages } = useChat(id)
+  const { channel, connected, messages } = useChat(id)
   const { users } = usePresence()
 
   useFocusEffect(() => {
@@ -41,22 +41,33 @@ const Screen: FunctionComponent = () => {
   })
 
   useEffect(() => {
-    const them = members.find(({ id }) => id !== profile?.id)
+    const them = channel?.members.find(({ userId }) => userId !== profile?.id)
 
     navigation.setOptions({
       headerRight: () => <ConnectionStatus online={connected} />,
       headerTitle: () => (
-        <ChatStatusCard online={them ? users.includes(them.id) : false}>
+        <ChatStatusCard online={them ? users.includes(them.userId) : false}>
           {them?.name}
         </ChatStatusCard>
       ),
     })
-  }, [connected, members, navigation, profile?.id, users])
+  }, [channel?.members, connected, navigation, profile?.id, users])
 
   return (
     <>
       <FlashList
-        ListEmptyComponent={() => <Empty title={t('empty.title')} />}
+        ListEmptyComponent={() => (
+          <Empty
+            style={{
+              transform: [
+                {
+                  scaleY: -1,
+                },
+              ],
+            }}
+            title={t('empty.title')}
+          />
+        )}
         contentContainerStyle={tw`py-4 bg-gray-1`}
         data={messages}
         estimatedItemSize={100}

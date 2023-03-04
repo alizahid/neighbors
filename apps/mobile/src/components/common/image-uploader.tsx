@@ -1,84 +1,35 @@
-import { createId } from '@paralleldrive/cuid2'
 import { Image } from 'expo-image'
-import * as ImagePicker from 'expo-image-picker'
-import mime from 'mime'
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
+import { forwardRef, useImperativeHandle, useRef } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import { getImageUrl, supabase, SUPABASE_BUCKET } from '~/lib/supabase'
+import { getImageUrl } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
 
 import { IconButton } from './icon-button'
+import {
+  ImagePicker,
+  type ImagePickerComponent,
+  type ImagePickerProps,
+} from './image-picker'
 import { Pressable } from './pressable'
 import { Typography } from './typography'
 
-type ImageUploaderComponent = {
-  focus: () => void
-  open: () => void
-}
-
-type Props = {
+type Props = Omit<ImagePickerProps, 'children'> & {
   style?: StyleProp<ViewStyle>
-  value?: Array<string>
-
-  onChange: (value: Array<string>) => void
-  onUploading?: (done: boolean) => void
+  uploading?: boolean
 }
 
 // eslint-disable-next-line react/display-name
-export const ImageUploader = forwardRef<ImageUploaderComponent, Props>(
-  ({ onChange, onUploading, style, value }, ref) => {
+export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
+  ({ onChange, onUploading, style, uploading, value }, ref) => {
     const t = useTranslations('component.common.imageUploader')
 
-    useImperativeHandle(ref, () => ({
-      focus: onPick,
-      open: onPick,
-    }))
+    const picker = useRef<ImagePickerComponent>(null)
 
-    const [uploading, setUploading] = useState(false)
-
-    const onPick = useCallback(async () => {
-      setUploading(true)
-      onUploading?.(true)
-
-      try {
-        const result = await ImagePicker.launchImageLibraryAsync({
-          allowsMultipleSelection: true,
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          quality: 0.7,
-        })
-
-        if (result.canceled) {
-          throw new Error('canceled')
-        }
-
-        const files = await Promise.all(
-          result.assets.map(async ({ uri }) => {
-            const name = `${createId()}.${uri.split('.').pop()}`
-
-            const form = new FormData()
-
-            form.append('file', {
-              name,
-              type: mime.getType(uri) ?? 'image/jpeg',
-              uri,
-            } as never)
-
-            const path = `posts/${name}`
-
-            await supabase.storage.from(SUPABASE_BUCKET).upload(path, form)
-
-            return path
-          })
-        )
-
-        onChange([...(value ?? []), ...files])
-      } finally {
-        setUploading(false)
-        onUploading?.(false)
-      }
-    }, [onChange, onUploading, value])
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    useImperativeHandle(ref, () => picker)
 
     return (
       <View style={[tw`gap-2`, style]}>
@@ -105,12 +56,21 @@ export const ImageUploader = forwardRef<ImageUploaderComponent, Props>(
             </Pressable>
           ))}
 
-          <IconButton
-            loading={uploading}
-            name="uploadImage"
-            onPress={onPick}
-            style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
-          />
+          <ImagePicker
+            onChange={onChange}
+            onUploading={onUploading}
+            ref={picker}
+            value={value}
+          >
+            <IconButton
+              loading={uploading}
+              name="uploadImage"
+              onPress={() => {
+                picker.current?.open()
+              }}
+              style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+            />
+          </ImagePicker>
         </View>
       </View>
     )

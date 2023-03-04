@@ -38,7 +38,7 @@ export const CommentCard: FunctionComponent<Props> = ({ comment, style }) => {
         />
       </Pressable>
 
-      <View style={tw`flex-1 gap-2`}>
+      <View style={tw`flex-1`}>
         <View style={tw`flex-row gap-2`}>
           <Typography lines={1} size="sm" weight="medium">
             {comment.user.name}

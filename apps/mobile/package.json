@@ -34,7 +34,6 @@
     "expo-status-bar": "~1.4.4",
     "fast-text-encoding": "^1.0.6",
     "immer": "^9.0.19",
-    "lottie-react-native": "5.1.4",
     "mime": "^3.0.0",
     "react": "18.2.0",
     "react-hook-form": "^7.43.3",

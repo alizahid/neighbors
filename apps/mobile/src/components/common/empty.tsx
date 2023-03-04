@@ -1,10 +1,10 @@
-import LottieView from 'lottie-react-native'
+import { Image } from 'expo-image'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
+import not_found from '~/img/not-found.png'
 import { tw } from '~/lib/tailwind'
-import not_found from '~/lottie/not-found.json'
 
 import { Button } from './button'
 import { Typography } from './typography'
@@ -27,12 +27,14 @@ export const Empty: FunctionComponent<Props> = ({
 }) => {
   const { width } = useSafeAreaFrame()
 
+  const size = `${width * 0.8}px`
+
   return (
     <View style={[tw`flex-1 items-center justify-center`, style]}>
-      <LottieView
-        autoPlay
+      <Image
+        contentFit="contain"
         source={not_found}
-        style={tw`h-[${width}px] w-[${width}px]`}
+        style={tw`h-[${size}] w-[${size}]`}
       />
 
       <View style={tw`-mt-24 gap-2 items-center justify-center p-8`}>

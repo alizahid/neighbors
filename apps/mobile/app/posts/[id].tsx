@@ -94,7 +94,7 @@ const Screen: FunctionComponent = () => {
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={tw`h-4`} />}
-      ListEmptyComponent={() => <Empty message={t('comments.empty')} />}
+      ListEmptyComponent={() => <Empty title={t('comments.empty')} />}
       ListFooterComponent={() => (
         <CommentForm
           onComment={() => list.current?.scrollToEnd()}

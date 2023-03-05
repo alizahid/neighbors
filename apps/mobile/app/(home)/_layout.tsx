@@ -36,12 +36,12 @@ const Layout: FunctionComponent = () => {
       />
 
       <Tabs.Screen
-        name="market"
+        name="search"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Icon color={focused ? 'primary-9' : 'gray-9'} name="market" />
+            <Icon color={focused ? 'primary-9' : 'gray-9'} name="search" />
           ),
-          title: t('market.title'),
+          title: t('search.title'),
         }}
       />
 

@@ -19,6 +19,16 @@
       "imageUploader": {
         "label": "Images"
       }
+    },
+    "items": {
+      "card": {
+        "type": "Item"
+      }
+    },
+    "posts": {
+      "card": {
+        "type": "Post"
+      }
     }
   },
   "screen": {
@@ -84,14 +94,6 @@
       "signUp": "Sign up",
       "title": "<primary>near</primary><accent>buds</accent>"
     },
-    "market": {
-      "empty": {
-        "label": "Post an item",
-        "message": "Nobody's put up anything for sale in your building. Be the first one?",
-        "title": "Nothing here"
-      },
-      "title": "Marketplace"
-    },
     "posts": {
       "new": {
         "form": {
@@ -136,6 +138,9 @@
           "post": "Post"
         }
       }
+    },
+    "search": {
+      "title": "Search"
     },
     "user": {
       "title": "Profile"

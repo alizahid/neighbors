@@ -8,6 +8,7 @@ import { BuildingPicker } from '~/components/buildings/picker'
 import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Refresher } from '~/components/common/refresher'
+import { ItemCard } from '~/components/items/card'
 import { PostCard } from '~/components/posts/card'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
@@ -36,7 +37,6 @@ const Screen: FunctionComponent = () => {
   const posts = trpc.posts.list.useInfiniteQuery(
     {
       buildingId: buildingId!,
-      type: 'post',
     },
     {
       enabled: !!buildingId,
@@ -61,13 +61,20 @@ const Screen: FunctionComponent = () => {
       }
       data={data}
       estimatedItemSize={200}
+      getItemType={({ type }) => type}
       onEndReached={() => {
         if (posts.hasNextPage) {
           posts.fetchNextPage()
         }
       }}
       refreshControl={<Refresher onRefresh={posts.refetch} />}
-      renderItem={({ item }) => <PostCard post={item} style={tw`p-4`} />}
+      renderItem={({ item }) => {
+        if (item.type === 'item') {
+          return <ItemCard item={item} style={tw`p-4`} />
+        }
+
+        return <PostCard post={item} style={tw`p-4`} />
+      }}
     />
   )
 }

@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useIntl } from 'use-intl'
+import { useIntl, useTranslations } from 'use-intl'
 
 import { type TailwindColor, tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
@@ -12,11 +12,13 @@ import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
 import { Gallery } from './gallery'
 
+export type Post =
+  | RouterOutput['posts']['list']['posts'][number]
+  | RouterOutput['posts']['get']
+
 type Props = {
   disabled?: boolean
-  post:
-    | RouterOutput['posts']['list']['posts'][number]
-    | RouterOutput['posts']['get']
+  post: Post
   style?: StyleProp<ViewStyle>
 }
 
@@ -26,6 +28,8 @@ export const PostCard: FunctionComponent<Props> = ({
   style,
 }) => {
   const router = useRouter()
+
+  const t = useTranslations('component.posts.card')
 
   const intl = useIntl()
 
@@ -68,6 +72,12 @@ export const PostCard: FunctionComponent<Props> = ({
         <Typography lines={1} size="sm" style={tw`flex-1`} weight="medium">
           {post.user.name}
         </Typography>
+
+        <View style={tw`bg-lime-3 px-1 py-0.5 rounded`}>
+          <Typography color="lime-11" size="xs" weight="medium">
+            {t('type')}
+          </Typography>
+        </View>
       </Pressable>
 
       <Pressable

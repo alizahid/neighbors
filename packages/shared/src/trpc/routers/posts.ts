@@ -69,7 +69,6 @@ export const posts = (t: typeof server) =>
         z.object({
           buildingId: z.string(),
           cursor: z.string().optional(),
-          type: PostTypeSchema,
         })
       )
       .query(async ({ ctx, input }) => {
@@ -105,9 +104,6 @@ export const posts = (t: typeof server) =>
           take: 100 + 1,
           where: {
             buildingId: input.buildingId,
-            type: {
-              not: input.type === 'item' ? 'post' : 'item',
-            },
           },
         })
 

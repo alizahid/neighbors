@@ -8,6 +8,9 @@ const colors = [
   ['green', radix.green],
   ['red', radix.red],
   ['yellow', radix.yellow],
+  ['sky', radix.sky],
+  ['lime', radix.lime],
+  ['amber', radix.amber],
 ].reduce(
   (data, [name, colors]) => ({
     ...data,

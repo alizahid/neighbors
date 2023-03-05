@@ -1,10 +1,13 @@
 import { useRouter } from 'expo-router'
+import { produce } from 'immer'
 import { compact } from 'lodash'
 import { type FunctionComponent, useMemo } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl, useTranslations } from 'use-intl'
 
-import { type TailwindColor, tw } from '~/lib/tailwind'
+import { getSpace, type TailwindColor, tw } from '~/lib/tailwind'
+import { trpc } from '~/lib/trpc'
+import { useBuildingStore } from '~/stores/building'
 import { type RouterOutput } from '~/trpc/types'
 
 import { Icon, type IconName } from '../common/icon'
@@ -16,6 +19,15 @@ import { Gallery } from './gallery'
 export type Post =
   | RouterOutput['posts']['list']['posts'][number]
   | RouterOutput['posts']['get']
+
+type FooterItem = {
+  color?: TailwindColor
+  disabled?: boolean
+  icon: IconName
+  label: string
+
+  onPress?: () => void
+}
 
 type Props = {
   disabled?: boolean
@@ -34,19 +46,74 @@ export const PostCard: FunctionComponent<Props> = ({
 
   const intl = useIntl()
 
-  const footer: Array<{
-    icon: IconName
-    iconColor?: TailwindColor
-    label: string
-  }> = useMemo(
-    () =>
-      compact([
+  const { buildingId } = useBuildingStore()
+
+  const utils = trpc.useContext()
+
+  const { isLoading: liking, mutateAsync: like } = trpc.posts.like.useMutation({
+    onSuccess(liked) {
+      utils.posts.get.setData(
         {
+          id: post.id,
+        },
+        (data) => {
+          if (!data) {
+            return data
+          }
+
+          return produce(data, (next) => {
+            next.liked = liked
+            next._count.likes += liked ? 1 : -1
+          })
+        }
+      )
+
+      if (buildingId) {
+        utils.posts.list.setInfiniteData(
+          {
+            buildingId,
+          },
+          (data) => {
+            if (!data) {
+              return data
+            }
+
+            return produce(data, (next) => {
+              const pageIndex = next?.pages.findIndex(
+                ({ posts }) => posts.findIndex(({ id }) => id === post.id) >= 0
+              )
+
+              const postIndex = next.pages[pageIndex]?.posts.findIndex(
+                ({ id }) => id === post.id
+              )
+
+              const item = next.pages[pageIndex]?.posts[postIndex]
+
+              if (item) {
+                item.liked = liked
+                item._count.likes += liked ? 1 : -1
+              }
+            })
+          }
+        )
+      }
+    },
+  })
+
+  const footer = useMemo(
+    () =>
+      compact<FooterItem>([
+        {
+          color: post.liked ? 'green-9' : undefined,
+          disabled: liking,
           icon: 'like',
-          iconColor: post.likes.length > 0 ? 'primary-11' : undefined,
           label: intl.formatNumber(post._count.likes, {
             notation: 'compact',
           }),
+          onPress: () =>
+            like({
+              id: post.id,
+            }),
         },
         {
           icon: 'comment',
@@ -63,7 +130,7 @@ export const PostCard: FunctionComponent<Props> = ({
           label: intl.formatRelativeTime(post.createdAt),
         },
       ]),
-    [intl, post]
+    [intl, post, like, liking]
   )
 
   return (
@@ -139,19 +206,29 @@ export const PostCard: FunctionComponent<Props> = ({
         />
 
         <View style={tw`flex-row gap-4`}>
-          {footer.map(({ icon, iconColor, label }, index) => (
-            <View key={index} style={tw`flex-row items-center gap-1`}>
-              <Icon
-                color={iconColor ?? 'gray-11'}
-                name={icon}
-                style={tw`h-4 w-4`}
-              />
+          {footer.map(({ color, disabled, icon, label, onPress }, index) => {
+            const Component = onPress ? Pressable : View
 
-              <Typography color="gray-11" size="sm">
-                {label}
-              </Typography>
-            </View>
-          ))}
+            return (
+              <Component
+                disabled={disabled}
+                hitSlop={getSpace(4)}
+                key={index}
+                onPress={onPress}
+                style={tw`flex-row items-center gap-1`}
+              >
+                <Icon
+                  color={color ?? 'gray-11'}
+                  name={icon}
+                  style={tw`h-4 w-4`}
+                />
+
+                <Typography color={color ?? 'gray-11'} size="sm">
+                  {label}
+                </Typography>
+              </Component>
+            )
+          })}
         </View>
       </Pressable>
     </View>

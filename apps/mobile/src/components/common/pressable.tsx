@@ -15,6 +15,7 @@ type Props = Pick<
   PressableProps,
   | 'children'
   | 'disabled'
+  | 'hitSlop'
   | 'onLongPress'
   | 'onPress'
   | 'onPressIn'
@@ -28,6 +29,7 @@ const PressableAnimated = Animated.createAnimatedComponent(PressableReactNative)
 export const Pressable: FunctionComponent<Props> = ({
   children,
   disabled,
+  hitSlop,
   onLongPress,
   onPress,
   onPressIn,
@@ -55,6 +57,7 @@ export const Pressable: FunctionComponent<Props> = ({
   return (
     <PressableAnimated
       disabled={disabled}
+      hitSlop={hitSlop}
       onLongPress={onLongPress}
       onPress={onPress}
       onPressIn={(event) => {

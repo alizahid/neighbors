@@ -13,6 +13,7 @@ import {
   CommentCreateSchema,
   type CommentCreateView,
 } from '~/schemas/comments/create'
+import { useBuildingStore } from '~/stores/building'
 
 import { IconButton } from '../common/icon-button'
 import { Input } from '../common/input'
@@ -35,6 +36,8 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
 
     const t = useTranslations('component.comments.form')
 
+    const { buildingId } = useBuildingStore()
+
     useImperativeHandle(ref, () => ({
       focus: () => setFocus('body'),
     }))
@@ -49,37 +52,68 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
           {
             postId,
           },
-          (comments) =>
-            produce(comments, (next) => {
-              if (!next) {
-                return next
-              }
+          (data) => {
+            if (!data) {
+              return data
+            }
 
+            return produce(data, (next) => {
               next.comments.push(comment)
             })
+          }
         )
 
         utils.posts.get.setData(
           {
             id: postId,
           },
-          (post) =>
-            produce(post, (next) => {
-              if (!next) {
-                return next
-              }
+          (data) => {
+            if (!data) {
+              return data
+            }
 
+            return produce(data, (next) => {
               next._count.comments += 1
             })
+          }
         )
 
-        setValue('body', '')
+        if (buildingId) {
+          utils.posts.list.setInfiniteData(
+            {
+              buildingId,
+            },
+            (data) => {
+              if (!data) {
+                return data
+              }
+
+              return produce(data, (next) => {
+                const pageIndex = next?.pages.findIndex(
+                  ({ posts }) => posts.findIndex(({ id }) => id === postId) >= 0
+                )
+
+                const postIndex = next.pages[pageIndex]?.posts.findIndex(
+                  ({ id }) => id === postId
+                )
+
+                const item = next.pages[pageIndex]?.posts[postIndex]
+
+                if (item) {
+                  item._count.comments += 1
+                }
+              })
+            }
+          )
+        }
+
+        reset()
 
         onComment?.()
       },
     })
 
-    const { control, handleSubmit, setFocus, setValue } =
+    const { control, handleSubmit, reset, setFocus } =
       useForm<CommentCreateView>({
         defaultValues: {
           body: '',

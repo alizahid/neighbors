@@ -32,6 +32,31 @@
   },
   "screen": {
     "account": {
+      "menu": {
+        "account": {
+          "buildings": "Manage buildings",
+          "profile": "Update profile",
+          "title": "Account"
+        },
+        "security": {
+          "exit": "Sign out",
+          "title": "Security"
+        }
+      },
+      "profile": {
+        "form": {
+          "bio": {
+            "label": "About"
+          },
+          "name": {
+            "error": "Name is required",
+            "label": "Name"
+          },
+          "submit": "Save",
+          "success": "Profile updated!"
+        },
+        "title": "Update profile"
+      },
       "title": "Account"
     },
     "auth": {

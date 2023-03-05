@@ -9,6 +9,6 @@ type Props = Pick<ActivityIndicatorProps, 'size' | 'style'> & {
 
 export const Spinner: FunctionComponent<Props> = ({
   color = 'primary-11',
-  size,
+  size = 'small',
   style,
 }) => <ActivityIndicator color={getColor(color)} size={size} style={style} />

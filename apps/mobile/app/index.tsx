@@ -36,7 +36,11 @@ const Screen: FunctionComponent = () => {
   }
 
   if (profile) {
-    return <Redirect href="/home" />
+    if (profile.residencies.length > 0) {
+      return <Redirect href="/home" />
+    }
+
+    return <Redirect href="/auth/onboarding" />
   }
 
   return (

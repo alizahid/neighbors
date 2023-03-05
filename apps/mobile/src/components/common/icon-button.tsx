@@ -31,10 +31,6 @@ export const IconButton: FunctionComponent<Props> = ({
     onPress={onPress}
     style={[tw`h-12 w-12 items-center justify-center`, style]}
   >
-    {loading ? (
-      <Spinner color={color} size="small" />
-    ) : (
-      <Icon color={color} name={name} />
-    )}
+    {loading ? <Spinner color={color} /> : <Icon color={color} name={name} />}
   </Pressable>
 )

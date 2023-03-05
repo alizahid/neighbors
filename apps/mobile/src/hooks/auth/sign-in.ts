@@ -28,9 +28,9 @@ export const useSignIn = () => {
           throw new Error(error.message)
         }
 
-        refetch()
+        await refetch()
 
-        router.back()
+        router.replace('/home')
       } catch (error) {
         setError(error.message)
       } finally {

@@ -65,9 +65,7 @@ export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
             <IconButton
               loading={uploading}
               name="uploadImage"
-              onPress={() => {
-                picker.current?.open()
-              }}
+              onPress={() => picker.current?.open()}
               style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
             />
           </ImagePicker>

@@ -55,8 +55,9 @@ const Screen: FunctionComponent = () => {
   return (
     <ScrollView
       contentContainerStyle={tw`flex-grow justify-end gap-4 p-4`}
+      keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
-      style={tw.style('flex-1', !keyboard.visible && `mb-[${bottom}px]`)}
+      style={tw.style(!keyboard.visible && `mb-[${bottom}px]`)}
     >
       {!!error && <Message variant="error">{error}</Message>}
 

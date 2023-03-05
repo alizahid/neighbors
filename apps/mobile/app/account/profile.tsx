@@ -1,51 +1,55 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFocusEffect, useNavigation } from 'expo-router'
-import { type FunctionComponent } from 'react'
+import { type FunctionComponent, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
-import { z } from 'zod'
 
+import { AvatarUploader } from '~/components/common/avatar-uploader'
 import { Button } from '~/components/common/button'
 import { Input } from '~/components/common/input'
 import { Message } from '~/components/common/message'
-import { useSignUp } from '~/hooks/auth/sign-up'
+import { useProfile } from '~/hooks/auth/profile'
 import { useKeyboard } from '~/hooks/keyboard'
 import { tw } from '~/lib/tailwind'
-
-const schema = z.object({
-  email: z.string().email(),
-  name: z.string().min(2),
-  password: z.string().min(6),
-})
-
-type Schema = z.infer<typeof schema>
+import { trpc } from '~/lib/trpc'
+import { UserUpdateSchema, type UserUpdateView } from '~/schemas/users/update'
 
 const Screen: FunctionComponent = () => {
   const { bottom } = useSafeAreaInsets()
 
   const navigation = useNavigation()
 
-  const t = useTranslations('screen.auth.signUp')
+  const t = useTranslations('screen.account.profile')
+
+  const { profile } = useProfile()
 
   const keyboard = useKeyboard()
 
-  const { error, loading, signUp } = useSignUp()
+  const [uploading, setUploading] = useState(false)
 
-  const { control, handleSubmit, setFocus } = useForm<Schema>({
-    defaultValues: {
-      email: '',
-      name: '',
-      password: '',
+  const utils = trpc.useContext()
+
+  const updateProfile = trpc.users.update.useMutation({
+    onSuccess() {
+      utils.users.profile.invalidate()
     },
-    resolver: zodResolver(schema),
+  })
+
+  const { control, handleSubmit, setFocus } = useForm<UserUpdateView>({
+    defaultValues: {
+      image: profile?.image ?? '',
+      meta: profile?.meta,
+      name: profile?.name,
+    },
+    resolver: zodResolver(UserUpdateSchema),
   })
 
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
 
-    return signUp(data)
+    return updateProfile.mutateAsync(data)
   })
 
   useFocusEffect(() => {
@@ -61,7 +65,29 @@ const Screen: FunctionComponent = () => {
       keyboardShouldPersistTaps="handled"
       style={tw.style(!keyboard.visible && `mb-[${bottom}px]`)}
     >
-      {!!error && <Message variant="error">{error}</Message>}
+      {updateProfile.isSuccess && (
+        <Message variant="success">{t('form.success')}</Message>
+      )}
+
+      <Controller
+        control={control}
+        name="image"
+        render={({ field: { onChange, ref, value } }) => (
+          <AvatarUploader
+            id={profile?.id}
+            name={profile?.name}
+            onChange={onChange}
+            onUploading={setUploading}
+            ref={ref}
+            style={tw`self-center`}
+            uploading={uploading}
+            value={value}
+          />
+        )}
+        rules={{
+          required: true,
+        }}
+      />
 
       <Controller
         control={control}
@@ -75,11 +101,12 @@ const Screen: FunctionComponent = () => {
             autoComplete="name"
             autoCorrect={false}
             error={error ? t('form.name.error') : undefined}
+            keyboardType="email-address"
             label={t('form.name.label')}
             onBlur={onBlur}
             onChangeText={onChange}
-            onSubmitEditing={() => setFocus('email')}
-            placeholder={t('form.name.placeholder')}
+            onSubmitEditing={() => setFocus('meta.bio')}
+            placeholder={t('form.name.label')}
             ref={ref}
             returnKeyType="next"
             value={value}
@@ -92,24 +119,16 @@ const Screen: FunctionComponent = () => {
 
       <Controller
         control={control}
-        name="email"
-        render={({
-          field: { onBlur, onChange, ref, value },
-          fieldState: { error },
-        }) => (
+        name="meta.bio"
+        render={({ field: { onBlur, onChange, ref, value } }) => (
           <Input
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect={false}
-            error={error ? t('form.email.error') : undefined}
-            keyboardType="email-address"
-            label={t('form.email.label')}
+            label={t('form.bio.label')}
+            multiline
             onBlur={onBlur}
             onChangeText={onChange}
-            onSubmitEditing={() => setFocus('password')}
-            placeholder={t('form.email.placeholder')}
+            placeholder={t('form.bio.label')}
             ref={ref}
-            returnKeyType="next"
+            returnKeyType="done"
             value={value}
           />
         )}
@@ -118,33 +137,11 @@ const Screen: FunctionComponent = () => {
         }}
       />
 
-      <Controller
-        control={control}
-        name="password"
-        render={({
-          field: { onBlur, onChange, ref, value },
-          fieldState: { error },
-        }) => (
-          <Input
-            autoCapitalize="none"
-            error={error ? t('form.password.error') : undefined}
-            label={t('form.password.label')}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            onSubmitEditing={onSubmit}
-            placeholder={t('form.password.placeholder')}
-            ref={ref}
-            returnKeyType="go"
-            secureTextEntry
-            value={value}
-          />
-        )}
-        rules={{
-          required: true,
-        }}
-      />
-
-      <Button loading={loading} onPress={onSubmit}>
+      <Button
+        disabled={uploading}
+        loading={updateProfile.isLoading}
+        onPress={onSubmit}
+      >
         {t('form.submit')}
       </Button>
     </ScrollView>

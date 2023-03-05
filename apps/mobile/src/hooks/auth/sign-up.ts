@@ -47,9 +47,9 @@ export const useSignUp = () => {
           name,
         })
 
-        refetch()
+        await refetch()
 
-        router.back()
+        router.replace('/auth/onboarding')
       } catch (error) {
         setError(error.message)
       } finally {

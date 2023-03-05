@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { db } from '~/lib/prisma'
+import { UserUpdateSchema } from '~/schemas/users/update'
 
 import { isLoggedIn, isNotNull } from '../helpers'
 import { type server } from '../index'
@@ -40,4 +41,18 @@ export const users = (t: typeof server) =>
           },
         })
       }),
+    update: t.procedure.input(UserUpdateSchema).mutation(({ ctx, input }) => {
+      isLoggedIn(ctx)
+
+      return db.user.update({
+        data: {
+          image: input.image,
+          meta: input.meta,
+          name: input.name,
+        },
+        where: {
+          id: ctx.user.id,
+        },
+      })
+    }),
   })

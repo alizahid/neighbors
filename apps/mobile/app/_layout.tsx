@@ -1,11 +1,11 @@
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { IntlProvider } from 'use-intl'
 
-import { StackHeader } from '~/components/navigation/header'
+import { Root } from '~/components/navigation/root'
 import en from '~/intl/en.json'
 import { fonts } from '~/lib/fonts'
 import { tw } from '~/lib/tailwind'
@@ -35,32 +35,7 @@ const Layout: FunctionComponent = () => {
               enabled={Platform.OS === 'ios'}
               style={tw`flex-1`}
             >
-              <Stack
-                screenOptions={{
-                  header: (props) => <StackHeader {...props} />,
-                }}
-              >
-                <Stack.Screen
-                  name="posts/new"
-                  options={{
-                    presentation: 'modal',
-                  }}
-                />
-
-                <Stack.Screen
-                  name="posts/[id]"
-                  options={{
-                    presentation: 'modal',
-                  }}
-                />
-
-                <Stack.Screen
-                  name="users/[id]"
-                  options={{
-                    presentation: 'modal',
-                  }}
-                />
-              </Stack>
+              <Root />
             </KeyboardAvoidingView>
           </PresenceProvider>
         </IntlProvider>

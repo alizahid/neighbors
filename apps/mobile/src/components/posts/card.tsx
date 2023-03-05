@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
-import { type FunctionComponent } from 'react'
+import { compact } from 'lodash'
+import { type FunctionComponent, useMemo } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl, useTranslations } from 'use-intl'
 
@@ -37,25 +38,33 @@ export const PostCard: FunctionComponent<Props> = ({
     icon: IconName
     iconColor?: TailwindColor
     label: string
-  }> = [
-    {
-      icon: 'like',
-      iconColor: post.likes.length > 0 ? 'primary-11' : undefined,
-      label: intl.formatNumber(post._count.likes, {
-        notation: 'compact',
-      }),
-    },
-    {
-      icon: 'comment',
-      label: intl.formatNumber(post._count.comments, {
-        notation: 'compact',
-      }),
-    },
-    {
-      icon: 'clock',
-      label: intl.formatRelativeTime(post.createdAt),
-    },
-  ]
+  }> = useMemo(
+    () =>
+      compact([
+        {
+          icon: 'like',
+          iconColor: post.likes.length > 0 ? 'primary-11' : undefined,
+          label: intl.formatNumber(post._count.likes, {
+            notation: 'compact',
+          }),
+        },
+        {
+          icon: 'comment',
+          label: intl.formatNumber(post._count.comments, {
+            notation: 'compact',
+          }),
+        },
+        post.type === 'item' && {
+          icon: 'boxes',
+          label: intl.formatNumber(post.meta.quantity ?? 1),
+        },
+        {
+          icon: 'clock',
+          label: intl.formatRelativeTime(post.createdAt),
+        },
+      ]),
+    [intl, post]
+  )
 
   return (
     <View style={[tw`gap-4`, style]}>
@@ -73,9 +82,28 @@ export const PostCard: FunctionComponent<Props> = ({
           {post.user.name}
         </Typography>
 
-        <View style={tw`bg-lime-3 px-1 py-0.5 rounded`}>
-          <Typography color="lime-11" size="xs" weight="medium">
-            {t('type')}
+        <View
+          style={tw.style(
+            'px-1 py-0.5 rounded',
+            post.type === 'post'
+              ? 'bg-lime-3'
+              : post.type === 'item'
+              ? 'bg-sky-3'
+              : 'bg-amber-3'
+          )}
+        >
+          <Typography
+            color={
+              post.type === 'post'
+                ? 'lime-11'
+                : post.type === 'item'
+                ? 'sky-11'
+                : 'amber-11'
+            }
+            size="xs"
+            weight="medium"
+          >
+            {t(`type.${post.type}`)}
           </Typography>
         </View>
       </Pressable>
@@ -85,6 +113,23 @@ export const PostCard: FunctionComponent<Props> = ({
         onPress={() => router.push(`/posts/${post.id}`)}
         style={tw`gap-4`}
       >
+        {post.type === 'item' && (
+          <View style={tw`flex-row gap-4`}>
+            <Typography size="xl" style={tw`flex-1`} weight="medium">
+              {post.meta.product}
+            </Typography>
+
+            {!!post.meta.price && (
+              <Typography size="xl" weight="semibold">
+                {intl.formatNumber(post.meta.price, {
+                  currency: post.meta.currency,
+                  style: 'currency',
+                })}
+              </Typography>
+            )}
+          </View>
+        )}
+
         <Typography>{post.body}</Typography>
 
         <Gallery

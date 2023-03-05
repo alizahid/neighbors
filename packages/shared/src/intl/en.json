@@ -20,14 +20,13 @@
         "label": "Images"
       }
     },
-    "items": {
-      "card": {
-        "type": "Item"
-      }
-    },
     "posts": {
       "card": {
-        "type": "Post"
+        "type": {
+          "ad": "Ad",
+          "item": "Item",
+          "post": "Post"
+        }
       }
     }
   },

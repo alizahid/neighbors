@@ -23,7 +23,6 @@ import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
 import { Refresher } from '~/components/common/refresher'
 import { Typography } from '~/components/common/typography'
-import { ItemCard } from '~/components/items/card'
 import { PostCard } from '~/components/posts/card'
 import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
@@ -107,19 +106,11 @@ const Screen: FunctionComponent = () => {
       ListFooterComponentStyle={tw`mt-auto`}
       ListHeaderComponent={
         <View>
-          {post.data.type === 'item' ? (
-            <ItemCard
-              disabled
-              item={post.data}
-              style={tw`border-b border-gray-6 p-4`}
-            />
-          ) : (
-            <PostCard
-              disabled
-              post={post.data}
-              style={tw`border-b border-gray-6 p-4`}
-            />
-          )}
+          <PostCard
+            disabled
+            post={post.data}
+            style={tw`border-b border-gray-6 p-4`}
+          />
 
           <View style={tw`flex-row items-center justify-between`}>
             <Typography style={tw`mx-4`} weight="semibold">

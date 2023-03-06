@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns'
+import { parseJSON } from 'date-fns'
 import { z } from 'zod'
 
 export const ChatChannelSchema = z.object({
@@ -8,14 +8,14 @@ export const ChatChannelSchema = z.object({
       checkedAt: z
         .string()
         .nullable()
-        .transform((value) => (value ? parseISO(value) : null)),
+        .transform((value) => (value ? parseJSON(value) : null)),
       image: z.string().nullable(),
       name: z.string(),
       userId: z.string().uuid(),
     })
   ),
   message: z.string().nullable(),
-  updatedAt: z.string().transform((value) => parseISO(value)),
+  updatedAt: z.string().transform((value) => parseJSON(value)),
 })
 
 export type ChatChannelView = z.infer<typeof ChatChannelSchema>

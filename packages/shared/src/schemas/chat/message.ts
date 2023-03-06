@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns'
+import { parseJSON } from 'date-fns'
 import { z } from 'zod'
 
 import { AttachmentsSchema } from '../attachments'
@@ -6,7 +6,7 @@ import { ChatUserSchema } from './user'
 
 export const ChatMessageSchema = z.object({
   body: z.string(),
-  createdAt: z.string().transform((value) => parseISO(value)),
+  createdAt: z.string().transform((value) => parseJSON(value)),
   grouping: z.enum(['single', 'top', 'middle', 'bottom']).optional(),
   id: z.string().cuid(),
   meta: z.object({

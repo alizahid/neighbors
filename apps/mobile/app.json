@@ -9,7 +9,8 @@
         {
           "photosPermission": "Nearbuds accesses your photos to let you share them with your neighbors."
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }

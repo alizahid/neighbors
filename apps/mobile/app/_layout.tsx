@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
+import { getCalendars } from 'expo-localization'
 import { SplashScreen } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
@@ -12,6 +13,8 @@ import { tw } from '~/lib/tailwind'
 import { theme } from '~/lib/theme'
 import { ApiProvider } from '~/providers/api'
 import { PresenceProvider } from '~/providers/presence'
+
+const [calendar] = getCalendars()
 
 const Layout: FunctionComponent = () => {
   const [loaded] = useFonts(fonts)
@@ -27,7 +30,7 @@ const Layout: FunctionComponent = () => {
           locale="en"
           messages={en}
           now={new Date()}
-          timeZone="Asia/Dubai"
+          timeZone={calendar?.timeZone ?? 'Asia/Dubai'}
         >
           <PresenceProvider>
             <KeyboardAvoidingView

@@ -19,27 +19,6 @@ export const Root: FunctionComponent = () => {
         gestureEnabled: !(route.name === '(home)' && !!profile),
         header: (props) => <StackHeader {...props} />,
       })}
-    >
-      <Stack.Screen
-        name="posts/new"
-        options={{
-          presentation: 'modal',
-        }}
-      />
-
-      <Stack.Screen
-        name="posts/[id]"
-        options={{
-          presentation: 'modal',
-        }}
-      />
-
-      <Stack.Screen
-        name="users/[id]"
-        options={{
-          presentation: 'modal',
-        }}
-      />
-    </Stack>
+    />
   )
 }

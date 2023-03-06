@@ -30,7 +30,7 @@ const Screen: FunctionComponent = () => {
 
   const id = String(params.id)
 
-  const { channel, connected, messages } = useChat(id)
+  const { channel, connected, loading, messages } = useChat(id)
   const { users } = usePresence()
 
   useFocusEffect(() => {
@@ -54,19 +54,21 @@ const Screen: FunctionComponent = () => {
   return (
     <>
       <FlashList
-        ListEmptyComponent={() => (
-          <Empty
-            style={{
-              transform: [
-                {
-                  scaleY: -1,
-                },
-              ],
-            }}
-            title={t('empty.title')}
-          />
-        )}
-        contentContainerStyle={tw`py-4 bg-gray-1`}
+        ListEmptyComponent={() =>
+          loading ? null : (
+            <Empty
+              style={{
+                transform: [
+                  {
+                    scaleY: -1,
+                  },
+                ],
+              }}
+              title={t('empty.title')}
+            />
+          )
+        }
+        contentContainerStyle={tw`py-4`}
         data={messages}
         estimatedItemSize={100}
         inverted

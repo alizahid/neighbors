@@ -56,20 +56,23 @@ export const useChat = (channelId: string) => {
 
   const { mutateAsync: markChecked } = trpc.chat.markChecked.useMutation({
     onSuccess({ userId }) {
-      queryClient.setQueryData<Array<ChatChannelView>>(['channels'], (data) =>
-        produce(data, (next) => {
-          if (!next) {
-            return next
-          }
+      queryClient.setQueryData<Array<ChatChannelView>>(['channels'], (data) => {
+        if (!data) {
+          return data
+        }
 
-          const channelIndex = next.findIndex(({ id }) => id === channelId)
-          const memberIndex = next[channelIndex].members.findIndex(
+        return produce(data, (next) => {
+          const channel = next.find(({ id }) => id === channelId)
+
+          const member = channel?.members.find(
             (member) => member.userId === userId
           )
 
-          next[channelIndex].members[memberIndex].checkedAt = new Date()
+          if (member) {
+            member.checkedAt = new Date()
+          }
         })
-      )
+      })
     },
   })
 

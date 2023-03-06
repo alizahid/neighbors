@@ -42,16 +42,17 @@ export const useChannels = () => {
             schema: 'public',
             table: 'Channel',
           },
-          (payload) => {
+          (payload) =>
             setChannels((channels) =>
               produce(channels, (next) => {
-                const index = next.findIndex(({ id }) => id === payload.new.id)
+                const channel = next.find(({ id }) => id === payload.new.id)
 
-                next[index].message = payload.new.message
-                next[index].updatedAt = new Date()
+                if (channel) {
+                  channel.message = payload.new.message
+                  channel.updatedAt = new Date()
+                }
               })
             )
-          }
         )
         .subscribe((status) => setConnected(status === 'SUBSCRIBED'))
 

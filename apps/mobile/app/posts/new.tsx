@@ -41,8 +41,6 @@ const Screen: FunctionComponent = () => {
 
   const createPost = trpc.posts.create.useMutation({
     onSuccess(id) {
-      router.back()
-
       router.push(`/posts/${id}`)
     },
   })

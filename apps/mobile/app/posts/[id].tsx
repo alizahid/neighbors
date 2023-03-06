@@ -52,7 +52,6 @@ const Screen: FunctionComponent = () => {
 
   const startChat = trpc.chat.start.useMutation({
     onSuccess(id) {
-      router.back()
       router.push(`/chat/${id}`)
     },
   })
@@ -92,53 +91,53 @@ const Screen: FunctionComponent = () => {
   }
 
   return (
-    <FlashList
-      ItemSeparatorComponent={() => <View style={tw`h-4`} />}
-      ListEmptyComponent={() => <Empty title={t('comments.empty')} />}
-      ListFooterComponent={() => (
-        <CommentForm
-          onComment={() => list.current?.scrollToEnd()}
-          postId={id}
-          ref={commentForm}
-          style={tw`mt-4`}
-        />
-      )}
-      ListFooterComponentStyle={tw`mt-auto`}
-      ListHeaderComponent={
-        <View>
-          <PostCard
-            disabled
-            post={post.data}
-            style={tw`border-b border-gray-6 p-4`}
-          />
-
-          <View style={tw`flex-row items-center justify-between`}>
-            <Typography style={tw`mx-4`} weight="semibold">
-              {t('comments.title', {
-                count: comments.data.comments.length,
-              })}
-            </Typography>
-
-            <IconButton
-              name="add"
-              onPress={() => commentForm.current?.focus()}
+    <>
+      <FlashList
+        ItemSeparatorComponent={() => <View style={tw`h-4`} />}
+        ListEmptyComponent={() => <Empty title={t('comments.empty')} />}
+        ListHeaderComponent={
+          <View>
+            <PostCard
+              disabled
+              post={post.data}
+              style={tw`border-b border-gray-6 p-4`}
             />
+
+            <View style={tw`flex-row items-center justify-between`}>
+              <Typography style={tw`mx-4`} weight="semibold">
+                {t('comments.title', {
+                  count: comments.data.comments.length,
+                })}
+              </Typography>
+
+              <IconButton
+                name="add"
+                onPress={() => commentForm.current?.focus()}
+              />
+            </View>
           </View>
-        </View>
-      }
-      automaticallyAdjustKeyboardInsets
-      contentContainerStyle={tw`bg-gray-1`}
-      data={comments.data.comments}
-      estimatedItemSize={COMMENT_CARD_HEIGHT}
-      keyboardShouldPersistTaps="handled"
-      ref={list}
-      refreshControl={
-        <Refresher
-          onRefresh={() => Promise.all([post.refetch(), comments.refetch()])}
-        />
-      }
-      renderItem={({ item }) => <CommentCard comment={item} style={tw`mx-4`} />}
-    />
+        }
+        contentContainerStyle={tw`pb-4`}
+        data={comments.data.comments}
+        estimatedItemSize={COMMENT_CARD_HEIGHT}
+        keyboardShouldPersistTaps="handled"
+        ref={list}
+        refreshControl={
+          <Refresher
+            onRefresh={() => Promise.all([post.refetch(), comments.refetch()])}
+          />
+        }
+        renderItem={({ item }) => (
+          <CommentCard comment={item} style={tw`mx-4`} />
+        )}
+      />
+
+      <CommentForm
+        onComment={() => list.current?.scrollToEnd()}
+        postId={id}
+        ref={commentForm}
+      />
+    </>
   )
 }
 

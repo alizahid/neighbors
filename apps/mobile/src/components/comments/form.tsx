@@ -89,18 +89,14 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
               }
 
               return produce(data, (next) => {
-                const pageIndex = next?.pages.findIndex(
+                const page = next?.pages.find(
                   ({ posts }) => posts.findIndex(({ id }) => id === postId) >= 0
                 )
 
-                const postIndex = next.pages[pageIndex]?.posts.findIndex(
-                  ({ id }) => id === postId
-                )
+                const post = page?.posts.find(({ id }) => id === postId)
 
-                const item = next.pages[pageIndex]?.posts[postIndex]
-
-                if (item) {
-                  item._count.comments += 1
+                if (post) {
+                  post._count.comments += 1
                 }
               })
             }

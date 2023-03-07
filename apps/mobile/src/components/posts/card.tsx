@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
 import { compact } from 'lodash'
-import { type FunctionComponent, useMemo } from 'react'
+import { type FunctionComponent, type ReactNode, useMemo } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useIntl, useTranslations } from 'use-intl'
 
@@ -12,6 +12,7 @@ import { type RouterOutput } from '~/trpc/types'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
+import { TimeAgo } from '../common/time-ago'
 import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
 import { Gallery } from './gallery'
@@ -24,7 +25,7 @@ type FooterItem = {
   color?: TailwindColor
   disabled?: boolean
   icon: IconName
-  label: string
+  label: ReactNode
 
   onPress?: () => void
 }
@@ -127,7 +128,7 @@ export const PostCard: FunctionComponent<Props> = ({
         },
         {
           icon: 'clock',
-          label: intl.formatRelativeTime(post.createdAt),
+          label: <TimeAgo>{post.createdAt}</TimeAgo>,
         },
       ]),
     [intl, post, like, liking]

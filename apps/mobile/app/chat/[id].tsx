@@ -4,18 +4,17 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { type FunctionComponent, useEffect, useRef } from 'react'
+import { type FunctionComponent, useEffect } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { ChatMessage } from '~/components/chat/message'
-import { ChatReply, type ChatReplyComponent } from '~/components/chat/reply'
+import { ChatReply } from '~/components/chat/reply'
 import { ChatStatusCard } from '~/components/chat/status'
 import { Empty } from '~/components/common/empty'
 import { useProfile } from '~/hooks/auth/profile'
 import { useChat } from '~/hooks/chat/chat'
 import { tw } from '~/lib/tailwind'
 import { usePresence } from '~/providers/presence'
-import { type ChatMessageView } from '~/schemas/chat/message'
 
 const Screen: FunctionComponent = () => {
   const navigation = useNavigation()
@@ -24,9 +23,6 @@ const Screen: FunctionComponent = () => {
   const t = useTranslations('screen.chat')
 
   const { profile } = useProfile()
-
-  const list = useRef<FlashList<ChatMessageView>>(null)
-  const chatReply = useRef<ChatReplyComponent>(null)
 
   const id = String(params.id)
 
@@ -73,7 +69,6 @@ const Screen: FunctionComponent = () => {
         estimatedItemSize={100}
         inverted
         keyboardShouldPersistTaps="handled"
-        ref={list}
         renderItem={({ index, item }) => (
           <ChatMessage
             first={index === messages.length - 1}
@@ -85,16 +80,7 @@ const Screen: FunctionComponent = () => {
         )}
       />
 
-      <ChatReply
-        channelId={id}
-        disabled={!connected}
-        onReply={() =>
-          list.current?.scrollToOffset({
-            offset: 0,
-          })
-        }
-        ref={chatReply}
-      />
+      <ChatReply channelId={id} disabled={!connected} />
     </>
   )
 }

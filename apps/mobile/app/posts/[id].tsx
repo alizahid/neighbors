@@ -132,11 +132,7 @@ const Screen: FunctionComponent = () => {
         )}
       />
 
-      <CommentForm
-        onComment={() => list.current?.scrollToEnd()}
-        postId={id}
-        ref={commentForm}
-      />
+      <CommentForm postId={id} ref={commentForm} />
     </>
   )
 }

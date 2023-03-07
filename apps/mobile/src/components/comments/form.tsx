@@ -25,13 +25,11 @@ export type CommentFormComponent = {
 type Props = {
   postId: string
   style?: StyleProp<ViewStyle>
-
-  onComment?: () => void
 }
 
 // eslint-disable-next-line react/display-name
 export const CommentForm = forwardRef<CommentFormComponent, Props>(
-  ({ onComment, postId, style }, ref) => {
+  ({ postId, style }, ref) => {
     const { bottom } = useSafeAreaInsets()
 
     const t = useTranslations('component.comments.form')
@@ -104,8 +102,6 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
         }
 
         reset()
-
-        onComment?.()
       },
     })
 

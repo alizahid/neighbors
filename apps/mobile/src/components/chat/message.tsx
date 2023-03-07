@@ -67,9 +67,11 @@ export const ChatMessage: FunctionComponent<Props> = ({
             'px-2 py-1',
             mine ? 'bg-primary-9' : 'bg-accent-9',
             message.grouping === 'single' && 'rounded-lg',
-            message.grouping === 'top' && 'rounded-t-lg rounded-b',
-            message.grouping === 'middle' && 'rounded',
-            message.grouping === 'bottom' && 'rounded-b-lg rounded-t'
+            message.grouping === 'top' &&
+              'rounded-t-lg rounded-br rounded-bl-lg',
+            message.grouping === 'middle' && 'rounded-r rounded-l-lg',
+            message.grouping === 'bottom' &&
+              'rounded-b-lg rounded-tr rounded-tl-lg'
           )}
         >
           <Typography color="gray-1">{message.body}</Typography>

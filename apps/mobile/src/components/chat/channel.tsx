@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useIntl } from 'use-intl'
 
 import { tw } from '~/lib/tailwind'
 import { usePresence } from '~/providers/presence'
 import { type ChatChannelView } from '~/schemas/chat/channel'
 
 import { Pressable } from '../common/pressable'
+import { TimeAgo } from '../common/time-ago'
 import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
 
@@ -23,8 +23,6 @@ export const ChannelCard: FunctionComponent<Props> = ({
   userId,
 }) => {
   const router = useRouter()
-
-  const intl = useIntl()
 
   const { users } = usePresence()
 
@@ -47,7 +45,7 @@ export const ChannelCard: FunctionComponent<Props> = ({
           <Typography weight="medium">{them?.name}</Typography>
 
           <Typography color="gray-11" size="sm">
-            {intl.formatRelativeTime(channel.updatedAt)}
+            <TimeAgo>{channel.updatedAt}</TimeAgo>
           </Typography>
         </View>
 

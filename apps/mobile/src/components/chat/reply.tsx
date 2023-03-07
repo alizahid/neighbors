@@ -26,13 +26,11 @@ type Props = {
   channelId: string
   disabled?: boolean
   style?: StyleProp<ViewStyle>
-
-  onReply?: () => void
 }
 
 // eslint-disable-next-line react/display-name
 export const ChatReply = forwardRef<ChatReplyComponent, Props>(
-  ({ channelId, disabled, onReply, style }, ref) => {
+  ({ channelId, disabled, style }, ref) => {
     const { bottom } = useSafeAreaInsets()
 
     const t = useTranslations('component.chat.reply')
@@ -48,8 +46,6 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
     const send = trpc.chat.send.useMutation({
       onSuccess() {
         reset()
-
-        onReply?.()
       },
     })
 

@@ -1,6 +1,6 @@
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useIntl } from 'use-intl'
+import { useFormatter } from 'use-intl'
 
 import { tw } from '~/lib/tailwind'
 import { type ChatMessageView } from '~/schemas/chat/message'
@@ -24,7 +24,7 @@ export const ChatMessage: FunctionComponent<Props> = ({
   style,
   userId,
 }) => {
-  const intl = useIntl()
+  const formatter = useFormatter()
 
   const mine = message.user.id === userId
 
@@ -86,7 +86,7 @@ export const ChatMessage: FunctionComponent<Props> = ({
 
         {(message.grouping === 'single' || message.grouping === 'bottom') && (
           <Typography color="gray-11" size="xs" style={tw`mt-1`}>
-            {intl.formatDateTime(message.createdAt, {
+            {formatter.dateTime(message.createdAt, {
               timeStyle: 'short',
             })}
           </Typography>

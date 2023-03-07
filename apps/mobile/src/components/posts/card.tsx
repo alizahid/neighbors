@@ -3,7 +3,7 @@ import { produce } from 'immer'
 import { compact } from 'lodash'
 import { type FunctionComponent, type ReactNode, useMemo } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useIntl, useTranslations } from 'use-intl'
+import { useFormatter, useTranslations } from 'use-intl'
 
 import { getSpace, type TailwindColor, tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
@@ -43,9 +43,8 @@ export const PostCard: FunctionComponent<Props> = ({
 }) => {
   const router = useRouter()
 
+  const formatter = useFormatter()
   const t = useTranslations('component.posts.card')
-
-  const intl = useIntl()
 
   const { buildingId } = useBuildingStore()
 
@@ -108,7 +107,7 @@ export const PostCard: FunctionComponent<Props> = ({
           color: post.liked ? 'green-9' : undefined,
           disabled: liking,
           icon: 'like',
-          label: intl.formatNumber(post._count.likes, {
+          label: formatter.number(post._count.likes, {
             notation: 'compact',
           }),
           onPress: () =>
@@ -118,20 +117,20 @@ export const PostCard: FunctionComponent<Props> = ({
         },
         {
           icon: 'comment',
-          label: intl.formatNumber(post._count.comments, {
+          label: formatter.number(post._count.comments, {
             notation: 'compact',
           }),
         },
         post.type === 'item' && {
           icon: 'boxes',
-          label: intl.formatNumber(post.meta.quantity ?? 1),
+          label: formatter.number(post.meta.quantity ?? 1),
         },
         {
           icon: 'clock',
           label: <TimeAgo>{post.createdAt}</TimeAgo>,
         },
       ]),
-    [intl, post, like, liking]
+    [formatter, like, liking, post]
   )
 
   return (
@@ -189,7 +188,7 @@ export const PostCard: FunctionComponent<Props> = ({
 
             {!!post.meta.price && (
               <Typography size="xl" weight="semibold">
-                {intl.formatNumber(post.meta.price, {
+                {formatter.number(post.meta.price, {
                   currency: post.meta.currency,
                   style: 'currency',
                 })}

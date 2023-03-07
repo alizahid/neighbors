@@ -1,6 +1,6 @@
 import { differenceInSeconds } from 'date-fns'
 import { type FunctionComponent } from 'react'
-import { useIntl, useNow } from 'use-intl'
+import { useFormatter, useNow } from 'use-intl'
 
 const minute = 60
 const hour = minute * 60
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const TimeAgo: FunctionComponent<Props> = ({ children }) => {
-  const intl = useIntl()
+  const formatter = useFormatter()
 
   const difference = Math.abs(differenceInSeconds(children, new Date()))
 
@@ -31,5 +31,5 @@ export const TimeAgo: FunctionComponent<Props> = ({ children }) => {
     updateInterval: interval ? interval * 1_000 : undefined,
   })
 
-  return <>{intl.formatRelativeTime(children, now)}</>
+  return <>{formatter.relativeTime(children, now)}</>
 }

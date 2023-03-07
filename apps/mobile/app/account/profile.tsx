@@ -1,13 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFocusEffect, useNavigation } from 'expo-router'
-import { type FunctionComponent, useState } from 'react'
+import { type FunctionComponent, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
 import { AvatarUploader } from '~/components/common/avatar-uploader'
-import { Button } from '~/components/common/button'
+import { HeaderButton } from '~/components/common/header-button'
 import { Input } from '~/components/common/input'
 import { Message } from '~/components/common/message'
 import { useProfile } from '~/hooks/auth/profile'
@@ -57,6 +57,20 @@ const Screen: FunctionComponent = () => {
       title: t('title'),
     })
   })
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          disabled={uploading}
+          loading={updateProfile.isLoading}
+          onPress={onSubmit}
+        >
+          {t('form.submit')}
+        </HeaderButton>
+      ),
+    })
+  }, [navigation, onSubmit, t, updateProfile.isLoading, uploading])
 
   return (
     <ScrollView
@@ -128,7 +142,6 @@ const Screen: FunctionComponent = () => {
             onChangeText={onChange}
             placeholder={t('form.bio.label')}
             ref={ref}
-            returnKeyType="done"
             value={value}
           />
         )}
@@ -136,14 +149,6 @@ const Screen: FunctionComponent = () => {
           required: true,
         }}
       />
-
-      <Button
-        disabled={uploading}
-        loading={updateProfile.isLoading}
-        onPress={onSubmit}
-      >
-        {t('form.submit')}
-      </Button>
     </ScrollView>
   )
 }

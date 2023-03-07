@@ -42,8 +42,6 @@ export const Message: FunctionComponent<Props> = ({
       }
     />
 
-    <Typography size="sm" style={tw`flex-1`}>
-      {children}
-    </Typography>
+    <Typography style={tw`flex-1`}>{children}</Typography>
   </View>
 )

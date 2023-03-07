@@ -1,13 +1,13 @@
 import { BASE_URL } from '@env'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
-import { QueryClient } from '@tanstack/react-query'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
+import { focusManager, QueryClient } from '@tanstack/react-query'
 import {
   createTRPCReact,
   httpBatchLink,
   type HTTPHeaders,
 } from '@trpc/react-query'
-import { Platform } from 'react-native'
+import { AppState, Platform } from 'react-native'
 import transformer from 'superjson'
 
 import { type NeighborsRouter } from '~/trpc'
@@ -22,6 +22,14 @@ const url = __DEV__
       default: 'http://localhost:3000',
     })
   : BASE_URL
+
+focusManager.setEventListener((handleFocus) => {
+  const subscription = AppState.addEventListener('change', (state) =>
+    handleFocus(state === 'active')
+  )
+
+  return () => subscription.remove()
+})
 
 export const trpcClient = trpc.createClient({
   links: [
@@ -44,3 +52,9 @@ export const trpcClient = trpc.createClient({
 })
 
 export const queryClient = new QueryClient()
+
+export const asyncStoragePersister = createAsyncStoragePersister({
+  deserialize: transformer.parse,
+  serialize: transformer.stringify,
+  storage: AsyncStorage,
+})

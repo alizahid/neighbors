@@ -4,6 +4,7 @@ import { produce } from 'immer'
 import { useCallback, useState } from 'react'
 
 import { supabase } from '~/lib/supabase'
+import { queryClient } from '~/lib/trpc'
 import { ChatChannelSchema, type ChatChannelView } from '~/schemas/chat/channel'
 import { type Database } from '~/types/supabase'
 
@@ -32,6 +33,8 @@ export const useChannels = () => {
   useFocusEffect(
     useCallback(() => {
       refetch()
+
+      queryClient.invalidateQueries(['chat', 'clerna90c06207fdhknm0v7l3'])
 
       const onChannelUpdate = supabase
         .channel('channels')

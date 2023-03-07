@@ -26,7 +26,7 @@ const Screen: FunctionComponent = () => {
 
   const id = String(params.id)
 
-  const { channel, connected, loading, messages } = useChat(id)
+  const { channel, connected, fetchMore, loading, messages } = useChat(id)
   const { users } = usePresence()
 
   useFocusEffect(() => {
@@ -69,6 +69,7 @@ const Screen: FunctionComponent = () => {
         estimatedItemSize={100}
         inverted
         keyboardShouldPersistTaps="handled"
+        onEndReached={fetchMore}
         renderItem={({ index, item }) => (
           <ChatMessage
             first={index === messages.length - 1}

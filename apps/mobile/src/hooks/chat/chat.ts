@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from 'expo-router'
 import { produce } from 'immer'
 import { useCallback, useMemo, useState } from 'react'
@@ -29,27 +29,32 @@ export const useChat = (channelId: string) => {
     }
   )
 
-  const { isLoading, refetch } = useQuery(
+  const { fetchNextPage, hasNextPage, isLoading, refetch } = useInfiniteQuery(
     ['chat', channelId],
-    async () => {
-      const { data } = await supabase
+    async ({ pageParam = 0 }) => {
+      const from = pageParam
+      const to = pageParam + 10
+
+      const { count, data } = await supabase
         .from('messages')
-        .select('*')
+        .select('*', {
+          count: 'exact',
+        })
         .eq('channelId', channelId)
         .order('createdAt', {
           ascending: false,
         })
-        .limit(100)
+        .range(from, to)
 
-      return data?.map((item) => ChatMessageSchema.parse(item))
+      return {
+        data: data?.map((item) => ChatMessageSchema.parse(item)) ?? [],
+        next: (count ?? 0) > to ? to + 1 : undefined,
+      }
     },
     {
+      getNextPageParam: ({ next }) => next,
       onSuccess(data) {
-        if (!data) {
-          return
-        }
-
-        setMessages(data)
+        setMessages(data.pages.flatMap(({ data }) => data))
       },
     }
   )
@@ -126,6 +131,11 @@ export const useChat = (channelId: string) => {
   return {
     channel,
     connected,
+    fetchMore: () => {
+      if (hasNextPage) {
+        fetchNextPage()
+      }
+    },
     loading: isLoading,
     messages: grouped,
     refetch,

@@ -9,11 +9,11 @@ const main = async () => {
   await prisma.like.deleteMany()
   await prisma.comment.deleteMany()
   await prisma.post.deleteMany()
-  await prisma.resident.deleteMany()
-  await prisma.user.deleteMany()
   await prisma.message.deleteMany()
   await prisma.member.deleteMany()
   await prisma.channel.deleteMany()
+  await prisma.resident.deleteMany()
+  await prisma.user.deleteMany()
 
   const ali = await prisma.user.upsert({
     create: {

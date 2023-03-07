@@ -1,5 +1,7 @@
 import { BASE_URL } from '@env'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import {
   createTRPCReact,
   httpBatchLink,

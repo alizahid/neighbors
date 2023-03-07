@@ -30,9 +30,9 @@ export const HeaderButton: FunctionComponent<Props> = ({
     style={[tw`h-12 px-3 items-center justify-center`, style]}
   >
     {loading ? (
-      <Spinner />
+      <Spinner color="accent-11" />
     ) : (
-      <Typography color="primary-11" weight="semibold">
+      <Typography color="accent-11" weight="semibold">
         {children}
       </Typography>
     )}

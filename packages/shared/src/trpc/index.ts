@@ -1,22 +1,17 @@
-import { initTRPC } from '@trpc/server'
 import { createNextApiHandler } from '@trpc/server/adapters/next'
-import transformer from 'superjson'
 
-import { type Context, createContext } from './context'
+import { createContext } from './context'
 import { chat } from './routers/chat'
 import { comments } from './routers/comments'
 import { posts } from './routers/posts'
 import { users } from './routers/users'
+import { t } from './server'
 
-export const server = initTRPC.context<Context>().create({
-  transformer,
-})
-
-export const router = server.router({
-  chat: chat(server),
-  comments: comments(server),
-  posts: posts(server),
-  users: users(server),
+export const router = t.router({
+  chat,
+  comments,
+  posts,
+  users,
 })
 
 export type NeighborsRouter = typeof router

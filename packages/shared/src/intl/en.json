@@ -1,8 +1,31 @@
 {
   "component": {
     "buildings": {
+      "form": {
+        "apartment": {
+          "label": "Apartment"
+        },
+        "floor": {
+          "label": "Floor"
+        },
+        "leave": {
+          "label": "Leave",
+          "message": "Are you sure you want to leave this building?",
+          "no": "No",
+          "title": "Are you sure?",
+          "yes": "Yes"
+        },
+        "submit": "Save",
+        "title": "Edit"
+      },
       "picker": {
         "title": "Pick building"
+      },
+      "residency": {
+        "code": {
+          "close": "Close",
+          "message": "Share this QR code with a neighbor and they can join {building}."
+        }
       }
     },
     "chat": {
@@ -32,6 +55,9 @@
   },
   "screen": {
     "account": {
+      "buildings": {
+        "title": "Manage buildings"
+      },
       "menu": {
         "account": {
           "buildings": "Manage buildings",
@@ -116,7 +142,14 @@
     "landing": {
       "signIn": "Sign in",
       "signUp": "Sign up",
-      "title": "<primary>near</primary><accent>buds</accent>"
+      "title": "<primary>Near</primary><accent>buds</accent>"
+    },
+    "onboarding": {
+      "message": "Nearbuds is an invite only app. Have a friend share their QR code so you can join the building.",
+      "notFound": "We couldn't find the building. Are you sure you scanned the right QR code?",
+      "scan": "Scan a building QR code to join.",
+      "success": "Welcome! Redirecting now.",
+      "title": "Onboarding"
     },
     "posts": {
       "new": {

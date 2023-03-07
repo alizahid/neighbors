@@ -5,7 +5,7 @@ import {
   type ViewStyle,
 } from 'react-native'
 
-import { tw } from '~/lib/tailwind'
+import { type TailwindColor, tw } from '~/lib/tailwind'
 
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
@@ -13,12 +13,14 @@ import { Typography } from './typography'
 
 type Props = Pick<PressableProps, 'disabled' | 'onPress'> & {
   children: ReactNode
+  color?: TailwindColor
   loading?: boolean
   style?: StyleProp<ViewStyle>
 }
 
 export const HeaderButton: FunctionComponent<Props> = ({
   children,
+  color = 'accent-11',
   disabled,
   loading,
   onPress,
@@ -27,12 +29,12 @@ export const HeaderButton: FunctionComponent<Props> = ({
   <Pressable
     disabled={loading || disabled}
     onPress={onPress}
-    style={[tw`h-12 px-3 items-center justify-center`, style]}
+    style={[tw`h-12 px-4 items-center justify-center`, style]}
   >
     {loading ? (
-      <Spinner color="accent-11" />
+      <Spinner color={color} />
     ) : (
-      <Typography color="accent-11" weight="semibold">
+      <Typography color={color} weight="semibold">
         {children}
       </Typography>
     )}

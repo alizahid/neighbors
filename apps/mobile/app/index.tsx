@@ -40,7 +40,7 @@ const Screen: FunctionComponent = () => {
       return <Redirect href="/home" />
     }
 
-    return <Redirect href="/auth/onboarding" />
+    return <Redirect href="/onboarding" />
   }
 
   return (

@@ -1,5 +1,5 @@
+import { useRouter } from 'expo-router'
 import { type FunctionComponent, useEffect, useState } from 'react'
-import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { useProfile } from '~/hooks/auth/profile'
@@ -11,8 +11,11 @@ import { IconButton } from '../common/icon-button'
 import { Modal } from '../common/modal'
 import { Pressable } from '../common/pressable'
 import { Typography } from '../common/typography'
+import { BuildingCard } from './card'
 
 export const BuildingPicker: FunctionComponent = () => {
+  const router = useRouter()
+
   const t = useTranslations('component.buildings.picker')
 
   const { profile } = useProfile()
@@ -43,9 +46,18 @@ export const BuildingPicker: FunctionComponent = () => {
       </Pressable>
 
       <Modal
-        actions={<IconButton name="add" />}
         inset
         onClose={() => setVisible(false)}
+        right={
+          <IconButton
+            name="add"
+            onPress={() => {
+              setVisible(false)
+
+              router.push('/onboarding')
+            }}
+          />
+        }
         scrollable
         style={tw`gap-4`}
         title={t('title')}
@@ -59,17 +71,11 @@ export const BuildingPicker: FunctionComponent = () => {
 
               setVisible(false)
             }}
-            style={tw`flex-row items-center gap-4`}
           >
-            <View style={tw`flex-1`}>
-              <Typography weight="medium">{building.name}</Typography>
-
-              <Typography color="gray-11" size="sm">
-                {[building.area, building.city].join(', ')}
-              </Typography>
-            </View>
-
-            {building.id === buildingId && <Icon name="ok" style={tw`-mr-1`} />}
+            <BuildingCard
+              building={building}
+              selected={building.id === buildingId}
+            />
           </Pressable>
         ))}
       </Modal>

@@ -36,7 +36,7 @@ const Screen: FunctionComponent = () => {
       ListHeaderComponent={
         <Pressable
           onPress={() => router.push(`/users/${profile?.id}`)}
-          style={tw`p-4 gap-4 flex-row items-center`}
+          style={tw`px-4 pt-4 pb-2 gap-4 flex-row items-center`}
         >
           <Avatar image={profile?.image} name={profile?.name} />
 
@@ -66,7 +66,7 @@ const Screen: FunctionComponent = () => {
         </Pressable>
       )}
       renderSectionHeader={({ section }) => (
-        <View style={tw`border-t border-gray-6 pt-4 pb-2 pl-11 pr-4`}>
+        <View style={tw`border-t border-gray-6 mt-2 pt-4 pb-2 pl-11 pr-4`}>
           <Typography color="gray-11" size="sm" weight="medium">
             {section.title}
           </Typography>

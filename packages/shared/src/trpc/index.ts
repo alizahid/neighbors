@@ -1,16 +1,20 @@
 import { createNextApiHandler } from '@trpc/server/adapters/next'
 
 import { createContext } from './context'
+import { buildings } from './routers/buildings'
 import { chat } from './routers/chat'
 import { comments } from './routers/comments'
 import { posts } from './routers/posts'
+import { residencies } from './routers/residencies'
 import { users } from './routers/users'
 import { t } from './server'
 
 export const router = t.router({
+  buildings,
   chat,
   comments,
   posts,
+  residencies,
   users,
 })
 

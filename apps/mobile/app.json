@@ -7,7 +7,13 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Nearbuds accesses your photos to let you share them with your neighbors."
+          "photosPermission": "Nearbuds needs access to your photos."
+        }
+      ],
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Nearbuds needs access to your camera."
         }
       ],
       "expo-localization"

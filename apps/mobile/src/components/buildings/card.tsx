@@ -19,6 +19,8 @@ export const BuildingCard: FunctionComponent<Props> = ({
   style,
 }) => (
   <View style={[tw`flex-row items-center gap-4`, style]}>
+    <Icon name={building.type} />
+
     <View style={tw`flex-1`}>
       <Typography weight="medium">{building.name}</Typography>
 
@@ -27,6 +29,6 @@ export const BuildingCard: FunctionComponent<Props> = ({
       </Typography>
     </View>
 
-    {selected && <Icon name="ok" style={tw`-mr-1`} />}
+    {selected && <View style={tw`h-2 w-2 bg-primary-9 rounded-full`} />}
   </View>
 )

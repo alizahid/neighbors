@@ -108,11 +108,13 @@ export const ResidencyForm: FunctionComponent<Props> = ({
         name="apartment"
         render={({ field: { onBlur, onChange, ref, value } }) => (
           <Input
-            label={t('apartment.label')}
+            label={t(`apartment.${residency?.building.type ?? 'apartment'}`)}
             onBlur={onBlur}
             onChangeText={onChange}
             onSubmitEditing={() => setFocus('floor')}
-            placeholder={t('apartment.label')}
+            placeholder={t(
+              `apartment.${residency?.building.type ?? 'apartment'}`
+            )}
             ref={ref}
             returnKeyType="next"
             value={value ?? ''}
@@ -125,11 +127,11 @@ export const ResidencyForm: FunctionComponent<Props> = ({
         name="floor"
         render={({ field: { onBlur, onChange, ref, value } }) => (
           <Input
-            label={t('floor.label')}
+            label={t(`floor.${residency?.building.type ?? 'apartment'}`)}
             onBlur={onBlur}
             onChangeText={onChange}
             onSubmitEditing={onSubmit}
-            placeholder={t('floor.label')}
+            placeholder={t(`floor.${residency?.building.type ?? 'apartment'}`)}
             ref={ref}
             returnKeyType="done"
             value={value ?? ''}

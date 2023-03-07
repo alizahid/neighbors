@@ -9,6 +9,7 @@ import { useTranslations } from 'use-intl'
 import { getColor, tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon-button'
 import { Typography } from '../common/typography'
 
@@ -40,7 +41,9 @@ export const ResidencyCard: FunctionComponent<Props> = ({
   return (
     <>
       <View style={tw`flex-row items-center gap-4`}>
-        <View style={tw`flex-1 m-4`}>
+        <Icon name={residency.building.type} style={tw`ml-4`} />
+
+        <View style={tw`flex-1 my-4`}>
           <Typography weight="medium">{residency.building.name}</Typography>
 
           {lines.map((line, index) => (

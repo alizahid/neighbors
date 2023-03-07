@@ -3,10 +3,12 @@
     "buildings": {
       "form": {
         "apartment": {
-          "label": "Apartment"
+          "apartment": "Apartment",
+          "community": "House"
         },
         "floor": {
-          "label": "Floor"
+          "apartment": "Floor",
+          "community": "Street"
         },
         "leave": {
           "label": "Leave",

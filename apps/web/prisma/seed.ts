@@ -49,6 +49,7 @@ const main = async () => {
       city: 'Dubai',
       id: '2423786279',
       name: 'Amna Tower',
+      type: 'apartment',
     },
     update: {},
     where: {
@@ -62,6 +63,7 @@ const main = async () => {
       city: 'Faisalabad',
       id: 'agfsd',
       name: 'Abdullah Gardens',
+      type: 'community',
     },
     update: {},
     where: {

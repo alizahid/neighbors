@@ -8,12 +8,18 @@ generator client {
   previewFeatures = ["clientExtensions"]
 }
 
+enum BuildingType {
+  apartment
+  community
+}
+
 model Building {
   id String @id
 
   name String
   area String
   city String
+  type BuildingType
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

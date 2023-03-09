@@ -9,11 +9,11 @@ import { useTranslations } from 'use-intl'
 import { AvatarUploader } from '~/components/common/avatar-uploader'
 import { HeaderButton } from '~/components/common/header-button'
 import { Input } from '~/components/common/input'
-import { Message } from '~/components/common/message'
 import { useProfile } from '~/hooks/auth/profile'
 import { useKeyboard } from '~/hooks/keyboard'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
+import { toast } from '~/providers/toast'
 import { UserUpdateSchema, type UserUpdateView } from '~/schemas/users/update'
 
 const Screen: FunctionComponent = () => {
@@ -34,6 +34,12 @@ const Screen: FunctionComponent = () => {
   const updateProfile = trpc.users.update.useMutation({
     onSuccess() {
       utils.users.profile.invalidate()
+
+      toast({
+        icon: 'ok',
+        message: t('form.success'),
+        variant: 'success',
+      })
     },
   })
 
@@ -74,15 +80,11 @@ const Screen: FunctionComponent = () => {
 
   return (
     <ScrollView
-      contentContainerStyle={tw`flex-grow justify-end gap-4 p-4`}
+      contentContainerStyle={tw`flex-grow gap-4 p-4`}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       style={tw.style(!keyboard.visible && `mb-[${bottom}px]`)}
     >
-      {updateProfile.isSuccess && (
-        <Message variant="success">{t('form.success')}</Message>
-      )}
-
       <Controller
         control={control}
         name="image"

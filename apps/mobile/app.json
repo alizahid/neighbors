@@ -3,6 +3,27 @@
     "name": "Nearbuds",
     "slug": "nearbuds",
     "scheme": "nearbuds",
+    "android": {
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "category": ["BROWSABLE", "DEFAULT"],
+          "data": {
+            "host": "nearbuds.co",
+            "scheme": "https"
+          }
+        }
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "eb0dc900-5dde-44f6-8dcf-00d608dff6af"
+      }
+    },
+    "ios": {
+      "associatedDomains": ["applinks:nearbuds.co"],
+      "bundleIdentifier": "co.nearbuds"
+    },
     "plugins": [
       [
         "expo-image-picker",

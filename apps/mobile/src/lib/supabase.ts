@@ -1,11 +1,9 @@
 import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from '@env'
-import { createId } from '@paralleldrive/cuid2'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
-import * as ExpoImagePicker from 'expo-image-picker'
-import mime from 'mime'
 
 import { type Database } from '~/types/supabase'
+
+import { getStorage } from './storage'
 
 export const supabase = createClient<Database>(
   SUPABASE_URL,
@@ -15,7 +13,7 @@ export const supabase = createClient<Database>(
       autoRefreshToken: true,
       detectSessionInUrl: false,
       persistSession: true,
-      storage: AsyncStorage,
+      storage: getStorage('supabase'),
     },
   }
 )

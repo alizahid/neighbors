@@ -1,14 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-type BuildingStore = {
+import { getStorage } from '~/lib/storage'
+
+type State = {
   buildingId?: string
 
   setBuildingId: (buildingId: string) => void
 }
 
-export const useBuildingStore = create<BuildingStore>()(
+export const useBuildingStore = create<State>()(
   persist(
     (set) => ({
       setBuildingId(buildingId) {
@@ -19,7 +20,7 @@ export const useBuildingStore = create<BuildingStore>()(
     }),
     {
       name: 'building-store',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => getStorage('building')),
     }
   )
 )

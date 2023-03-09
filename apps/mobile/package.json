@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "yarn start",
-    "start": "expo start"
+    "start": "expo start --dev-client"
   },
   "dependencies": {
     "@formatjs/intl-datetimeformat": "^6.5.1",
@@ -16,7 +16,6 @@
     "@formatjs/intl-relativetimeformat": "^11.1.10",
     "@hookform/resolvers": "^2.9.11",
     "@paralleldrive/cuid2": "^2.2.0",
-    "@react-native-async-storage/async-storage": "1.17.11",
     "@shopify/flash-list": "1.4.0",
     "@supabase/supabase-js": "^2.10.0",
     "@tanstack/query-async-storage-persister": "^4.26.1",
@@ -28,6 +27,7 @@
     "expo": "48.0.6",
     "expo-barcode-scanner": "~12.3.2",
     "expo-constants": "~14.2.1",
+    "expo-dev-client": "~2.1.5",
     "expo-font": "~11.1.1",
     "expo-image": "~1.0.0",
     "expo-image-picker": "~14.1.1",
@@ -39,10 +39,12 @@
     "fast-text-encoding": "^1.0.6",
     "immer": "^9.0.19",
     "mime": "^3.0.0",
+    "mitt": "^3.0.0",
     "react": "18.2.0",
     "react-hook-form": "^7.43.5",
     "react-native": "0.71.3",
     "react-native-image-viewing": "^0.2.2",
+    "react-native-mmkv": "^2.6.3",
     "react-native-modal": "^13.0.1",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-reanimated": "~2.14.4",

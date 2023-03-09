@@ -1,5 +1,4 @@
 import { BASE_URL } from '@env'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { focusManager, QueryClient } from '@tanstack/react-query'
 import {
@@ -12,6 +11,7 @@ import transformer from 'superjson'
 
 import { type NeighborsRouter } from '~/trpc'
 
+import { getStorage } from './storage'
 import { supabase } from './supabase'
 
 export const trpc = createTRPCReact<NeighborsRouter>()
@@ -56,5 +56,5 @@ export const queryClient = new QueryClient()
 export const asyncStoragePersister = createAsyncStoragePersister({
   deserialize: transformer.parse,
   serialize: transformer.stringify,
-  storage: AsyncStorage,
+  storage: getStorage('trpc'),
 })

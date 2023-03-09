@@ -38,7 +38,10 @@ const Screen: FunctionComponent = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={tw`p-4 flex-grow items-center`}>
+    <ScrollView
+      contentContainerStyle={tw`p-4 flex-grow items-center`}
+      keyboardDismissMode="on-drag"
+    >
       <Avatar
         image={user.data.image}
         name={user.data.name}

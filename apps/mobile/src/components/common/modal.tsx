@@ -71,6 +71,7 @@ export const Modal: FunctionComponent<Props> = ({
         ),
         style,
       ]}
+      keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
     >
       {children}

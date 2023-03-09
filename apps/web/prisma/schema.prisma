@@ -73,6 +73,7 @@ enum PostType {
   ad
   post
   item
+  event
 }
 
 model Post {
@@ -85,9 +86,8 @@ model Post {
   buildingId String
 
   body String
-  meta Json   @default("{}")
-
-  type PostType @default(post)
+  type PostType
+  meta Json     @default("{}")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

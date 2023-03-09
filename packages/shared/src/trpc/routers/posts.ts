@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { db } from '~/lib/prisma'
+import { PostSchema } from '~/schemas/posts'
 import { PostCreateSchema } from '~/schemas/posts/create'
 
 import { isLoggedIn, isNotNull, isResident } from '../helpers'
@@ -15,10 +16,27 @@ export const posts = t.router({
       const post = await db.post.create({
         data: {
           body: input.body,
-          buildingId: input.buildingId,
+          building: {
+            connect: {
+              id: input.buildingId,
+            },
+          },
+          likes: {
+            create: {
+              user: {
+                connect: {
+                  id: ctx.user.id,
+                },
+              },
+            },
+          },
           meta: input.meta,
           type: input.type,
-          userId: ctx.user.id,
+          user: {
+            connect: {
+              id: ctx.user.id,
+            },
+          },
         },
       })
 
@@ -59,7 +77,7 @@ export const posts = t.router({
       })
 
       return {
-        ...post,
+        ...PostSchema.parse(post),
         liked: !!like,
       }
     }),
@@ -158,7 +176,7 @@ export const posts = t.router({
       return {
         next,
         posts: posts.map((post) => ({
-          ...post,
+          ...PostSchema.parse(post),
           liked: likes.includes(post.id),
         })),
       }

@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 
-import { PostMetaSchema } from '~/schemas/posts/meta'
 import { UserMetaSchema } from '~/schemas/users/meta'
 
 declare global {
@@ -16,16 +15,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const db = prisma.$extends({
   result: {
-    post: {
-      meta: {
-        compute({ meta }) {
-          return PostMetaSchema.parse(meta)
-        },
-        needs: {
-          meta: true,
-        },
-      },
-    },
     user: {
       meta: {
         compute({ meta }) {

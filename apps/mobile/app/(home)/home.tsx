@@ -24,10 +24,7 @@ const Screen: FunctionComponent = () => {
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <IconButton
-          name="add"
-          onPress={() => router.push('/posts/new?type=post')}
-        />
+        <IconButton name="add" onPress={() => router.push('/posts/new')} />
       ),
       headerTitle: () => <BuildingPicker />,
     })
@@ -53,7 +50,7 @@ const Screen: FunctionComponent = () => {
           <Empty
             label={t('empty.label')}
             message={t('empty.message')}
-            onPress={() => router.push('/posts/new?type=post')}
+            onPress={() => router.push('/posts/new')}
             title={t('empty.title')}
           />
         )

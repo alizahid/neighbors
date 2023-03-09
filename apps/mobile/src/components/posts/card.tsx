@@ -1,3 +1,4 @@
+import { parseJSON } from 'date-fns'
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
 import { compact } from 'lodash'
@@ -194,6 +195,21 @@ export const PostCard: FunctionComponent<Props> = ({
                 })}
               </Typography>
             )}
+          </View>
+        )}
+
+        {post.type === 'event' && (
+          <View style={tw`flex-row gap-4`}>
+            <Typography size="xl" style={tw`flex-1`} weight="medium">
+              {post.meta.event}
+            </Typography>
+
+            <Typography size="xl" weight="semibold">
+              {formatter.dateTime(parseJSON(post.meta.date), {
+                dateStyle: 'short',
+                timeStyle: 'short',
+              })}
+            </Typography>
           </View>
         )}
 

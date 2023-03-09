@@ -49,6 +49,7 @@
       "card": {
         "type": {
           "ad": "Ad",
+          "event": "Event",
           "item": "Item",
           "post": "Post"
         }
@@ -159,9 +160,20 @@
           "body": {
             "error": "Must be 10 characters or longer",
             "placeholder": {
+              "event": "Describe your event",
               "item": "Describe your item",
               "post": "Say something nice"
             }
+          },
+          "date": {
+            "error": "Date is required",
+            "label": "Date & time",
+            "placeholder": "Pick a date and time"
+          },
+          "event": {
+            "error": "Name is required",
+            "label": "Event name",
+            "placeholder": "House of the Dragon viewing party"
           },
           "price": {
             "error": "Price must be higher than 0",
@@ -174,13 +186,21 @@
             "placeholder": "iPhone 15 Pro"
           },
           "quantity": {
-            "error": "Quantity is required",
+            "error": "Quantity must be higher than 0",
             "label": "Quantity",
             "placeholder": "2"
           },
-          "submit": "Create"
+          "submit": "Create",
+          "type": {
+            "event": "Event",
+            "item": "Item",
+            "label": "Type",
+            "placeholder": "Type",
+            "post": "Post"
+          }
         },
         "title": {
+          "event": "New event",
           "item": "New item",
           "post": "New post"
         }
@@ -192,6 +212,7 @@
         },
         "title": {
           "ad": "Ad",
+          "event": "Event",
           "item": "Item",
           "loading": "Loading",
           "post": "Post"

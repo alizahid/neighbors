@@ -1,24 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
-import { type FunctionComponent, useState } from 'react'
+import { formatISO, parseJSON, subDays } from 'date-fns'
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
+import { type FunctionComponent, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
+import { DateTimePicker } from '~/components/common/date-time-picker'
 import { HeaderButton } from '~/components/common/header-button'
 import { ImageUploader } from '~/components/common/image-uploader'
 import { Input } from '~/components/common/input'
+import { Picker } from '~/components/common/picker'
 import { useKeyboard } from '~/hooks/keyboard'
 import { getSpace, tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 import { PostCreateSchema, type PostCreateView } from '~/schemas/posts/create'
-import { PostTypeSchema } from '~/schemas/posts/type'
 import { useBuildingStore } from '~/stores/building'
 
 const Screen: FunctionComponent = () => {
@@ -31,10 +28,6 @@ const Screen: FunctionComponent = () => {
 
   const keyboard = useKeyboard()
 
-  const params = useLocalSearchParams()
-
-  const type = PostTypeSchema.parse(params.type)
-
   const { buildingId } = useBuildingStore()
 
   const [uploading, setUploading] = useState(false)
@@ -45,14 +38,14 @@ const Screen: FunctionComponent = () => {
     },
   })
 
-  const { control, handleSubmit, setFocus } = useForm<PostCreateView>({
+  const { control, handleSubmit, setFocus, watch } = useForm<PostCreateView>({
     defaultValues: {
       body: '',
       buildingId,
       meta: {
         attachments: [],
       },
-      type,
+      type: 'post',
     },
     resolver: zodResolver(PostCreateSchema),
   })
@@ -67,9 +60,16 @@ const Screen: FunctionComponent = () => {
           {t('form.submit')}
         </HeaderButton>
       ),
-      title: t(`title.${type}`),
     })
   })
+
+  const type = watch('type')
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: t(`title.${type}`),
+    })
+  }, [navigation, t, type])
 
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
@@ -87,6 +87,26 @@ const Screen: FunctionComponent = () => {
     >
       <Controller
         control={control}
+        name="type"
+        render={({ field: { onChange, value } }) => (
+          <Picker
+            items={(['post', 'item', 'event'] as const).map((value) => ({
+              label: t(`form.type.${value}`),
+              value,
+            }))}
+            label={t('form.type.label')}
+            onChange={onChange}
+            placeholder={t('form.type.placeholder')}
+            value={value}
+          />
+        )}
+        rules={{
+          required: true,
+        }}
+      />
+
+      <Controller
+        control={control}
         name="body"
         render={({
           field: { onBlur, onChange, ref, value },
@@ -97,9 +117,6 @@ const Screen: FunctionComponent = () => {
             multiline
             onBlur={onBlur}
             onChangeText={onChange}
-            onSubmitEditing={() =>
-              setFocus(type === 'item' ? 'meta.product' : 'meta.attachments')
-            }
             placeholder={t(`form.body.placeholder.${type}`)}
             ref={ref}
             styleInput={tw`h-32`}
@@ -180,6 +197,56 @@ const Screen: FunctionComponent = () => {
                 ref={ref}
                 returnKeyType="next"
                 value={value ? String(value) : ''}
+              />
+            )}
+            rules={{
+              required: true,
+            }}
+          />
+        </>
+      )}
+
+      {type === 'event' && (
+        <>
+          <Controller
+            control={control}
+            name="meta.event"
+            render={({
+              field: { onBlur, onChange, ref, value },
+              fieldState: { error },
+            }) => (
+              <Input
+                error={error ? t('form.event.error') : undefined}
+                label={t('form.event.label')}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                onSubmitEditing={() => setFocus('meta.date')}
+                placeholder={t('form.event.placeholder')}
+                ref={ref}
+                returnKeyType="next"
+                value={value}
+              />
+            )}
+            rules={{
+              required: true,
+            }}
+          />
+
+          <Controller
+            control={control}
+            name="meta.date"
+            render={({
+              field: { onChange, ref, value },
+              fieldState: { error },
+            }) => (
+              <DateTimePicker
+                error={error ? t('form.date.error') : undefined}
+                label={t('form.date.label')}
+                min={subDays(new Date(), 1)}
+                onChange={(value) => onChange(formatISO(value))}
+                placeholder={t('form.date.placeholder')}
+                ref={ref}
+                value={value ? parseJSON(value) : undefined}
               />
             )}
             rules={{

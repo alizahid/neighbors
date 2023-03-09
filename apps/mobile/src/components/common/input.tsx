@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native'
 
-import { tw } from '~/lib/tailwind'
+import { getColor, tw } from '~/lib/tailwind'
 
 import { Typography } from './typography'
 
@@ -95,13 +95,14 @@ export const Input = forwardRef<TextInput, Props>(
           }}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
+          placeholderTextColor={getColor('gray-9')}
           ref={ref}
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           style={[
             tw.style(
-              'bg-gray-2 rounded-lg border border-gray-7 px-3',
-              multiline ? 'h-24 py-3' : 'h-12',
+              'font-body-regular leading-tight text-base bg-gray-2 rounded-lg border border-gray-7 px-3',
+              multiline ? 'h-24 py-3' : 'h-12 pt-0.5 pb-0',
               error && 'border-red-7',
               focused && (error ? 'border-red-8' : 'border-primary-8')
             ),

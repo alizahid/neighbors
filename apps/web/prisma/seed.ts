@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
-import { addMinutes, subMinutes } from 'date-fns'
+import { addMinutes, formatISO, subMinutes } from 'date-fns'
 import { merge, range, sample } from 'lodash-es'
 
 const prisma = new PrismaClient()
@@ -115,7 +115,9 @@ const main = async () => {
 
   await prisma.post.createMany({
     data: range(1_200).map(() => {
-      const type = faker.datatype.number(100) > 75 ? 'item' : 'post'
+      const random = faker.datatype.number(100)
+
+      const type = random > 80 ? 'item' : random > 60 ? 'event' : 'post'
 
       const meta = merge(
         {
@@ -136,6 +138,14 @@ const main = async () => {
                 max: 5,
                 min: 1,
               }),
+            }
+          : {},
+        type === 'event'
+          ? {
+              date: formatISO(
+                addMinutes(new Date(), faker.datatype.number(10_000))
+              ),
+              event: faker.animal.cat(),
             }
           : {}
       )

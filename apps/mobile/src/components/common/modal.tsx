@@ -1,13 +1,21 @@
-import { type FunctionComponent, type ReactNode } from 'react'
+import {
+  type FunctionComponent,
+  type ReactNode,
+  useEffect,
+  useRef,
+} from 'react'
 import { ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
-import ReactNativeModal from 'react-native-modal'
+import ActionSheet, {
+  type ActionSheetRef,
+  useScrollHandlers,
+} from 'react-native-actions-sheet'
 import {
   useSafeAreaFrame,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context'
 
 import { useKeyboard } from '~/hooks/keyboard'
-import { getColor, getSpace, tw } from '~/lib/tailwind'
+import { getSpace, tw } from '~/lib/tailwind'
 
 import { Typography } from './typography'
 
@@ -38,10 +46,24 @@ export const Modal: FunctionComponent<Props> = ({
   const { height } = useSafeAreaFrame()
   const { bottom, top } = useSafeAreaInsets()
 
+  const ref = useRef<ActionSheetRef>(null)
+  const scrollHandlers = useScrollHandlers<ScrollView>('modal', ref)
+
   const keyboard = useKeyboard()
+
+  useEffect(() => {
+    if (visible === true) {
+      ref.current?.show()
+    }
+
+    if (visible === false) {
+      ref.current?.hide()
+    }
+  }, [visible])
 
   const container = scrollable ? (
     <ScrollView
+      {...scrollHandlers}
       contentContainerStyle={[
         tw.style(
           'p-4',
@@ -65,18 +87,12 @@ export const Modal: FunctionComponent<Props> = ({
   )
 
   return (
-    <ReactNativeModal
-      avoidKeyboard
-      backdropColor={getColor('gray-12')}
-      backdropOpacity={0.75}
-      isVisible={visible}
-      onBackButtonPress={onClose}
-      onBackdropPress={onClose}
-      style={tw.style('justify-end m-0')}
-      useNativeDriver
-      useNativeDriverForBackdrop
-    >
-      <View style={tw`bg-gray-1 rounded-t-xl max-h-[${height - top}px]`}>
+    <ActionSheet onClose={() => onClose()} ref={ref}>
+      <View
+        style={tw`bg-gray-1 rounded-t-xl max-h-[${
+          height - top - getSpace(8)
+        }px]`}
+      >
         {(!!title || left || right) && (
           <View style={tw`h-12 flex-row border-b border-gray-6 items-center`}>
             {!!title && (
@@ -100,6 +116,6 @@ export const Modal: FunctionComponent<Props> = ({
 
         {container}
       </View>
-    </ReactNativeModal>
+    </ActionSheet>
   )
 }

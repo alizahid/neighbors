@@ -33,7 +33,7 @@ export const useChat = (channelId: string) => {
     ['chat', channelId],
     async ({ pageParam = 0 }) => {
       const from = pageParam
-      const to = pageParam + 10
+      const to = pageParam + 100
 
       const { count, data } = await supabase
         .from('messages')

@@ -97,7 +97,7 @@ export const Picker = forwardRef<PickerComponent, Props>(
               <Typography style={tw`flex-1`}>{item.label}</Typography>
 
               {item.value === value && (
-                <View style={tw`h-2 w-2 bg-primary-9 rounded-full`} />
+                <View style={tw`h-3 w-3 bg-primary-9 rounded-full`} />
               )}
             </Pressable>
           ))}

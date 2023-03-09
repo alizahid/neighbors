@@ -23,9 +23,6 @@ const Screen: FunctionComponent = () => {
 
   useFocusEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <IconButton name="add" onPress={() => router.push('/posts/new')} />
-      ),
       headerTitle: () => <BuildingPicker />,
     })
   })
@@ -43,28 +40,33 @@ const Screen: FunctionComponent = () => {
   const data = posts.data?.pages.flatMap(({ posts }) => posts) ?? []
 
   return (
-    <FlashList
-      ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
-      ListEmptyComponent={() =>
-        posts.isLoading ? null : (
-          <Empty
-            label={t('empty.label')}
-            message={t('empty.message')}
-            onPress={() => router.push('/posts/new')}
-            title={t('empty.title')}
-          />
-        )
-      }
-      data={data}
-      estimatedItemSize={200}
-      onEndReached={() => {
-        if (posts.hasNextPage) {
-          posts.fetchNextPage()
+    <>
+      <FlashList
+        ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+        ListEmptyComponent={() =>
+          posts.isLoading ? null : (
+            <Empty message={t('empty.message')} title={t('empty.title')} />
+          )
         }
-      }}
-      refreshControl={<Refresher onRefresh={posts.refetch} />}
-      renderItem={({ item }) => <PostCard post={item} style={tw`p-4`} />}
-    />
+        contentContainerStyle={tw`pb-20`}
+        data={data}
+        estimatedItemSize={200}
+        onEndReached={() => {
+          if (posts.hasNextPage) {
+            posts.fetchNextPage()
+          }
+        }}
+        refreshControl={<Refresher onRefresh={posts.refetch} />}
+        renderItem={({ item }) => <PostCard post={item} style={tw`p-4`} />}
+      />
+
+      <IconButton
+        color="gray-1"
+        name="plus"
+        onPress={() => router.push('/posts/new')}
+        style={tw`absolute bottom-4 right-4 bg-primary-12 rounded-full`}
+      />
+    </>
   )
 }
 

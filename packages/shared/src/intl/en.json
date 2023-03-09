@@ -136,7 +136,6 @@
     },
     "home": {
       "empty": {
-        "label": "Post something",
         "message": "Nobody's posted anything in your building. Be the first one?",
         "title": "Nothing here"
       },

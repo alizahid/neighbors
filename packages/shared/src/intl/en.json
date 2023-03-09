@@ -219,6 +219,13 @@
       }
     },
     "search": {
+      "empty": {
+        "title": {
+          "input": "Start typing to find stuff",
+          "items": "Nothing found"
+        }
+      },
+      "placeholder": "Search",
       "title": "Search"
     },
     "user": {

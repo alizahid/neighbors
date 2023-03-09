@@ -1,4 +1,4 @@
-import { compact } from 'lodash'
+import { compact } from 'lodash-es'
 import { type FunctionComponent, useState } from 'react'
 import { View } from 'react-native'
 import Modal from 'react-native-modal'

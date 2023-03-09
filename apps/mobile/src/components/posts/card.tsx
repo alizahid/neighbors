@@ -1,7 +1,7 @@
 import { parseJSON } from 'date-fns'
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
-import { compact } from 'lodash'
+import { compact } from 'lodash-es'
 import { type FunctionComponent, type ReactNode, useMemo } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useFormatter, useTranslations } from 'use-intl'
@@ -33,12 +33,14 @@ type FooterItem = {
 
 type Props = {
   disabled?: boolean
+  likable?: boolean
   post: Post
   style?: StyleProp<ViewStyle>
 }
 
 export const PostCard: FunctionComponent<Props> = ({
   disabled,
+  likable = true,
   post,
   style,
 }) => {
@@ -106,7 +108,7 @@ export const PostCard: FunctionComponent<Props> = ({
       compact<FooterItem>([
         {
           color: post.liked ? 'green-9' : undefined,
-          disabled: liking,
+          disabled: !likable || liking,
           icon: 'like',
           label: formatter.number(post._count.likes, {
             notation: 'compact',
@@ -131,7 +133,7 @@ export const PostCard: FunctionComponent<Props> = ({
           label: <TimeAgo>{post.createdAt}</TimeAgo>,
         },
       ]),
-    [formatter, like, liking, post]
+    [formatter, likable, like, liking, post]
   )
 
   return (

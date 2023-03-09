@@ -3,6 +3,7 @@ import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { useKeyboard } from '~/hooks/keyboard'
 import { getSpace, tw } from '~/lib/tailwind'
 
 import { Pressable } from '../common/pressable'
@@ -15,6 +16,12 @@ export const TabBar: FunctionComponent<Props> = ({
   state,
 }) => {
   const { bottom } = useSafeAreaInsets()
+
+  const keyboard = useKeyboard()
+
+  if (keyboard.visible) {
+    return null
+  }
 
   return (
     <View style={tw`bg-gray-1 flex-row border-t border-gray-6`}>

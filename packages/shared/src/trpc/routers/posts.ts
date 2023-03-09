@@ -128,6 +128,7 @@ export const posts = t.router({
       z.object({
         buildingId: z.string(),
         cursor: z.string().optional(),
+        query: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -153,6 +154,11 @@ export const posts = t.router({
         },
         take: 100 + 1,
         where: {
+          body: input.query
+            ? {
+                search: input.query,
+              }
+            : undefined,
           buildingId: input.buildingId,
         },
       })
@@ -162,7 +168,7 @@ export const posts = t.router({
       const likes = (
         await db.like.findMany({
           select: {
-            id: true,
+            postId: true,
           },
           where: {
             postId: {
@@ -171,7 +177,7 @@ export const posts = t.router({
             userId: ctx.user.id,
           },
         })
-      ).map(({ id }) => id)
+      ).map(({ postId }) => postId)
 
       return {
         next,

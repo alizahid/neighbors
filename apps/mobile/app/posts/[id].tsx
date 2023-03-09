@@ -63,7 +63,7 @@ const Screen: FunctionComponent = () => {
   })
 
   useEffect(() => {
-    if (!profile || !post.data || profile.id === post.data.userId) {
+    if (!profile || !post.data || profile.id === post.data.user.id) {
       return
     }
 
@@ -74,7 +74,7 @@ const Screen: FunctionComponent = () => {
           name="speech"
           onPress={() =>
             startChat.mutateAsync({
-              userId: post.data.userId,
+              userId: post.data.user.id,
             })
           }
         />
@@ -86,7 +86,7 @@ const Screen: FunctionComponent = () => {
     return <Loading />
   }
 
-  if (!post.data || !comments.data || post.data.type === 'ad') {
+  if (!post.data || !comments.data) {
     return <Empty />
   }
 

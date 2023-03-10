@@ -78,6 +78,7 @@ export const ResidencyForm: FunctionComponent<Props> = ({
       left={
         <HeaderButton
           color="red-11"
+          loading={leaveResidency.isLoading}
           onPress={async () => {
             Alert.alert(t('leave.title'), t('leave.message'), [
               {
@@ -104,7 +105,11 @@ export const ResidencyForm: FunctionComponent<Props> = ({
         </HeaderButton>
       }
       onClose={onClose}
-      right={<HeaderButton onPress={onSubmit}>{t('submit')}</HeaderButton>}
+      right={
+        <HeaderButton loading={updateResidency.isLoading} onPress={onSubmit}>
+          {t('submit')}
+        </HeaderButton>
+      }
       scrollable
       style={tw`gap-4`}
       title={t('title')}

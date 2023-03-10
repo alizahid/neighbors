@@ -61,7 +61,6 @@ export const ResidencyCard: FunctionComponent<Props> = ({
       </View>
 
       <Modal
-        avoidKeyboard
         backdropColor={getColor('gray-1')}
         backdropOpacity={0.75}
         isVisible={visible}

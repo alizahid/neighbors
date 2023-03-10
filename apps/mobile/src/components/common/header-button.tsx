@@ -34,7 +34,7 @@ export const HeaderButton: FunctionComponent<Props> = ({
     {loading ? (
       <Spinner color={color} />
     ) : (
-      <Typography color={color} weight="semibold">
+      <Typography color={color} weight="medium">
         {children}
       </Typography>
     )}

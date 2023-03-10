@@ -17,10 +17,6 @@ export const useChannels = () => {
     },
     {
       onSuccess(data) {
-        if (!data) {
-          return
-        }
-
         setChannels(data)
       },
     }

@@ -37,7 +37,7 @@ export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
           {t('label')}
         </Typography>
 
-        <View style={tw`flex-row gap-4 flex-wrap`}>
+        <View style={tw`flex-row gap-2 flex-wrap`}>
           {value?.map((url, index) => (
             <Pressable
               key={index}

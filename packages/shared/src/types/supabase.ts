@@ -41,6 +41,7 @@ export interface Database {
           createdAt: string
           id: string
           name: string
+          type: Database["public"]["Enums"]["BuildingType"]
           updatedAt: string
         }
         Insert: {
@@ -49,6 +50,7 @@ export interface Database {
           createdAt?: string
           id: string
           name: string
+          type: Database["public"]["Enums"]["BuildingType"]
           updatedAt?: string
         }
         Update: {
@@ -57,6 +59,7 @@ export interface Database {
           createdAt?: string
           id?: string
           name?: string
+          type?: Database["public"]["Enums"]["BuildingType"]
           updatedAt?: string
         }
       }
@@ -201,7 +204,7 @@ export interface Database {
           createdAt?: string
           id: string
           meta?: Json
-          type?: Database["public"]["Enums"]["PostType"]
+          type: Database["public"]["Enums"]["PostType"]
           updatedAt?: string
           userId: string
         }
@@ -299,13 +302,11 @@ export interface Database {
       }
     }
     Functions: {
-      hello_world: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
-      PostType: "ad" | "post" | "item"
+      BuildingType: "apartment" | "community"
+      PostType: "ad" | "post" | "item" | "event"
       ResidentRole: "resident"
     }
     CompositeTypes: {

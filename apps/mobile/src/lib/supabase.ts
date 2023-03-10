@@ -29,5 +29,9 @@ export const getImageUrl = (url?: string | null) => {
     return url
   }
 
-  return supabase.storage.from(SUPABASE_BUCKET).getPublicUrl(url).data.publicUrl
+  return supabase.storage.from(SUPABASE_BUCKET).getPublicUrl(url, {
+    transform: {
+      width: 800,
+    },
+  }).data.publicUrl
 }

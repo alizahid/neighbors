@@ -185,7 +185,7 @@ export const PostCard: FunctionComponent<Props> = ({
       >
         {post.type === 'item' && (
           <View style={tw`flex-row gap-4`}>
-            <Typography size="xl" style={tw`flex-1`} weight="medium">
+            <Typography size="lg" style={tw`flex-1`} weight="medium">
               {post.meta.product}
             </Typography>
 
@@ -202,7 +202,7 @@ export const PostCard: FunctionComponent<Props> = ({
 
         {post.type === 'event' && (
           <View style={tw`flex-row gap-4`}>
-            <Typography size="xl" style={tw`flex-1`} weight="medium">
+            <Typography size="lg" style={tw`flex-1`} weight="medium">
               {post.meta.event}
             </Typography>
 

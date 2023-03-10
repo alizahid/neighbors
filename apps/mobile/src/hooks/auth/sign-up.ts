@@ -14,7 +14,7 @@ export const useSignUp = () => {
   const {
     error: mutationError,
     isLoading,
-    mutateAsync,
+    mutate,
   } = trpc.users.signUp.useMutation()
 
   const [loading, setLoading] = useState(false)
@@ -43,7 +43,7 @@ export const useSignUp = () => {
           throw new Error(error.message)
         }
 
-        await mutateAsync({
+        await mutate({
           name,
         })
 
@@ -56,7 +56,7 @@ export const useSignUp = () => {
         setLoading(false)
       }
     },
-    [mutateAsync, refetch, router]
+    [mutate, refetch, router]
   )
 
   return {

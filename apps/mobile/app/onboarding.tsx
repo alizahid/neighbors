@@ -35,7 +35,7 @@ const Screen: FunctionComponent = () => {
           return
         }
 
-        joinBuilding.mutateAsync({
+        joinBuilding.mutate({
           id: building.id,
         })
       },

@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Alert } from 'react-native'
 import { useTranslations } from 'use-intl'
 
+import { useKeyboard } from '~/hooks/keyboard'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 import {
@@ -29,6 +30,8 @@ export const ResidencyForm: FunctionComponent<Props> = ({
   visible,
 }) => {
   const t = useTranslations('component.buildings.form')
+
+  const keyboard = useKeyboard()
 
   const utils = trpc.useContext()
 
@@ -63,7 +66,11 @@ export const ResidencyForm: FunctionComponent<Props> = ({
     setValue('floor', residency.floor)
   }, [residency, setValue])
 
-  const onSubmit = handleSubmit((data) => updateResidency.mutateAsync(data))
+  const onSubmit = handleSubmit((data) => {
+    keyboard.dismiss()
+
+    updateResidency.mutate(data)
+  })
 
   return (
     <Modal
@@ -83,7 +90,7 @@ export const ResidencyForm: FunctionComponent<Props> = ({
                     return
                   }
 
-                  return leaveResidency.mutateAsync({
+                  leaveResidency.mutate({
                     id: residency?.id,
                   })
                 },

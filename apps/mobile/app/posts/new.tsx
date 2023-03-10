@@ -74,7 +74,7 @@ const Screen: FunctionComponent = () => {
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
 
-    return createPost.mutateAsync(data)
+    createPost.mutate(data)
   })
 
   return (

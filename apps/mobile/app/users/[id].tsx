@@ -52,7 +52,7 @@ const Screen: FunctionComponent = () => {
           loading={startChat.isLoading}
           name="startChat"
           onPress={() =>
-            startChat.mutateAsync({
+            startChat.mutate({
               userId: user.data!.id,
             })
           }

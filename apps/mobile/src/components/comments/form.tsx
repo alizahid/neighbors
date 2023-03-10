@@ -117,7 +117,7 @@ export const CommentForm = forwardRef<CommentFormComponent, Props>(
     const onSubmit = handleSubmit((data) => {
       keyboard.dismiss()
 
-      return createComment.mutateAsync(data)
+      createComment.mutate(data)
     })
 
     const padding = keyboard.visible ? 0 : bottom

@@ -53,7 +53,7 @@ export const PostCard: FunctionComponent<Props> = ({
 
   const utils = trpc.useContext()
 
-  const { isLoading: liking, mutateAsync: like } = trpc.posts.like.useMutation({
+  const { isLoading: liking, mutate: like } = trpc.posts.like.useMutation({
     onSuccess(liked) {
       utils.posts.get.setData(
         {

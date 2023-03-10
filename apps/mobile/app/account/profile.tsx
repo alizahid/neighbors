@@ -55,7 +55,7 @@ const Screen: FunctionComponent = () => {
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
 
-    return updateProfile.mutateAsync(data)
+    updateProfile.mutate(data)
   })
 
   useFocusEffect(() => {

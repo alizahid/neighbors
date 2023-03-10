@@ -71,7 +71,7 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
     const onSubmit = handleSubmit((data) => {
       keyboard.dismiss()
 
-      return send.mutateAsync(data)
+      send.mutate(data)
     })
 
     const padding = keyboard.visible ? 0 : bottom

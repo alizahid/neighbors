@@ -117,9 +117,9 @@ type Color =
   | `green-${RadixColorScale}`
   | `red-${RadixColorScale}`
   | `yellow-${RadixColorScale}`
-  | `sky-${RadixColorScale}`
-  | `lime-${RadixColorScale}`
-  | `amber-${RadixColorScale}`
+  | `grass-${RadixColorScale}`
+  | `mint-${RadixColorScale}`
+  | `plum-${RadixColorScale}`
   | 'current'
   | 'inherit'
   | 'transparent'

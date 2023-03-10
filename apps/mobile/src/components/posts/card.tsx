@@ -156,19 +156,19 @@ export const PostCard: FunctionComponent<Props> = ({
           style={tw.style(
             'px-1 py-0.5 rounded',
             post.type === 'post'
-              ? 'bg-lime-3'
+              ? 'bg-grass-3'
               : post.type === 'item'
-              ? 'bg-sky-3'
-              : 'bg-amber-3'
+              ? 'bg-plum-3'
+              : 'bg-mint-3'
           )}
         >
           <Typography
             color={
               post.type === 'post'
-                ? 'lime-11'
+                ? 'grass-11'
                 : post.type === 'item'
-                ? 'sky-11'
-                : 'amber-11'
+                ? 'plum-11'
+                : 'mint-11'
             }
             size="xs"
             weight="medium"
@@ -184,9 +184,9 @@ export const PostCard: FunctionComponent<Props> = ({
         style={tw`gap-4`}
       >
         {post.type === 'item' && (
-          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-sky-3`}>
+          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-plum-3`}>
             <Typography
-              color="sky-11"
+              color="plum-11"
               size="lg"
               style={tw`flex-1`}
               weight="medium"
@@ -195,7 +195,7 @@ export const PostCard: FunctionComponent<Props> = ({
             </Typography>
 
             {!!post.meta.price && (
-              <Typography color="sky-11" size="xl" weight="semibold">
+              <Typography color="plum-11" size="xl" weight="semibold">
                 {formatter.number(post.meta.price, {
                   currency: post.meta.currency,
                   style: 'currency',
@@ -206,9 +206,9 @@ export const PostCard: FunctionComponent<Props> = ({
         )}
 
         {post.type === 'event' && (
-          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-amber-3`}>
+          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-mint-3`}>
             <Typography
-              color="amber-11"
+              color="mint-11"
               size="lg"
               style={tw`flex-1`}
               weight="medium"
@@ -216,7 +216,7 @@ export const PostCard: FunctionComponent<Props> = ({
               {post.meta.event}
             </Typography>
 
-            <Typography color="amber-11" size="xl" weight="semibold">
+            <Typography color="mint-11" size="xl" weight="semibold">
               {formatter.dateTime(parseJSON(post.meta.date), {
                 dateStyle: 'short',
                 timeStyle: 'short',

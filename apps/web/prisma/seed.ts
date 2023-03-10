@@ -21,7 +21,7 @@ const main = async () => {
       id: '671f2d02-a209-48c2-b5e1-4c103f995fda',
       image: 'https://media.graphassets.com/GJrB3pURnqRlaj61Z3Qp',
       meta: {
-        bio: 'Founder of nearbuds',
+        bio: 'Founder of Nearbuds',
       },
       name: 'Ali Zahid',
     },

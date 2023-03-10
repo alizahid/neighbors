@@ -2,18 +2,13 @@ import { useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
-import { getSpace, tw } from '~/lib/tailwind'
+import { tw } from '~/lib/tailwind'
 import { type RouterOutput } from '~/trpc/types'
 
 import { Pressable } from '../common/pressable'
 import { TimeAgo } from '../common/time-ago'
 import { Typography } from '../common/typography'
 import { Avatar } from '../users/avatar'
-
-export const COMMENT_CARD_HEIGHT =
-  getSpace(5) + // user
-  getSpace(2) + // gap
-  getSpace(6) // body
 
 export type CommentCardItem =
   RouterOutput['comments']['list']['comments'][number]

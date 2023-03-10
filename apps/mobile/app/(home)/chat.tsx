@@ -39,7 +39,7 @@ const Screen: FunctionComponent = () => {
         loading ? null : <Empty title={t('empty.title')} />
       }
       data={channels ?? []}
-      estimatedItemSize={200}
+      estimatedItemSize={80}
       refreshControl={<Refresher onRefresh={refetch} />}
       renderItem={({ item }) => (
         <ChannelCard channel={item} style={tw`p-4`} userId={profile?.id} />

@@ -147,7 +147,7 @@
       "title": "<primary>Near</primary><accent>buds</accent>"
     },
     "onboarding": {
-      "message": "Nearbuds is an invite only app. Have a friend share their QR code so you can join the building.",
+      "message": "Nearbuds is an invite only app. Have a neighbor share their QR code so you can join the building.",
       "notFound": "We couldn't find the building. Are you sure you scanned the right QR code?",
       "scan": "Scan a building QR code to join.",
       "success": "Welcome! Redirecting now.",

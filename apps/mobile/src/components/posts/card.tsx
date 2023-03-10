@@ -184,13 +184,18 @@ export const PostCard: FunctionComponent<Props> = ({
         style={tw`gap-4`}
       >
         {post.type === 'item' && (
-          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-sky-9`}>
-            <Typography size="lg" style={tw`flex-1`} weight="medium">
+          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-sky-3`}>
+            <Typography
+              color="sky-11"
+              size="lg"
+              style={tw`flex-1`}
+              weight="medium"
+            >
               {post.meta.product}
             </Typography>
 
             {!!post.meta.price && (
-              <Typography size="xl" weight="semibold">
+              <Typography color="sky-11" size="xl" weight="semibold">
                 {formatter.number(post.meta.price, {
                   currency: post.meta.currency,
                   style: 'currency',
@@ -201,12 +206,17 @@ export const PostCard: FunctionComponent<Props> = ({
         )}
 
         {post.type === 'event' && (
-          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-amber-9`}>
-            <Typography size="lg" style={tw`flex-1`} weight="medium">
+          <View style={tw`flex-row -mx-4 p-4 gap-4 bg-amber-3`}>
+            <Typography
+              color="amber-11"
+              size="lg"
+              style={tw`flex-1`}
+              weight="medium"
+            >
               {post.meta.event}
             </Typography>
 
-            <Typography size="xl" weight="semibold">
+            <Typography color="amber-11" size="xl" weight="semibold">
               {formatter.dateTime(parseJSON(post.meta.date), {
                 dateStyle: 'short',
                 timeStyle: 'short',

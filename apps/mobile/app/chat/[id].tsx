@@ -66,7 +66,7 @@ const Screen: FunctionComponent = () => {
         }
         contentContainerStyle={tw`py-4`}
         data={messages}
-        estimatedItemSize={100}
+        estimatedItemSize={32}
         inverted
         keyboardShouldPersistTaps="handled"
         onEndReached={fetchMore}

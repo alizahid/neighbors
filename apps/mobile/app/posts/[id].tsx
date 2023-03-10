@@ -9,11 +9,7 @@ import { type FunctionComponent, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import {
-  COMMENT_CARD_HEIGHT,
-  CommentCard,
-  type CommentCardItem,
-} from '~/components/comments/card'
+import { CommentCard, type CommentCardItem } from '~/components/comments/card'
 import {
   CommentForm,
   type CommentFormComponent,
@@ -119,7 +115,7 @@ const Screen: FunctionComponent = () => {
         }
         contentContainerStyle={tw`pb-4`}
         data={comments.data.comments}
-        estimatedItemSize={COMMENT_CARD_HEIGHT}
+        estimatedItemSize={44}
         keyboardShouldPersistTaps="handled"
         ref={list}
         refreshControl={

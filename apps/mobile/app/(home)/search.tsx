@@ -8,7 +8,6 @@ import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Input } from '~/components/common/input'
 import { Loading } from '~/components/common/loading'
-import { Refresher } from '~/components/common/refresher'
 import { PostCard } from '~/components/posts/card'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
@@ -65,7 +64,6 @@ const Screen: FunctionComponent = () => {
         contentContainerStyle={tw`pb-20`}
         data={data}
         estimatedItemSize={200}
-        refreshControl={<Refresher onRefresh={search.refetch} />}
         renderItem={({ item }) => (
           <PostCard likable={false} post={item} style={tw`p-4`} />
         )}

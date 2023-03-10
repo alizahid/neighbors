@@ -71,7 +71,7 @@ const Screen: FunctionComponent = () => {
       headerRight: () => (
         <IconButton
           loading={startChat.isLoading}
-          name="speech"
+          name="startChat"
           onPress={() =>
             startChat.mutateAsync({
               userId: post.data.user.id,

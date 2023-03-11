@@ -45,6 +45,11 @@
         "label": "Images"
       }
     },
+    "notifications": {
+      "card": {
+        "comment": "<medium>{user}</medium> commented on your <medium>{type}</medium>."
+      }
+    },
     "posts": {
       "card": {
         "type": {
@@ -146,6 +151,10 @@
       "signUp": "Sign up",
       "title": "<primary>Near</primary><accent>buds</accent>"
     },
+    "notifications": {
+      "markRead": "Mark all as read",
+      "title": "Notifications"
+    },
     "onboarding": {
       "message": "Nearbuds is an invite only app. Have a neighbor share their QR code so you can join the building.",
       "notFound": "We couldn't find the building. Are you sure you scanned the right QR code?",
@@ -163,6 +172,11 @@
               "item": "Describe your item",
               "post": "Say something nice"
             }
+          },
+          "currency": {
+            "error": "Currency is required",
+            "label": "Price currency",
+            "placeholder": "Pick a currency"
           },
           "date": {
             "error": "Date is required",

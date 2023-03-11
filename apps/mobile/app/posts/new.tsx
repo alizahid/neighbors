@@ -156,6 +156,32 @@ const Screen: FunctionComponent = () => {
 
           <Controller
             control={control}
+            defaultValue="AED"
+            name="meta.currency"
+            render={({
+              field: { onChange, ref, value },
+              fieldState: { error },
+            }) => (
+              <Picker
+                error={error ? t('form.currency.error') : undefined}
+                items={['AED', 'USD', 'PKR'].map((currency) => ({
+                  label: currency,
+                  value: currency,
+                }))}
+                label={t('form.currency.label')}
+                onChange={onChange}
+                placeholder={t('form.currency.placeholder')}
+                ref={ref}
+                value={value}
+              />
+            )}
+            rules={{
+              required: true,
+            }}
+          />
+
+          <Controller
+            control={control}
             name="meta.price"
             render={({
               field: { onBlur, onChange, ref, value },

@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { type FunctionComponent, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
@@ -11,6 +11,7 @@ import {
 } from '~/components/buildings/residency'
 import { IconButton } from '~/components/common/icon-button'
 import { Refresher } from '~/components/common/refresher'
+import { Separator } from '~/components/common/separator'
 import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
 
@@ -38,7 +39,7 @@ const Screen: FunctionComponent = () => {
   return (
     <>
       <FlatList
-        ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+        ItemSeparatorComponent={Separator}
         contentContainerStyle={tw`pb-[${bottom}px]`}
         data={profile?.residencies ?? []}
         refreshControl={<Refresher onRefresh={refetch} />}

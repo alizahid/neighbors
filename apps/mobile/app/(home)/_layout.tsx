@@ -5,11 +5,14 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { StackHeader } from '~/components/navigation/header'
 import { TabBar } from '~/components/navigation/tab-bar'
+import { trpc } from '~/lib/trpc'
 
 const Layout: FunctionComponent = () => {
   const navigation = useNavigation()
 
   const t = useTranslations('screen')
+
+  const { data } = trpc.notifications.badge.useQuery()
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -48,10 +51,25 @@ const Layout: FunctionComponent = () => {
       <Tabs.Screen
         name="chat"
         options={{
+          tabBarBadge: data?.chat,
           tabBarIcon: ({ focused }) => (
             <Icon color={focused ? 'primary-9' : 'gray-9'} name="chat" />
           ),
           title: t('chat.title'),
+        }}
+      />
+
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          tabBarBadge: data?.notifications,
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              color={focused ? 'primary-9' : 'gray-9'}
+              name="notification"
+            />
+          ),
+          title: t('notifications.title'),
         }}
       />
 

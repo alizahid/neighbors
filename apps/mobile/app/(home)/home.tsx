@@ -1,13 +1,13 @@
 import { FlashList } from '@shopify/flash-list'
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
-import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { BuildingPicker } from '~/components/buildings/picker'
 import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Refresher } from '~/components/common/refresher'
+import { Separator } from '~/components/common/separator'
 import { PostCard } from '~/components/posts/card'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
@@ -42,7 +42,7 @@ const Screen: FunctionComponent = () => {
   return (
     <>
       <FlashList
-        ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+        ItemSeparatorComponent={Separator}
         ListEmptyComponent={() =>
           posts.isLoading ? null : (
             <Empty message={t('empty.message')} title={t('empty.title')} />

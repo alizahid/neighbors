@@ -29,6 +29,8 @@ export const useChat = (channelId: string) => {
     }
   )
 
+  const utils = trpc.useContext()
+
   const { fetchNextPage, hasNextPage, isLoading, refetch } = useInfiniteQuery(
     ['chat', channelId],
     async ({ pageParam = 0 }) => {
@@ -61,6 +63,8 @@ export const useChat = (channelId: string) => {
 
   const { mutate: markChecked } = trpc.chat.markChecked.useMutation({
     onSuccess({ userId }) {
+      utils.notifications.badge.invalidate()
+
       queryClient.setQueryData<Array<ChatChannelView>>(['channels'], (data) => {
         if (!data) {
           return data

@@ -4,6 +4,7 @@ import { createContext } from './context'
 import { buildings } from './routers/buildings'
 import { chat } from './routers/chat'
 import { comments } from './routers/comments'
+import { notifications } from './routers/notifications'
 import { posts } from './routers/posts'
 import { residencies } from './routers/residencies'
 import { users } from './routers/users'
@@ -13,6 +14,7 @@ export const router = t.router({
   buildings,
   chat,
   comments,
+  notifications,
   posts,
   residencies,
   users,

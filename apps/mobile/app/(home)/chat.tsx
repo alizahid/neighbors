@@ -1,12 +1,12 @@
 import { FlashList } from '@shopify/flash-list'
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { type FunctionComponent, useEffect } from 'react'
-import { View } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { ChannelCard } from '~/components/chat/channel'
 import { Empty } from '~/components/common/empty'
 import { Refresher } from '~/components/common/refresher'
+import { Separator } from '~/components/common/separator'
 import { useProfile } from '~/hooks/auth/profile'
 import { useChannels } from '~/hooks/chat/channels'
 import { tw } from '~/lib/tailwind'
@@ -34,7 +34,7 @@ const Screen: FunctionComponent = () => {
 
   return (
     <FlashList
-      ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+      ItemSeparatorComponent={Separator}
       ListEmptyComponent={() =>
         loading ? null : <Empty title={t('empty.title')} />
       }

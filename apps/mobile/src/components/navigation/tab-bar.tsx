@@ -2,11 +2,13 @@ import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useFormatter } from 'use-intl'
 
 import { useKeyboard } from '~/hooks/keyboard'
 import { getSpace, tw } from '~/lib/tailwind'
 
 import { Pressable } from '../common/pressable'
+import { Typography } from '../common/typography'
 
 type Props = BottomTabBarProps
 
@@ -17,6 +19,8 @@ export const TabBar: FunctionComponent<Props> = ({
 }) => {
   const { bottom } = useSafeAreaInsets()
 
+  const formatter = useFormatter()
+
   const keyboard = useKeyboard()
 
   if (keyboard.visible) {
@@ -26,7 +30,7 @@ export const TabBar: FunctionComponent<Props> = ({
   return (
     <View style={tw`bg-gray-1 flex-row border-t border-gray-6`}>
       {state.routes.map((route, index) => {
-        const options = descriptors[route.key]
+        const data = descriptors[route.key]
 
         const focused = index === state.index
 
@@ -63,11 +67,25 @@ export const TabBar: FunctionComponent<Props> = ({
               getSpace(12) + bottom
             }px]`}
           >
-            {options.options?.tabBarIcon?.({
-              color: focused ? 'primary-9' : 'gray-9',
-              focused,
-              size: 0,
-            })}
+            <View>
+              {data.options?.tabBarIcon?.({
+                color: focused ? 'primary-9' : 'gray-9',
+                focused,
+                size: 0,
+              })}
+
+              {!!data.options.tabBarBadge && (
+                <View
+                  style={tw`absolute -top-1 -right-2 bg-primary-9 h-4 w-4 items-center justify-center rounded-full`}
+                >
+                  <Typography align="center" color="gray-1" size="xs">
+                    {formatter.number(Number(data.options.tabBarBadge), {
+                      notation: 'compact',
+                    })}
+                  </Typography>
+                </View>
+              )}
+            </View>
           </Pressable>
         )
       })}

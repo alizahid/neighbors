@@ -21,7 +21,7 @@ export const comments = t.router({
       isNotNull(post)
       isResident(ctx, post.buildingId)
 
-      return db.comment.create({
+      const comment = await db.comment.create({
         data: {
           body: input.body,
           postId: input.postId,
@@ -31,6 +31,18 @@ export const comments = t.router({
           user: true,
         },
       })
+
+      await db.notification.create({
+        data: {
+          actor: ctx.user.id,
+          buildingId: post.buildingId,
+          target: `${post.type}:${post.id}`,
+          type: 'comment',
+          userId: post.userId,
+        },
+      })
+
+      return comment
     }),
   list: t.procedure
     .input(

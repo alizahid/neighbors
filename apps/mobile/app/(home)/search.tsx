@@ -8,6 +8,7 @@ import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Input } from '~/components/common/input'
 import { Loading } from '~/components/common/loading'
+import { Separator } from '~/components/common/separator'
 import { PostCard } from '~/components/posts/card'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
@@ -51,7 +52,7 @@ const Screen: FunctionComponent = () => {
       </View>
 
       <FlashList
-        ItemSeparatorComponent={() => <View style={tw`h-px bg-gray-6`} />}
+        ItemSeparatorComponent={Separator}
         ListEmptyComponent={() =>
           search.isFetching ? (
             <Loading />

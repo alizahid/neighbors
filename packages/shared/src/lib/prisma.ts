@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
+import { NotificationTypeSchema } from '~/schemas/notifications/type'
 import { UserMetaSchema } from '~/schemas/users/meta'
 
 declare global {
@@ -15,6 +16,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const db = prisma.$extends({
   result: {
+    notification: {
+      type: {
+        compute({ type }) {
+          return NotificationTypeSchema.parse(type)
+        },
+        needs: {
+          type: true,
+        },
+      },
+    },
     user: {
       meta: {
         compute({ meta }) {

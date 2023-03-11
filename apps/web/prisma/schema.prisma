@@ -24,8 +24,9 @@ model Building {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  posts     Post[]
-  residents Resident[]
+  notifications Notification[]
+  posts         Post[]
+  residents     Resident[]
 }
 
 model User {
@@ -39,12 +40,31 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  channels    Member[]
-  comments    Comment[]
-  likes       Like[]
-  messages    Message[]
-  posts       Post[]
-  residencies Resident[]
+  channels      Member[]
+  comments      Comment[]
+  likes         Like[]
+  messages      Message[]
+  notifications Notification[]
+  posts         Post[]
+  residencies   Resident[]
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  building   Building @relation(fields: [buildingId], references: [id])
+  buildingId String
+
+  actor  String @db.Uuid
+  type   String
+  target String
+
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
 }
 
 enum ResidentRole {

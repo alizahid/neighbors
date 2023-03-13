@@ -8,6 +8,7 @@ import { useTranslations } from 'use-intl'
 import { BuildingCard } from '~/components/buildings/card'
 import { Spinner } from '~/components/common/spinner'
 import { Typography } from '~/components/common/typography'
+import { useProfile } from '~/hooks/auth/profile'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 import { useBuildingStore } from '~/stores/building'
@@ -20,6 +21,7 @@ const Screen: FunctionComponent = () => {
 
   const t = useTranslations('screen.onboarding')
 
+  const { refetch } = useProfile()
   const { setBuildingId } = useBuildingStore()
 
   const [id, setId] = useState<string>()
@@ -43,8 +45,10 @@ const Screen: FunctionComponent = () => {
   )
 
   const joinBuilding = trpc.buildings.join.useMutation({
-    onSuccess(residency) {
+    async onSuccess(residency) {
       setBuildingId(residency.buildingId)
+
+      await refetch()
 
       router.push('/')
     },

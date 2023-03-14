@@ -1,7 +1,9 @@
 import { FlashList } from '@shopify/flash-list'
-import { useFocusEffect, useNavigation } from 'expo-router'
-import { type FunctionComponent } from 'react'
+import { useNavigation } from 'expo-router'
+import { type FunctionComponent, useEffect, useMemo } from 'react'
+import { useTranslations } from 'use-intl'
 
+import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Refresher } from '~/components/common/refresher'
 import { Separator } from '~/components/common/separator'
@@ -11,6 +13,8 @@ import { trpc } from '~/lib/trpc'
 
 const Screen: FunctionComponent = () => {
   const navigation = useNavigation()
+
+  const t = useTranslations('screen.notifications')
 
   const utils = trpc.useContext()
 
@@ -29,7 +33,20 @@ const Screen: FunctionComponent = () => {
     },
   })
 
-  useFocusEffect(() => {
+  const data = useMemo(
+    () =>
+      notifications.data?.pages.flatMap(({ notifications }) => notifications) ??
+      [],
+    [notifications.data?.pages]
+  )
+
+  useEffect(() => {
+    const unread = data.filter(({ readAt }) => readAt === null).length
+
+    if (unread === 0) {
+      return
+    }
+
     navigation.setOptions({
       headerRight: () => (
         <IconButton
@@ -39,15 +56,14 @@ const Screen: FunctionComponent = () => {
         />
       ),
     })
-  })
-
-  const data =
-    notifications.data?.pages.flatMap(({ notifications }) => notifications) ??
-    []
+  }, [data, markRead, navigation])
 
   return (
     <FlashList
       ItemSeparatorComponent={Separator}
+      ListEmptyComponent={() =>
+        notifications.isLoading ? null : <Empty title={t('empty')} />
+      }
       data={data}
       estimatedItemSize={100}
       onEndReached={() => {

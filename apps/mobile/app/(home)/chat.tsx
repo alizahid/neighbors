@@ -35,9 +35,7 @@ const Screen: FunctionComponent = () => {
   return (
     <FlashList
       ItemSeparatorComponent={Separator}
-      ListEmptyComponent={() =>
-        loading ? null : <Empty title={t('empty.title')} />
-      }
+      ListEmptyComponent={() => (loading ? null : <Empty title={t('empty')} />)}
       data={channels ?? []}
       estimatedItemSize={80}
       refreshControl={<Refresher onRefresh={refetch} />}

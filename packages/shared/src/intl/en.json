@@ -133,9 +133,7 @@
       }
     },
     "chat": {
-      "empty": {
-        "title": "Nothing here"
-      },
+      "empty": "Nothing here",
       "loading": "Loading",
       "title": "Chat"
     },
@@ -152,6 +150,7 @@
       "title": "<primary>Near</primary><accent>buds</accent>"
     },
     "notifications": {
+      "empty": "Nothing here",
       "markRead": "Mark all as read",
       "title": "Notifications"
     },

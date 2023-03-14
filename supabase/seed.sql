@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW "public"."channels" AS
+CREATE OR REPLACE VIEW channels AS
 SELECT "Channel".id,
     "Channel".message,
     COALESCE("Member".members, '[]'::json) AS members,
@@ -27,7 +27,10 @@ FROM (
     )
 ORDER BY "Channel"."updatedAt" DESC;
 
-CREATE OR REPLACE VIEW "public"."messages" AS
+ALTER VIEW channels
+SET (security_invoker = ON);
+
+CREATE OR REPLACE VIEW messages AS
 SELECT "Message".id,
     "Message"."channelId",
     "Message".body,
@@ -47,7 +50,10 @@ FROM (
     )
 ORDER BY "Message"."createdAt";
 
-CREATE policy "allow access to own channels" ON "public"."Channel" AS permissive FOR
+ALTER VIEW messages
+SET (security_invoker = ON);
+
+CREATE policy "allow access to own channels" ON "Channel" AS permissive FOR
 SELECT TO authenticated USING (
         (
             auth.uid() IN (
@@ -58,10 +64,10 @@ SELECT TO authenticated USING (
         )
     );
 
-CREATE policy "allow access to all members" ON "public"."Member" AS permissive FOR
+CREATE policy "allow access to all members" ON "Member" AS permissive FOR
 SELECT TO authenticated USING (TRUE);
 
-CREATE policy "allow access to own messages" ON "public"."Message" AS permissive FOR
+CREATE policy "allow access to own messages" ON "Message" AS permissive FOR
 SELECT TO authenticated USING (
         (
             auth.uid() IN (
@@ -72,7 +78,7 @@ SELECT TO authenticated USING (
         )
     );
 
-CREATE policy "allow access to all users" ON "public"."User" AS permissive FOR
+CREATE policy "allow access to all users" ON "User" AS permissive FOR
 SELECT TO authenticated USING (TRUE);
 
 CREATE policy "allow insert access to own images" ON "storage"."objects" AS permissive FOR

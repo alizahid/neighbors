@@ -28,7 +28,9 @@ focusManager.setEventListener((handleFocus) => {
     handleFocus(state === 'active')
   )
 
-  return () => subscription.remove()
+  return () => {
+    subscription.remove()
+  }
 })
 
 export const trpcClient = trpc.createClient({

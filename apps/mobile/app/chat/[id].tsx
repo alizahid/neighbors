@@ -60,7 +60,7 @@ const Screen: FunctionComponent = () => {
                   },
                 ],
               }}
-              title={t('empty.title')}
+              title={t('empty')}
             />
           )
         }

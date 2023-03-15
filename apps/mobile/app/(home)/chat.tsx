@@ -18,19 +18,13 @@ const Screen: FunctionComponent = () => {
 
   const { profile } = useProfile()
 
-  const { channels, connected, loading, refetch } = useChannels()
+  const { channels, loading, refetch } = useChannels()
 
   useFocusEffect(() => {
     navigation.setOptions({
       title: t('title'),
     })
   })
-
-  useEffect(() => {
-    navigation.setOptions({
-      title: t('title'),
-    })
-  }, [connected, navigation, t])
 
   return (
     <FlashList

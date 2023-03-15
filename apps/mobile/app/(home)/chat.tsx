@@ -1,6 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useFocusEffect, useNavigation } from 'expo-router'
-import { type FunctionComponent, useEffect } from 'react'
+import { type FunctionComponent } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { ChannelCard } from '~/components/chat/channel'

@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "eslint . --fix --ignore-path .gitignore",
+    "lint": "eslint . --fix",
     "postinstall": "patch-package",
     "supabase:gen": "supabase gen types typescript --local > packages/shared/src/types/supabase.ts"
   },

@@ -34,6 +34,38 @@ export interface Database {
   }
   public: {
     Tables: {
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
+        }
+        Insert: {
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Update: {
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+      }
       Building: {
         Row: {
           area: string
@@ -183,6 +215,41 @@ export interface Database {
           createdAt?: string
           id?: string
           meta?: Json
+          updatedAt?: string
+          userId?: string
+        }
+      }
+      Notification: {
+        Row: {
+          actor: string
+          buildingId: string
+          createdAt: string
+          id: string
+          readAt: string | null
+          target: string
+          type: string
+          updatedAt: string
+          userId: string
+        }
+        Insert: {
+          actor: string
+          buildingId: string
+          createdAt?: string
+          id: string
+          readAt?: string | null
+          target: string
+          type: string
+          updatedAt?: string
+          userId: string
+        }
+        Update: {
+          actor?: string
+          buildingId?: string
+          createdAt?: string
+          id?: string
+          readAt?: string | null
+          target?: string
+          type?: string
           updatedAt?: string
           userId?: string
         }

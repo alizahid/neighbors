@@ -53,6 +53,12 @@ ORDER BY "Message"."createdAt";
 ALTER VIEW messages
 SET (security_invoker = ON);
 
+ALTER publication supabase_realtime
+ADD TABLE "Channel";
+
+ALTER publication supabase_realtime
+ADD TABLE "Message";
+
 CREATE policy "allow access to own channels" ON "Channel" AS permissive FOR
 SELECT TO authenticated USING (
         (

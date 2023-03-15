@@ -8,10 +8,7 @@ import {
 } from 'react'
 import { View } from 'react-native'
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
@@ -19,9 +16,11 @@ import { Typography } from '~/components/common/typography'
 import { getSpace, tw } from '~/lib/tailwind'
 
 type Toast = {
+  delay?: number
   icon?: IconName
   message: string
-  variant?: 'message' | 'error' | 'success'
+  title?: string
+  variant?: 'message' | 'error' | 'success' | 'notification'
 
   onPress?: () => void
 }
@@ -37,7 +36,6 @@ type Props = {
 }
 
 export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
-  const { width } = useSafeAreaFrame()
   const { top } = useSafeAreaInsets()
 
   const [toasts, setToasts] = useState<
@@ -62,7 +60,7 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
 
       setTimeout(
         () => setToasts((toasts) => toasts.filter((toast) => toast.id !== id)),
-        5_000
+        toast.delay ?? 5_000
       )
     }
 
@@ -79,12 +77,12 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
         pointerEvents="box-none"
         style={tw`absolute top-[${top + getSpace(4)}px] inset-x-0 gap-2`}
       >
-        {toasts.map(({ icon, id, message, onPress, variant }) => (
+        {toasts.map(({ icon, id, message, onPress, title, variant }) => (
           <Animated.View
             entering={SlideInUp.duration(500)}
             exiting={SlideOutUp.duration(500)}
             key={id}
-            style={tw`mx-auto max-w-[${width * 0.6}px]`}
+            style={tw`mx-4`}
           >
             <Pressable
               onPress={() => {
@@ -93,8 +91,10 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
                 setToasts((toasts) => toasts.filter((toast) => toast.id !== id))
               }}
               style={tw.style(
-                'flex-row items-center gap-2 px-3 py-3 rounded-xl border shadow-lg',
-                variant === 'success'
+                'flex-row items-center gap-2 px-3 py-3 rounded-xl border shadow',
+                variant === 'notification'
+                  ? 'border-mint-6 bg-mint-3'
+                  : variant === 'success'
                   ? 'border-green-6 bg-green-3'
                   : variant === 'error'
                   ? 'border-red-6 bg-red-3'
@@ -104,7 +104,9 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
               {icon && (
                 <Icon
                   color={
-                    variant === 'success'
+                    variant === 'notification'
+                      ? 'mint-11'
+                      : variant === 'success'
                       ? 'green-11'
                       : variant === 'error'
                       ? 'red-11'
@@ -114,18 +116,41 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
                 />
               )}
 
-              <Typography
-                color={
-                  variant === 'success'
-                    ? 'green-11'
-                    : variant === 'error'
-                    ? 'red-11'
-                    : 'yellow-11'
-                }
-                weight="medium"
-              >
-                {message}
-              </Typography>
+              <View style={tw`flex-1`}>
+                {!!title && (
+                  <Typography
+                    color={
+                      variant === 'notification'
+                        ? 'mint-12'
+                        : variant === 'success'
+                        ? 'green-12'
+                        : variant === 'error'
+                        ? 'red-12'
+                        : 'yellow-12'
+                    }
+                    lines={1}
+                    size="sm"
+                    weight="medium"
+                  >
+                    {title}
+                  </Typography>
+                )}
+
+                <Typography
+                  color={
+                    variant === 'notification'
+                      ? 'mint-12'
+                      : variant === 'success'
+                      ? 'green-12'
+                      : variant === 'error'
+                      ? 'red-12'
+                      : 'yellow-12'
+                  }
+                  lines={1}
+                >
+                  {message}
+                </Typography>
+              </View>
             </Pressable>
           </Animated.View>
         ))}

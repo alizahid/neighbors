@@ -1,3 +1,4 @@
+import * as Notifications from 'expo-notifications'
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
 import { type FunctionComponent, useCallback, useMemo } from 'react'
@@ -32,7 +33,7 @@ export const NotificationCard: FunctionComponent<Props> = ({
   const utils = trpc.useContext()
 
   const markRead = trpc.notifications.markRead.useMutation({
-    onSuccess() {
+    async onSuccess() {
       utils.notifications.badge.invalidate()
 
       utils.notifications.list.setInfiniteData({}, (data) => {
@@ -57,6 +58,10 @@ export const NotificationCard: FunctionComponent<Props> = ({
           }
         })
       })
+
+      const badge = await Notifications.getBadgeCountAsync()
+
+      await Notifications.setBadgeCountAsync(badge - 1)
     },
   })
 

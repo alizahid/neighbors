@@ -1,4 +1,5 @@
 import { FlashList } from '@shopify/flash-list'
+import * as Notifications from 'expo-notifications'
 import { useNavigation } from 'expo-router'
 import { type FunctionComponent, useEffect, useMemo } from 'react'
 import { useTranslations } from 'use-intl'
@@ -26,10 +27,11 @@ const Screen: FunctionComponent = () => {
   )
 
   const markRead = trpc.notifications.markRead.useMutation({
-    onSuccess() {
+    async onSuccess() {
       utils.notifications.badge.invalidate()
-
       utils.notifications.list.invalidate()
+
+      await Notifications.setBadgeCountAsync(0)
     },
   })
 

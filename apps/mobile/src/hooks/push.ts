@@ -1,9 +1,11 @@
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
-import { useCallback } from 'react'
+import { useRouter } from 'expo-router'
+import { useCallback, useEffect } from 'react'
 import { Platform } from 'react-native'
 
 import { trpc } from '~/lib/trpc'
+import { toast } from '~/providers/toast'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -14,7 +16,37 @@ Notifications.setNotificationHandler({
 })
 
 export const usePush = () => {
+  const router = useRouter()
+
   const register = trpc.notifications.register.useMutation()
+
+  useEffect(() => {
+    const listener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        const { body, data, title } = notification.request.content
+
+        if (!body) {
+          return
+        }
+
+        toast({
+          icon: data.icon ?? 'notification',
+          message: body,
+          onPress: () => {
+            if (data.url) {
+              router.push(data.url)
+            }
+          },
+          title: title ?? undefined,
+          variant: 'notification',
+        })
+      }
+    )
+
+    return () => {
+      listener.remove()
+    }
+  }, [router])
 
   const permissions = useCallback(async () => {
     const { status } = await Notifications.getPermissionsAsync()

@@ -42,11 +42,25 @@ model User {
 
   channels      Member[]
   comments      Comment[]
+  devices       Device[]
   likes         Like[]
   messages      Message[]
   notifications Notification[]
   posts         Post[]
   residencies   Resident[]
+}
+
+model Device {
+  id String @id
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  token String
+  type  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Notification {

@@ -22,7 +22,10 @@
     },
     "ios": {
       "associatedDomains": ["applinks:nearbuds.co"],
-      "bundleIdentifier": "co.nearbuds"
+      "bundleIdentifier": "co.nearbuds",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "plugins": [
       [

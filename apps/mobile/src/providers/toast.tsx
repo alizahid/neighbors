@@ -22,6 +22,8 @@ type Toast = {
   icon?: IconName
   message: string
   variant?: 'message' | 'error' | 'success'
+
+  onPress?: () => void
 }
 
 type Events = {
@@ -77,7 +79,7 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
         pointerEvents="box-none"
         style={tw`absolute top-[${top + getSpace(4)}px] inset-x-0 gap-2`}
       >
-        {toasts.map(({ icon, id, message, variant }) => (
+        {toasts.map(({ icon, id, message, onPress, variant }) => (
           <Animated.View
             entering={SlideInUp.duration(500)}
             exiting={SlideOutUp.duration(500)}
@@ -85,9 +87,11 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
             style={tw`mx-auto max-w-[${width * 0.6}px]`}
           >
             <Pressable
-              onPress={() =>
+              onPress={() => {
+                onPress?.()
+
                 setToasts((toasts) => toasts.filter((toast) => toast.id !== id))
-              }
+              }}
               style={tw.style(
                 'flex-row items-center gap-2 px-3 py-3 rounded-xl border shadow-lg',
                 variant === 'success'

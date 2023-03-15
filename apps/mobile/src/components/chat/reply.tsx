@@ -67,7 +67,9 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
       resolver: zodResolver(ChatSendSchema),
     })
 
-    const onSubmit = handleSubmit((data) => send.mutate(data))
+    const onSubmit = handleSubmit((data) => {
+      send.mutate(data)
+    })
 
     const padding = keyboard.visible ? 0 : bottom
     const height = padding + getSpace(12)

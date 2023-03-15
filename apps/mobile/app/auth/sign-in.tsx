@@ -43,7 +43,7 @@ const Screen: FunctionComponent = () => {
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
 
-    return signIn(data)
+    signIn(data)
   })
 
   useFocusEffect(() => {

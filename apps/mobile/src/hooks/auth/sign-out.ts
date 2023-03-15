@@ -3,15 +3,27 @@ import { useCallback, useState } from 'react'
 
 import { getStorage } from '~/lib/storage'
 import { supabase } from '~/lib/supabase'
-import { queryClient } from '~/lib/trpc'
+import { queryClient, trpc } from '~/lib/trpc'
+
+import { useDeviceId } from '../device-id'
 
 export const useSignOut = () => {
   const router = useRouter()
 
+  const { deviceId } = useDeviceId()
+
   const [loading, setLoading] = useState(false)
+
+  const { mutateAsync } = trpc.users.signOut.useMutation()
 
   const signOut = useCallback(async () => {
     setLoading(true)
+
+    if (deviceId) {
+      await mutateAsync({
+        id: deviceId,
+      })
+    }
 
     await supabase.auth.signOut()
 
@@ -24,7 +36,7 @@ export const useSignOut = () => {
     router.replace('/')
 
     setLoading(false)
-  }, [router])
+  }, [deviceId, mutateAsync, router])
 
   return {
     loading,

@@ -132,4 +132,24 @@ export const notifications = t.router({
         },
       })
     }),
+  register: t.procedure
+    .input(
+      z.object({
+        id: z.string(),
+        token: z.string(),
+        type: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      isLoggedIn(ctx)
+
+      await db.device.create({
+        data: {
+          id: input.id,
+          token: input.token,
+          type: input.token,
+          userId: ctx.user.id,
+        },
+      })
+    }),
 })

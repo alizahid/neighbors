@@ -45,7 +45,7 @@ const Screen: FunctionComponent = () => {
   const onSubmit = handleSubmit((data) => {
     keyboard.dismiss()
 
-    return signUp(data)
+    signUp(data)
   })
 
   useFocusEffect(() => {

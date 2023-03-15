@@ -23,6 +23,33 @@ export const users = t.router({
       })
     }),
   profile: t.procedure.query(({ ctx }) => ctx.user),
+  signOut: t.procedure
+    .input(
+      z.object({
+        id: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      isLoggedIn(ctx)
+
+      if (input.id) {
+        const device = await db.device.findUnique({
+          where: {
+            id: input.id,
+          },
+        })
+
+        if (!device || device.userId !== ctx.user.id) {
+          return
+        }
+
+        await db.device.delete({
+          where: {
+            id: input.id,
+          },
+        })
+      }
+    }),
   signUp: t.procedure
     .input(
       z.object({

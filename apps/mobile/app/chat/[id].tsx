@@ -26,8 +26,8 @@ const Screen: FunctionComponent = () => {
 
   const id = String(params.id)
 
-  const { channel, connected, fetchMore, loading, messages } = useChat(id)
   const { users } = usePresence()
+  const { channel, fetchMore, loading, messages } = useChat(id)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -36,16 +36,16 @@ const Screen: FunctionComponent = () => {
   })
 
   useEffect(() => {
-    const them = channel?.members.find(({ userId }) => userId !== profile?.id)
+    const them = channel?.members.find(({ id }) => id !== profile?.id)
 
     navigation.setOptions({
       headerTitle: () => (
-        <ChatStatusCard online={them ? users.includes(them.userId) : false}>
+        <ChatStatusCard online={them ? users.includes(them.id) : false}>
           {them?.name}
         </ChatStatusCard>
       ),
     })
-  }, [channel?.members, connected, navigation, profile?.id, users])
+  }, [channel?.members, navigation, profile?.id, users])
 
   return (
     <>
@@ -81,7 +81,7 @@ const Screen: FunctionComponent = () => {
         )}
       />
 
-      <ChatReply channelId={id} disabled={!connected} />
+      <ChatReply channelId={id} />
     </>
   )
 }

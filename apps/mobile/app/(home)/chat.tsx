@@ -8,8 +8,8 @@ import { Empty } from '~/components/common/empty'
 import { Refresher } from '~/components/common/refresher'
 import { Separator } from '~/components/common/separator'
 import { useProfile } from '~/hooks/auth/profile'
-import { useChannels } from '~/hooks/chat/channels'
 import { tw } from '~/lib/tailwind'
+import { useChannels } from '~/providers/chat'
 
 const Screen: FunctionComponent = () => {
   const navigation = useNavigation()

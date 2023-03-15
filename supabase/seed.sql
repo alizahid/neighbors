@@ -66,7 +66,7 @@ FROM (
         LEFT JOIN LATERAL (
             SELECT json_agg(
                     json_build_object(
-                        'userId',
+                        'id',
                         "Member"."userId",
                         'name',
                         "User".name,
@@ -84,9 +84,6 @@ FROM (
         ) "Member" ON (TRUE)
     )
 ORDER BY "Channel"."updatedAt" DESC;
-
-ALTER VIEW channels
-SET (security_invoker = ON);
 
 CREATE OR REPLACE VIEW messages AS
 SELECT "Message".id,
@@ -107,6 +104,9 @@ FROM (
         JOIN "User" ON (("Message"."userId" = "User".id))
     )
 ORDER BY "Message"."createdAt";
+
+ALTER VIEW channels
+SET (security_invoker = ON);
 
 ALTER VIEW messages
 SET (security_invoker = ON);

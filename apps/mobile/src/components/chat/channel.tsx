@@ -26,10 +26,10 @@ export const ChannelCard: FunctionComponent<Props> = ({
 
   const { users } = usePresence()
 
-  const them = channel.members.find((member) => member.userId !== userId)
-  const me = channel.members.find((member) => member.userId === userId)
+  const them = channel.members.find((member) => member.id !== userId)
+  const me = channel.members.find((member) => member.id === userId)
 
-  const online = them && users.includes(them.userId)
+  const online = them && users.includes(them.id)
 
   const read = me?.checkedAt ? me.checkedAt > channel.updatedAt : false
 

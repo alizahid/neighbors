@@ -9,9 +9,9 @@ export const ChatChannelSchema = z.object({
         .string()
         .nullable()
         .transform((value) => (value ? parseJSON(value) : null)),
+      id: z.string().uuid(),
       image: z.string().nullable(),
       name: z.string(),
-      userId: z.string().uuid(),
     })
   ),
   message: z.string().nullable(),

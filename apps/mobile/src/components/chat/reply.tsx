@@ -24,13 +24,12 @@ export type ChatReplyComponent = {
 
 type Props = {
   channelId: string
-  disabled?: boolean
   style?: StyleProp<ViewStyle>
 }
 
 // eslint-disable-next-line react/display-name
 export const ChatReply = forwardRef<ChatReplyComponent, Props>(
-  ({ channelId, disabled, style }, ref) => {
+  ({ channelId, style }, ref) => {
     const { bottom } = useSafeAreaInsets()
 
     const t = useTranslations('component.chat.reply')
@@ -111,7 +110,6 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
             name="message"
             render={({ field: { onBlur, onChange, ref, value } }) => (
               <Input
-                editable={!disabled}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 onSubmitEditing={onSubmit}
@@ -146,7 +144,7 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
                 value={value.map(({ url }) => url)}
               >
                 <IconButton
-                  disabled={disabled || send.isLoading}
+                  disabled={send.isLoading}
                   loading={uploading}
                   name="uploadImage"
                   onPress={() => setFocus('meta.attachments')}
@@ -158,7 +156,6 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
 
           {formState.isValid && (
             <IconButton
-              disabled={disabled}
               loading={send.isLoading}
               name="send"
               onPress={onSubmit}

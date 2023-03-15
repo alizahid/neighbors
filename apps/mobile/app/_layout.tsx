@@ -12,6 +12,7 @@ import { fonts } from '~/lib/fonts'
 import { tw } from '~/lib/tailwind'
 import { theme } from '~/lib/theme'
 import { ApiProvider } from '~/providers/api'
+import { ChatProvider } from '~/providers/chat'
 import { PresenceProvider } from '~/providers/presence'
 import { ToastProvider } from '~/providers/toast'
 
@@ -26,26 +27,28 @@ const Layout: FunctionComponent = () => {
 
   return (
     <ThemeProvider value={theme}>
-      <ApiProvider>
-        <IntlProvider
-          locale="en"
-          messages={en}
-          now={new Date()}
-          timeZone={calendar?.timeZone ?? 'Asia/Dubai'}
-        >
+      <IntlProvider
+        locale="en"
+        messages={en}
+        now={new Date()}
+        timeZone={calendar?.timeZone ?? 'Asia/Dubai'}
+      >
+        <ApiProvider>
           <PresenceProvider>
-            <ToastProvider>
-              <KeyboardAvoidingView
-                behavior="padding"
-                enabled={Platform.OS === 'ios'}
-                style={tw`flex-1`}
-              >
-                <Root />
-              </KeyboardAvoidingView>
-            </ToastProvider>
+            <ChatProvider>
+              <ToastProvider>
+                <KeyboardAvoidingView
+                  behavior="padding"
+                  enabled={Platform.OS === 'ios'}
+                  style={tw`flex-1`}
+                >
+                  <Root />
+                </KeyboardAvoidingView>
+              </ToastProvider>
+            </ChatProvider>
           </PresenceProvider>
-        </IntlProvider>
-      </ApiProvider>
+        </ApiProvider>
+      </IntlProvider>
     </ThemeProvider>
   )
 }

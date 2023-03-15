@@ -1,3 +1,61 @@
+ALTER TABLE "Building" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "User" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Notification" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Resident" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Post" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Comment" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Like" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Channel" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Member" enable ROW LEVEL SECURITY;
+
+ALTER TABLE "Message" enable ROW LEVEL SECURITY;
+
+GRANT USAGE ON schema public TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN schema public TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+GRANT ALL PRIVILEGES ON ALL functions IN schema public TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+GRANT ALL PRIVILEGES ON ALL sequences IN schema public TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+ALTER DEFAULT PRIVILEGES IN schema public
+GRANT ALL ON TABLES TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+ALTER DEFAULT PRIVILEGES IN schema public
+GRANT ALL ON functions TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
+ALTER DEFAULT PRIVILEGES IN schema public
+GRANT ALL ON sequences TO postgres,
+    anon,
+    authenticated,
+    service_role;
+
 CREATE OR REPLACE VIEW channels AS
 SELECT "Channel".id,
     "Channel".message,

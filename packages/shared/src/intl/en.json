@@ -145,9 +145,23 @@
       "title": "Home"
     },
     "landing": {
+      "beta": "Beta coming soon",
+      "chat": {
+        "title": "Talk to your neighbors"
+      },
+      "description": "Say hello to your neighbors",
+      "footer": {
+        "copyright": "© {year, date, ::y} nearbuds. All rights reserved."
+      },
+      "home": {
+        "title": "Browse your building feed"
+      },
+      "post": {
+        "title": "Engage, buy and sell, attend events"
+      },
       "signIn": "Sign in",
       "signUp": "Sign up",
-      "title": "<primary>Near</primary><accent>buds</accent>"
+      "title": "nearbuds"
     },
     "notifications": {
       "empty": "Nothing here",
@@ -155,7 +169,7 @@
       "title": "Notifications"
     },
     "onboarding": {
-      "message": "Nearbuds is an invite only app. Have a neighbor share their QR code so you can join the building.",
+      "message": "nearbuds is an invite only app. Have a neighbor share their QR code so you can join the building.",
       "notFound": "We couldn't find the building. Are you sure you scanned the right QR code?",
       "scan": "Scan a building QR code to join.",
       "success": "Welcome! Redirecting now.",

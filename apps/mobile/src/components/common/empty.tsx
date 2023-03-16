@@ -34,10 +34,10 @@ export const Empty: FunctionComponent<Props> = ({
       <Image
         contentFit="contain"
         source={not_found}
-        style={tw`h-[${size}] w-[${size}]`}
+        style={tw`h-[${size}] w-[${size}] ml-12`}
       />
 
-      <View style={tw`-mt-24 gap-2 items-center justify-center p-8`}>
+      <View style={tw`-mt-6 gap-2 items-center justify-center p-8`}>
         {!!title && (
           <Typography align="center" size="lg" weight="semibold">
             {title}

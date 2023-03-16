@@ -27,9 +27,10 @@ export const Root: FunctionComponent = () => {
 
   return (
     <Stack
-      initialRouteName={profile ? '/home' : undefined}
       screenOptions={({ route }) => ({
-        gestureEnabled: !(route.name === '(home)' && !!profile),
+        gestureEnabled: !(profile
+          ? route.name === '(home)'
+          : route.name === 'index'),
         header: (props) => <StackHeader {...props} />,
       })}
     />

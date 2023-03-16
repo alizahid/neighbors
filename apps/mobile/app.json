@@ -1,9 +1,13 @@
 {
   "expo": {
-    "name": "Nearbuds",
+    "name": "nearbuds",
     "slug": "nearbuds",
     "scheme": "nearbuds",
     "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#fff",
+        "foregroundImage": "./assets/img/adaptive-icon.png"
+      },
       "intentFilters": [
         {
           "action": "VIEW",
@@ -20,6 +24,7 @@
         "projectId": "eb0dc900-5dde-44f6-8dcf-00d608dff6af"
       }
     },
+    "icon": "./assets/img/icon.png",
     "ios": {
       "associatedDomains": ["applinks:nearbuds.co"],
       "bundleIdentifier": "co.nearbuds",
@@ -27,20 +32,27 @@
         "usesNonExemptEncryption": false
       }
     },
+    "orientation": "portrait",
     "plugins": [
       [
         "expo-image-picker",
         {
-          "photosPermission": "Nearbuds needs access to your photos."
+          "photosPermission": "nearbuds needs access to your photos."
         }
       ],
       [
         "expo-barcode-scanner",
         {
-          "cameraPermission": "Nearbuds needs access to your camera."
+          "cameraPermission": "nearbuds needs access to your camera."
         }
       ],
       "expo-localization"
-    ]
+    ],
+    "splash": {
+      "backgroundColor": "#fff",
+      "image": "./assets/img/splash.png",
+      "resizeMode": "contain"
+    },
+    "userInterfaceStyle": "light"
   }
 }

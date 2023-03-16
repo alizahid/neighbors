@@ -39,7 +39,7 @@ export const Pressable: FunctionComponent<Props> = ({
   const opacity = useSharedValue(1)
 
   const fadeIn = () => {
-    opacity.value = withTiming(0.5, {
+    opacity.value = withTiming(0.75, {
       duration: 100,
     })
   }

@@ -1,22 +1,20 @@
-import {
-  Redirect,
-  SplashScreen,
-  useFocusEffect,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
+import { Image } from 'expo-image'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Redirect, useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/common/button'
+import { Loading } from '~/components/common/loading'
+import { Pressable } from '~/components/common/pressable'
 import { Typography } from '~/components/common/typography'
 import { useProfile } from '~/hooks/auth/profile'
-import { tw } from '~/lib/tailwind'
+import hero from '~/img/hero.png'
+import { getSpace, tw } from '~/lib/tailwind'
 
 const Screen: FunctionComponent = () => {
-  const { bottom } = useSafeAreaInsets()
+  const { bottom, top } = useSafeAreaInsets()
 
   const router = useRouter()
   const navigation = useNavigation()
@@ -32,7 +30,7 @@ const Screen: FunctionComponent = () => {
   })
 
   if (loading) {
-    return <SplashScreen />
+    return <Loading />
   }
 
   if (profile) {
@@ -45,35 +43,68 @@ const Screen: FunctionComponent = () => {
 
   return (
     <View style={tw`flex-1`}>
-      <View style={tw`items-center flex-1 justify-center`}>
-        <View style={tw`flex-row`}>
-          {t.rich('title', {
-            accent: (text) => (
-              <Typography color="accent-11" size="4xl" weight="bold">
-                {text}
-              </Typography>
-            ),
-            primary: (text) => (
-              <Typography color="primary-11" size="4xl" weight="bold">
-                {text}
-              </Typography>
-            ),
-          })}
+      <Image
+        pointerEvents="none"
+        source={hero}
+        style={tw`absolute h-full w-full`}
+      />
+
+      <View style={tw`flex-1 mt-[${top + getSpace(20)}px]`}>
+        <View style={tw`w-full`}>
+          <Typography align="center" size="4xl" weight="bold">
+            {t('title')}
+          </Typography>
+
+          <Typography align="center" color="gray-11" weight="medium">
+            {t('description')}
+          </Typography>
         </View>
       </View>
 
       <View style={tw`flex-row p-4 gap-4 mb-[${bottom}px]`}>
-        <Button
+        <Pressable
           onPress={() => router.push('/auth/sign-up')}
-          style={tw`flex-1`}
-          variant="text"
+          style={tw`h-12 flex-1`}
         >
-          {t('signUp')}
-        </Button>
+          <LinearGradient
+            colors={['#84A89D', '#496C60']}
+            end={{
+              x: 1,
+              y: 1,
+            }}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            style={tw`items-center justify-center rounded-lg h-full w-full`}
+          >
+            <Typography color="gray-1" weight="semibold">
+              {t('signUp')}
+            </Typography>
+          </LinearGradient>
+        </Pressable>
 
-        <Button onPress={() => router.push('/auth/sign-in')} style={tw`flex-1`}>
-          {t('signIn')}
-        </Button>
+        <Pressable
+          onPress={() => router.push('/auth/sign-in')}
+          style={tw`h-12 flex-1`}
+        >
+          <LinearGradient
+            colors={['#D8A1B3', '#A5556F']}
+            end={{
+              x: 1,
+              y: 1,
+            }}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            style={tw`items-center justify-center rounded-lg h-full w-full`}
+          >
+            <Typography color="gray-1" weight="semibold">
+              {t('signIn')}
+            </Typography>
+          </LinearGradient>
+        </Pressable>
       </View>
     </View>
   )

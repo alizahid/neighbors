@@ -18,7 +18,6 @@ import { Empty } from '~/components/common/empty'
 import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
 import { Refresher } from '~/components/common/refresher'
-import { Separator } from '~/components/common/separator'
 import { Typography } from '~/components/common/typography'
 import { PostCard } from '~/components/posts/card'
 import { useProfile } from '~/hooks/auth/profile'
@@ -90,7 +89,7 @@ const Screen: FunctionComponent = () => {
   return (
     <>
       <FlashList
-        ItemSeparatorComponent={Separator}
+        ItemSeparatorComponent={() => <View style={tw`h-2`} />}
         ListEmptyComponent={() => <Empty title={t('comments.empty')} />}
         ListHeaderComponent={
           <View>

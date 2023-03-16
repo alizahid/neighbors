@@ -7,7 +7,7 @@ const Page: NextPage = () => {
   const t = useTranslations('screen.landing')
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-32 px-4 py-32 lg:mx-auto lg:max-w-5xl">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-32 px-4 pt-32 lg:mx-auto lg:max-w-5xl">
       <Head>
         <title>{`${t('title')}: ${t('description')}`}</title>
       </Head>
@@ -69,6 +69,14 @@ const Page: NextPage = () => {
           })}
         </p>
       </footer>
+
+      <Image
+        alt="Hero image"
+        className="w-64"
+        height={2778 / 4}
+        src="/img/hero.png"
+        width={1284 / 4}
+      />
     </div>
   )
 }

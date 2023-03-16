@@ -101,7 +101,7 @@ export const Input = forwardRef<TextInput, Props>(
           secureTextEntry={secureTextEntry}
           style={[
             tw.style(
-              'font-body-regular leading-tight text-base bg-gray-2 rounded-lg border border-gray-7 px-3',
+              'font-body-regular rounded-lg border border-gray-7 bg-gray-2 px-3 text-base leading-tight',
               multiline ? 'h-24 py-3' : 'h-12 pt-0.5 pb-0',
               error && 'border-red-7',
               focused && (error ? 'border-red-8' : 'border-primary-8')

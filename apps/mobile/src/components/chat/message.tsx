@@ -32,7 +32,7 @@ export const ChatMessage: FunctionComponent<Props> = ({
     <View
       style={[
         tw.style(
-          'gap-2 items-end w-2/3',
+          'w-2/3 items-end gap-2',
           mine ? 'flex-row-reverse self-end' : 'flex-row',
           !first &&
             !last &&
@@ -48,7 +48,7 @@ export const ChatMessage: FunctionComponent<Props> = ({
           <Avatar
             image={message.user.image}
             name={message.user.name}
-            style={tw`h-6 w-6 mb-5`}
+            style={tw`mb-5 h-6 w-6`}
           />
         )}
 

@@ -61,7 +61,7 @@ const Screen: FunctionComponent = () => {
         </View>
       </View>
 
-      <View style={tw`flex-row p-4 gap-4 mb-[${bottom}px]`}>
+      <View style={tw`flex-row gap-4 p-4 mb-[${bottom}px]`}>
         <Pressable
           onPress={() => router.push('/auth/sign-up')}
           style={tw`h-12 flex-1`}
@@ -76,7 +76,7 @@ const Screen: FunctionComponent = () => {
               x: 0,
               y: 0,
             }}
-            style={tw`items-center justify-center rounded-lg h-full w-full`}
+            style={tw`h-full w-full items-center justify-center rounded-lg`}
           >
             <Typography color="gray-1" weight="semibold">
               {t('signUp')}
@@ -98,7 +98,7 @@ const Screen: FunctionComponent = () => {
               x: 0,
               y: 0,
             }}
-            style={tw`items-center justify-center rounded-lg h-full w-full`}
+            style={tw`h-full w-full items-center justify-center rounded-lg`}
           >
             <Typography color="gray-1" weight="semibold">
               {t('signIn')}

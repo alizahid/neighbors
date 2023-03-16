@@ -91,11 +91,11 @@ export const AvatarUploader = forwardRef<AvatarUploaderComponent, Props>(
       <Pressable
         disabled={uploading}
         onPress={onPick}
-        style={[tw`h-[${size}] w-[${size}] bg-gray-3 rounded-full`, style]}
+        style={[tw`h-[${size}] w-[${size}] rounded-full bg-gray-3`, style]}
       >
         <Avatar image={value} name={name} style={tw`h-full w-full`} />
 
-        <View style={tw`bg-gray-4 rounded-full absolute bottom-3 right-3 p-2`}>
+        <View style={tw`absolute bottom-3 right-3 rounded-full bg-gray-4 p-2`}>
           {uploading ? (
             <Spinner color="gray-12" />
           ) : (

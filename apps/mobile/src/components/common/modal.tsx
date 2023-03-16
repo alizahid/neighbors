@@ -90,27 +90,27 @@ export const Modal: FunctionComponent<Props> = ({
   return (
     <ActionSheet onClose={() => onClose()} ref={ref}>
       <View
-        style={tw`bg-gray-1 rounded-t-xl max-h-[${
+        style={tw`rounded-t-xl bg-gray-1 max-h-[${
           height - top - getSpace(8)
         }px]`}
       >
         {(!!title || left || right) && (
-          <View style={tw`h-12 flex-row border-b border-gray-6 items-center`}>
+          <View style={tw`h-12 flex-row items-center border-b border-gray-6`}>
             {!!title && (
               <Typography
                 align="center"
                 size="lg"
-                style={tw`flex-1 mx-4`}
+                style={tw`mx-4 flex-1`}
                 weight="semibold"
               >
                 {title}
               </Typography>
             )}
 
-            {left && <View style={tw`flex-row absolute left-0`}>{left}</View>}
+            {left && <View style={tw`absolute left-0 flex-row`}>{left}</View>}
 
             {right && (
-              <View style={tw`flex-row absolute right-0`}>{right}</View>
+              <View style={tw`absolute right-0 flex-row`}>{right}</View>
             )}
           </View>
         )}

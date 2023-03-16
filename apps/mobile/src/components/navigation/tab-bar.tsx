@@ -28,7 +28,7 @@ export const TabBar: FunctionComponent<Props> = ({
   }
 
   return (
-    <View style={tw`bg-gray-1 flex-row border-t border-gray-6`}>
+    <View style={tw`flex-row border-t border-gray-6 bg-gray-1`}>
       {state.routes.map((route, index) => {
         const data = descriptors[route.key]
 
@@ -76,7 +76,7 @@ export const TabBar: FunctionComponent<Props> = ({
 
               {!!data.options.tabBarBadge && (
                 <View
-                  style={tw`absolute -top-1 -right-2 bg-primary-9 h-4 w-4 items-center justify-center rounded-full`}
+                  style={tw`absolute -top-1 -right-2 h-4 w-4 items-center justify-center rounded-full bg-primary-9`}
                 >
                   <Typography align="center" color="gray-1" size="xs">
                     {formatter.number(Number(data.options.tabBarBadge), {

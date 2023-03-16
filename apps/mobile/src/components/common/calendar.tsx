@@ -57,7 +57,7 @@ export const Calendar: FunctionComponent<Props> = ({
               {calendar[0][0].map((day, index) => (
                 <View
                   key={`day-${index}`}
-                  style={tw`justify-center flex-1 h-12`}
+                  style={tw`h-12 flex-1 justify-center`}
                 >
                   <Typography align="center" weight="medium">
                     {formatter.dateTime(day, {
@@ -83,7 +83,7 @@ export const Calendar: FunctionComponent<Props> = ({
               disabled={disabled}
               onPress={() => onChange(item)}
               style={tw.style(
-                `flex-1 h-12 justify-center rounded-lg`,
+                `h-12 flex-1 justify-center rounded-lg`,
                 selected && 'bg-primary-9'
               )}
             >

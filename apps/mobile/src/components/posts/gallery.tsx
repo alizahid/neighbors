@@ -44,7 +44,7 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
           >
             <Image
               source={getImageUrl(url)}
-              style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+              style={tw`h-20 w-20 rounded-lg bg-gray-3`}
             />
           </Pressable>
         ))}
@@ -52,7 +52,7 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
 
       <ImageViewer
         FooterComponent={() => (
-          <View style={tw`items-center mx-4 mb-[${bottom + getSpace(4)}px]`}>
+          <View style={tw`mx-4 items-center mb-[${bottom + getSpace(4)}px]`}>
             <Typography color="gray-1" size="sm">
               {show + 1}/{images.length}
             </Typography>
@@ -66,7 +66,7 @@ export const Gallery: FunctionComponent<Props> = ({ images, style, title }) => {
               <Typography
                 color="gray-1"
                 size="lg"
-                style={tw`flex-1 m-4`}
+                style={tw`m-4 flex-1`}
                 weight="semibold"
               >
                 {title}

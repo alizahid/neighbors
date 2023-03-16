@@ -57,8 +57,8 @@ export const ChannelCard: FunctionComponent<Props> = ({
           )}
 
           {!read && (
-            <View style={tw`h-5 justify-center ml-auto`}>
-              <View style={tw`h-2 w-2 bg-primary-9 rounded-full`} />
+            <View style={tw`ml-auto h-5 justify-center`}>
+              <View style={tw`h-2 w-2 rounded-full bg-primary-9`} />
             </View>
           )}
         </View>

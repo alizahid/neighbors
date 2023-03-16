@@ -91,7 +91,7 @@ export const ToastProvider: FunctionComponent<Props> = ({ children }) => {
                 setToasts((toasts) => toasts.filter((toast) => toast.id !== id))
               }}
               style={tw.style(
-                'flex-row items-center gap-2 px-3 py-3 rounded-xl border shadow',
+                'flex-row items-center gap-2 rounded-xl border px-3 py-3 shadow',
                 variant === 'notification'
                   ? 'border-mint-6 bg-mint-3'
                   : variant === 'success'

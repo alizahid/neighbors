@@ -37,7 +37,7 @@ export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
           {t('label')}
         </Typography>
 
-        <View style={tw`flex-row gap-2 flex-wrap`}>
+        <View style={tw`flex-row flex-wrap gap-2`}>
           {value?.map((url, index) => (
             <Pressable
               key={index}
@@ -51,7 +51,7 @@ export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
             >
               <Image
                 source={getImageUrl(url)}
-                style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+                style={tw`h-20 w-20 rounded-lg bg-gray-3`}
               />
             </Pressable>
           ))}
@@ -66,7 +66,7 @@ export const ImageUploader = forwardRef<ImagePickerComponent, Props>(
               loading={uploading}
               name="uploadImage"
               onPress={() => picker.current?.open()}
-              style={tw`bg-gray-3 h-20 w-20 rounded-lg`}
+              style={tw`h-20 w-20 rounded-lg bg-gray-3`}
             />
           </ImagePicker>
         </View>

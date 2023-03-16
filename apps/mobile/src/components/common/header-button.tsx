@@ -29,7 +29,7 @@ export const HeaderButton: FunctionComponent<Props> = ({
   <Pressable
     disabled={loading || disabled}
     onPress={onPress}
-    style={[tw`h-12 px-4 items-center justify-center`, style]}
+    style={[tw`h-12 items-center justify-center px-4`, style]}
   >
     {loading ? (
       <Spinner color={color} />

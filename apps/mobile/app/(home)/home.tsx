@@ -64,7 +64,7 @@ const Screen: FunctionComponent = () => {
         color="gray-1"
         name="plus"
         onPress={() => router.push('/posts/new')}
-        style={tw`absolute bottom-4 right-4 bg-primary-12 rounded-full`}
+        style={tw`absolute bottom-4 right-4 rounded-full bg-primary-12`}
       />
     </>
   )

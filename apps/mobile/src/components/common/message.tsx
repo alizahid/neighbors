@@ -20,7 +20,7 @@ export const Message: FunctionComponent<Props> = ({
   <View
     style={[
       tw.style(
-        'flex-row gap-2 items-center p-3 rounded-lg border',
+        'flex-row items-center gap-2 rounded-lg border p-3',
         variant === 'success'
           ? 'border-green-6 bg-green-3'
           : variant === 'error'

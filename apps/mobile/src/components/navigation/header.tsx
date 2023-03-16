@@ -29,7 +29,7 @@ export const StackHeader: FunctionComponent<Props> = ({
     >
       {modal && <StatusBar style="light" />}
 
-      <View style={tw`items-center justify-center h-12`}>
+      <View style={tw`h-12 items-center justify-center`}>
         {'back' in props && (
           <IconButton
             name={modal ? 'close' : 'left'}
@@ -47,7 +47,7 @@ export const StackHeader: FunctionComponent<Props> = ({
         )}
 
         {options.headerRight && (
-          <View style={tw`flex-row absolute bottom-0 right-0`}>
+          <View style={tw`absolute bottom-0 right-0 flex-row`}>
             {options.headerRight({
               canGoBack: navigation.canGoBack(),
             })}

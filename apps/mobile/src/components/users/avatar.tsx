@@ -30,7 +30,7 @@ export const Avatar: FunctionComponent<Props> = ({
     <View
       onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
       style={[
-        tw`h-12 w-12 rounded-full items-center justify-center bg-[${color}]`,
+        tw`h-12 w-12 items-center justify-center rounded-full bg-[${color}]`,
         style,
       ]}
     >
@@ -55,7 +55,7 @@ export const Avatar: FunctionComponent<Props> = ({
       {online !== undefined && (
         <View
           style={tw.style(
-            'h-3 w-3 rounded-lg absolute bottom-0 right-0',
+            'absolute bottom-0 right-0 h-3 w-3 rounded-lg',
             online ? 'bg-green-9' : 'bg-gray-9'
           )}
         />

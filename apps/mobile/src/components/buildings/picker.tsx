@@ -38,7 +38,7 @@ export const BuildingPicker: FunctionComponent = () => {
     <>
       <Pressable
         onPress={() => setVisible(true)}
-        style={tw`flex-row items-center justify-center gap-2 h-12 w-full`}
+        style={tw`h-12 w-full flex-row items-center justify-center gap-2`}
       >
         <Typography weight="bold">{building?.name ?? t('title')}</Typography>
 

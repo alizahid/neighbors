@@ -34,7 +34,7 @@ export const Button: FunctionComponent<Props> = ({
     onPress={onPress}
     style={[
       tw.style(
-        'h-12 items-center flex-row gap-2 rounded-lg px-4 justify-center',
+        'h-12 flex-row items-center justify-center gap-2 rounded-lg px-4',
         variant === 'primary' && 'bg-primary-9',
         variant === 'accent' && 'bg-accent-9'
       ),

@@ -29,6 +29,6 @@ export const BuildingCard: FunctionComponent<Props> = ({
       </Typography>
     </View>
 
-    {selected && <View style={tw`h-3 w-3 bg-primary-9 rounded-full`} />}
+    {selected && <View style={tw`h-3 w-3 rounded-full bg-primary-9`} />}
   </View>
 )

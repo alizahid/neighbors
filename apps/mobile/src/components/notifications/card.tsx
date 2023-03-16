@@ -105,7 +105,7 @@ export const NotificationCard: FunctionComponent<Props> = ({
       </View>
 
       {!notification.readAt && (
-        <View style={tw`h-3 w-3 bg-primary-9 rounded-full`} />
+        <View style={tw`h-3 w-3 rounded-full bg-primary-9`} />
       )}
     </Pressable>
   )

@@ -79,7 +79,7 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
     return (
       <View style={[tw`border-t border-gray-7`, style]}>
         {meta.attachments.length > 0 && (
-          <View style={tw`flex-row flex-wrap p-3 gap-3`}>
+          <View style={tw`flex-row flex-wrap gap-3 p-3`}>
             {meta.attachments.map(({ url }, index) => (
               <Pressable
                 key={index}
@@ -97,7 +97,7 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
                 />
 
                 <View
-                  style={tw`absolute p-0.5 rounded-full bg-gray-3 -top-2 -right-2`}
+                  style={tw`absolute -top-2 -right-2 rounded-full bg-gray-3 p-0.5`}
                 >
                   <Icon name="close" style={tw`h-3 w-3`} />
                 </View>

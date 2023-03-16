@@ -43,7 +43,7 @@ export const ResidencyCard: FunctionComponent<Props> = ({
       <View style={tw`flex-row items-center gap-4`}>
         <Icon name={residency.building.type} style={tw`ml-4`} />
 
-        <View style={tw`flex-1 my-4`}>
+        <View style={tw`my-4 flex-1`}>
           <Typography weight="medium">{residency.building.name}</Typography>
 
           {lines.map((line, index) => (
@@ -66,7 +66,7 @@ export const ResidencyCard: FunctionComponent<Props> = ({
         isVisible={visible}
         onBackButtonPress={() => setVisible(false)}
         onBackdropPress={() => setVisible(false)}
-        style={tw.style('items-center justify-center m-0 p-8 gap-8')}
+        style={tw.style('m-0 items-center justify-center gap-8 p-8')}
         useNativeDriver
         useNativeDriverForBackdrop
       >

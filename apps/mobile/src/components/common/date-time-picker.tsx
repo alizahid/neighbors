@@ -65,7 +65,7 @@ export const DateTimePicker = forwardRef<DateTimePickerComponent, Props>(
           <Pressable
             onPress={() => setVisible(true)}
             style={tw.style(
-              'flex-row items-center justify-between h-12 bg-gray-2 rounded-lg border border-gray-7 px-3',
+              'h-12 flex-row items-center justify-between rounded-lg border border-gray-7 bg-gray-2 px-3',
               error && 'border-red-7'
             )}
           >

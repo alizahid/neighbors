@@ -49,7 +49,7 @@ export const useSignUp = () => {
 
         await refetch()
 
-        router.replace('/onboarding')
+        router.replace('/home')
       } catch (error) {
         setError(error.message)
       } finally {

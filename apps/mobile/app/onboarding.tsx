@@ -6,9 +6,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
 import { BuildingCard } from '~/components/buildings/card'
+import { IconButton } from '~/components/common/icon-button'
 import { Spinner } from '~/components/common/spinner'
 import { Typography } from '~/components/common/typography'
 import { useProfile } from '~/hooks/auth/profile'
+import { useSignOut } from '~/hooks/auth/sign-out'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 import { useBuildingStore } from '~/stores/building'
@@ -23,6 +25,7 @@ const Screen: FunctionComponent = () => {
 
   const { refetch } = useProfile()
   const { setBuildingId } = useBuildingStore()
+  const { loading, signOut } = useSignOut()
 
   const [id, setId] = useState<string>()
 
@@ -56,6 +59,9 @@ const Screen: FunctionComponent = () => {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <IconButton loading={loading} name="exit" onPress={signOut} />
+      ),
       title: t('title'),
     })
   })

@@ -1,8 +1,7 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
-import { StatusBar } from 'expo-status-bar'
 import { type FunctionComponent } from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { tw } from '~/lib/tailwind'
@@ -19,23 +18,17 @@ export const StackHeader: FunctionComponent<Props> = ({
 }) => {
   const { top } = useSafeAreaInsets()
 
-  const modal =
-    (options as NativeStackHeaderProps['options']).presentation === 'modal' &&
-    Platform.OS === 'ios'
-
   return (
-    <View
-      style={tw`bg-gray-1 pt-[${modal ? 0 : top}px] border-b border-gray-6`}
-    >
-      {modal && <StatusBar style="light" />}
-
+    <View style={tw`bg-gray-1 pt-[${top}px] border-b border-gray-6`}>
       <View style={tw`h-12 items-center justify-center`}>
-        {'back' in props && (
-          <IconButton
-            name={modal ? 'close' : 'left'}
-            onPress={() => navigation.goBack()}
-            style={tw`absolute bottom-0 left-0`}
-          />
+        {(options.headerLeft || 'back' in props) && (
+          <View style={tw`absolute bottom-0 left-0 flex-row`}>
+            {options.headerLeft?.({
+              canGoBack: navigation.canGoBack(),
+            }) ?? (
+              <IconButton name="left" onPress={() => navigation.goBack()} />
+            )}
+          </View>
         )}
 
         {typeof options.headerTitle === 'function' ? (

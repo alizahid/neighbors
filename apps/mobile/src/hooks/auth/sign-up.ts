@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
+import * as Sentry from 'sentry-expo'
 
 import { supabase } from '~/lib/supabase'
 import { trpc } from '~/lib/trpc'
@@ -52,6 +53,8 @@ export const useSignUp = () => {
         router.replace('/home')
       } catch (error) {
         setError(error.message)
+
+        Sentry.Native.captureException(error)
       } finally {
         setLoading(false)
       }

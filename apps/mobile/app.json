@@ -46,7 +46,8 @@
           "cameraPermission": "nearbuds needs access to your camera."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "sentry-expo"
     ],
     "splash": {
       "backgroundColor": "#fff",

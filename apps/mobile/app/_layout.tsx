@@ -1,9 +1,11 @@
+import { SENTRY_DSN } from '@env'
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { getCalendars } from 'expo-localization'
 import { SplashScreen } from 'expo-router'
 import { type FunctionComponent } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
+import * as Sentry from 'sentry-expo'
 import { IntlProvider } from 'use-intl'
 
 import { Root } from '~/components/navigation/root'
@@ -15,6 +17,10 @@ import { ApiProvider } from '~/providers/api'
 import { ChatProvider } from '~/providers/chat'
 import { PresenceProvider } from '~/providers/presence'
 import { ToastProvider } from '~/providers/toast'
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+})
 
 const [calendar] = getCalendars()
 

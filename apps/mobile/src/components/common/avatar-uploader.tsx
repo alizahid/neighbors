@@ -4,6 +4,7 @@ import mime from 'mime'
 import { forwardRef, useCallback, useImperativeHandle } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import * as Sentry from 'sentry-expo'
 
 import { supabase, SUPABASE_BUCKET } from '~/lib/supabase'
 import { tw } from '~/lib/tailwind'
@@ -82,6 +83,8 @@ export const AvatarUploader = forwardRef<AvatarUploaderComponent, Props>(
         })
 
         onChange(`${path}?ts=${getTime(new Date())}`)
+      } catch (error) {
+        Sentry.Native.captureException(error)
       } finally {
         onUploading?.(false)
       }

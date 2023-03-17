@@ -7,6 +7,7 @@ import {
   useCallback,
   useImperativeHandle,
 } from 'react'
+import * as Sentry from 'sentry-expo'
 
 import { supabase, SUPABASE_BUCKET } from '~/lib/supabase'
 
@@ -66,6 +67,8 @@ export const ImagePicker = forwardRef<ImagePickerComponent, ImagePickerProps>(
         )
 
         onChange([...(value ?? []), ...files])
+      } catch (error) {
+        Sentry.Native.captureException(error)
       } finally {
         onUploading?.(false)
       }

@@ -20,6 +20,14 @@ export const PostEventMetaSchema = z.object({
     offset: true,
   }),
   event: z.string(),
+  rsvp: z
+    .array(
+      z.object({
+        status: z.enum(['yes', 'no', 'maybe']),
+        userId: z.string(),
+      })
+    )
+    .default([]),
 })
 
 export const PostMetaSchema = z.discriminatedUnion('type', [

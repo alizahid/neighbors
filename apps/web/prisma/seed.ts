@@ -13,10 +13,12 @@ const main = async () => {
   await prisma.member.deleteMany()
   await prisma.channel.deleteMany()
   await prisma.resident.deleteMany()
+  await prisma.notification.deleteMany()
+  await prisma.building.deleteMany()
   await prisma.user.deleteMany()
 
-  const ali = await prisma.user.upsert({
-    create: {
+  const ali = await prisma.user.create({
+    data: {
       email: 'ali.zahid@live.com',
       id: '671f2d02-a209-48c2-b5e1-4c103f995fda',
       image: 'https://media.graphassets.com/GJrB3pURnqRlaj61Z3Qp',
@@ -25,49 +27,33 @@ const main = async () => {
       },
       name: 'Ali Zahid',
     },
-    update: {},
-    where: {
-      email: 'ali.zahid@live.com',
-    },
   })
 
-  const janet = await prisma.user.upsert({
-    create: {
+  const janet = await prisma.user.create({
+    data: {
       email: 'hi@janetpaul.com',
       id: 'd552c772-0e75-4a33-8b5c-f92a9fdfeea3',
       name: 'Janet Paul',
     },
-    update: {},
-    where: {
-      email: 'hi@janetpaul.com',
-    },
   })
 
-  const amna = await prisma.building.upsert({
-    create: {
+  const amna = await prisma.building.create({
+    data: {
       area: 'Business Bay',
       city: 'Dubai',
       id: '2423786279',
       name: 'Amna Tower',
       type: 'apartment',
     },
-    update: {},
-    where: {
-      id: '2423786279',
-    },
   })
 
-  const ag = await prisma.building.upsert({
-    create: {
+  const ag = await prisma.building.create({
+    data: {
       area: 'Canal Road',
       city: 'Faisalabad',
       id: 'agfsd',
       name: 'Abdullah Gardens',
       type: 'community',
-    },
-    update: {},
-    where: {
-      id: 'agfsd',
     },
   })
 
@@ -146,6 +132,7 @@ const main = async () => {
                 addMinutes(new Date(), faker.datatype.number(10_000))
               ),
               event: faker.animal.cat(),
+              rsvp: [],
             }
           : {}
       )

@@ -43,7 +43,7 @@ const Screen: FunctionComponent = () => {
   )
 
   useEffect(() => {
-    const unread = data.filter(({ readAt }) => readAt === null).length
+    const unread = data.filter(({ read }) => read === false).length
 
     if (unread === 0) {
       return

@@ -2,47 +2,16 @@ import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 import { db } from '~/lib/prisma'
+import { getBadge } from '~/lib/push'
 
 import { isLoggedIn, isNotNull } from '../helpers'
 import { t } from '../server'
 
 export const notifications = t.router({
-  badge: t.procedure.query(async ({ ctx }) => {
+  badge: t.procedure.query(({ ctx }) => {
     isLoggedIn(ctx)
 
-    const channels = await db.channel.findMany({
-      include: {
-        members: {
-          where: {
-            userId: ctx.user.id,
-          },
-        },
-      },
-      where: {
-        members: {
-          some: {
-            userId: ctx.user.id,
-          },
-        },
-      },
-    })
-
-    const chat = channels.filter(
-      ({ members, updatedAt }) =>
-        !members[0].checkedAt || updatedAt > members[0].checkedAt
-    ).length
-
-    const notifications = await db.notification.count({
-      where: {
-        readAt: null,
-        userId: ctx.user.id,
-      },
-    })
-
-    return {
-      chat,
-      notifications,
-    }
+    return getBadge(ctx.user.id)
   }),
   list: t.procedure
     .input(
@@ -69,9 +38,14 @@ export const notifications = t.router({
       })
 
       const users = await db.user.findMany({
+        select: {
+          id: true,
+          image: true,
+          name: true,
+        },
         where: {
           id: {
-            in: notifications.map(({ actor }) => actor),
+            in: notifications.flatMap(({ actors }) => actors),
           },
         },
       })
@@ -83,7 +57,7 @@ export const notifications = t.router({
         next,
         notifications: notifications.map((notification) => ({
           ...notification,
-          actor: users.find(({ id }) => id === notification.actor),
+          actors: users.filter(({ id }) => notification.actors.includes(id)),
         })),
       }
     }),
@@ -99,7 +73,7 @@ export const notifications = t.router({
       if (!input.id) {
         await db.notification.updateMany({
           data: {
-            readAt: new Date(),
+            read: true,
           },
           where: {
             userId: ctx.user.id,
@@ -125,7 +99,7 @@ export const notifications = t.router({
 
       await db.notification.update({
         data: {
-          readAt: new Date(),
+          read: true,
         },
         where: {
           id: notification.id,

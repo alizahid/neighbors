@@ -1,4 +1,19 @@
 {
+  "api": {
+    "push": {
+      "comment": {
+        "body": "{user} commented on your {type}.",
+        "title": "New comment"
+      },
+      "like": {
+        "body": "{user} liked your {type}.",
+        "title": "New like"
+      },
+      "message": {
+        "title": "New message"
+      }
+    }
+  },
   "component": {
     "buildings": {
       "form": {
@@ -47,7 +62,9 @@
     },
     "notifications": {
       "card": {
-        "comment": "<medium>{user}</medium> commented on your <medium>{type}</medium>."
+        "comment": "{users} commented on your {type}.",
+        "like": "{users} liked your {type}.",
+        "others": "others"
       }
     },
     "posts": {

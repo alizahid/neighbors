@@ -17,6 +17,11 @@ export const users = t.router({
       isLoggedIn(ctx)
 
       return db.user.findUnique({
+        select: {
+          id: true,
+          image: true,
+          name: true,
+        },
         where: {
           id: input.id,
         },

@@ -1,4 +1,4 @@
-import { createIntl, createTranslator } from 'use-intl'
+import { createFormatter, createTranslator } from 'use-intl'
 
 import en from '~/intl/en.json'
 
@@ -8,9 +8,9 @@ const config = {
   timeZone: 'Asia/Dubai',
 }
 
-export const t = createTranslator({
+export const translator = createTranslator({
   ...config,
   messages: en,
 })
 
-export const intl = createIntl(config)
+export const formatter = createFormatter(config)

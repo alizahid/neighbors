@@ -1,15 +1,15 @@
 import * as Notifications from 'expo-notifications'
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
-import { type FunctionComponent, useCallback, useMemo } from 'react'
+import { type FunctionComponent, useCallback } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useTranslations } from 'use-intl'
 
+import { formatBody, splitTarget } from '~/lib/notifications'
 import { tw } from '~/lib/tailwind'
 import { trpc } from '~/lib/trpc'
 import { type RouterOutput } from '~/trpc/types'
 
-import { Icon, type IconName } from '../common/icon'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { TimeAgo } from '../common/time-ago'
 import { Typography } from '../common/typography'
@@ -28,8 +28,6 @@ export const NotificationCard: FunctionComponent<Props> = ({
 }) => {
   const router = useRouter()
 
-  const t = useTranslations('component.notifications.card')
-
   const utils = trpc.useContext()
 
   const markRead = trpc.notifications.markRead.useMutation({
@@ -42,19 +40,19 @@ export const NotificationCard: FunctionComponent<Props> = ({
         }
 
         return produce(data, (next) => {
-          const pageIndex = next?.pages.findIndex(
+          const pageIndex = next.pages.findIndex(
             ({ notifications }) =>
               notifications.findIndex(({ id }) => id === notification.id) >= 0
           )
 
           const notificationIndex = next.pages[
             pageIndex
-          ]?.notifications.findIndex(({ id }) => id === notification.id)
+          ].notifications.findIndex(({ id }) => id === notification.id)
 
           const item = next.pages[pageIndex]?.notifications[notificationIndex]
 
           if (item) {
-            item.readAt = new Date()
+            item.read = true
           }
         })
       })
@@ -65,19 +63,7 @@ export const NotificationCard: FunctionComponent<Props> = ({
     },
   })
 
-  const [type, id] = notification.target.split(':')
-
-  const icon: IconName = notification.type === 'comment' ? 'comment' : 'help'
-
-  const copy = useMemo(
-    () =>
-      t.rich(notification.type, {
-        medium: (text) => <Typography weight="medium">{text}</Typography>,
-        type,
-        user: notification.actor?.name,
-      }),
-    [notification, t, type]
-  )
+  const { id, type } = splitTarget(notification.target)
 
   const onPress = useCallback(() => {
     markRead.mutate({
@@ -94,17 +80,19 @@ export const NotificationCard: FunctionComponent<Props> = ({
       onPress={onPress}
       style={[tw`flex-row items-center gap-2`, style]}
     >
-      <Icon name={icon} />
+      <Icon name={notification.type === 'comment' ? 'comment' : 'help'} />
 
       <View style={tw`flex-1`}>
-        <Typography>{copy}</Typography>
+        <Typography>
+          {formatBody(notification.type, type, notification.actors)}
+        </Typography>
 
         <Typography color="gray-11" size="sm">
           <TimeAgo>{notification.createdAt}</TimeAgo>
         </Typography>
       </View>
 
-      {!notification.readAt && (
+      {!notification.read && (
         <View style={tw`h-3 w-3 rounded-full bg-primary-9`} />
       )}
     </Pressable>

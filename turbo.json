@@ -7,7 +7,7 @@
     "VERCEL_URL",
     "SUPABASE_URL",
     "SUPABASE_PUBLIC_KEY",
-    "ABLY_KEY"
+    "EXPO_ACCESS_TOKEN"
   ],
   "pipeline": {
     "build": {

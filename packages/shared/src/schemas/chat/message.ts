@@ -2,7 +2,7 @@ import { parseJSON } from 'date-fns'
 import { z } from 'zod'
 
 import { AttachmentsSchema } from '../attachments'
-import { ChatUserSchema } from './user'
+import { UserSchema } from '../users'
 
 export const ChatMessageSchema = z.object({
   body: z.string(),
@@ -12,7 +12,7 @@ export const ChatMessageSchema = z.object({
   meta: z.object({
     attachments: AttachmentsSchema.optional(),
   }),
-  user: ChatUserSchema,
+  user: UserSchema,
 })
 
 export type ChatMessageView = z.infer<typeof ChatMessageSchema>

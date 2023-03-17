@@ -109,6 +109,32 @@ export interface Database {
           userId?: string
         }
       }
+      Device: {
+        Row: {
+          createdAt: string
+          id: string
+          token: string
+          type: string
+          updatedAt: string
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          id: string
+          token: string
+          type: string
+          updatedAt?: string
+          userId: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          token?: string
+          type?: string
+          updatedAt?: string
+          userId?: string
+        }
+      }
       Like: {
         Row: {
           createdAt: string
@@ -189,33 +215,33 @@ export interface Database {
       }
       Notification: {
         Row: {
-          actor: string
+          actors: string[] | null
           buildingId: string
           createdAt: string
           id: string
-          readAt: string | null
+          read: boolean
           target: string
           type: string
           updatedAt: string
           userId: string
         }
         Insert: {
-          actor: string
+          actors?: string[] | null
           buildingId: string
           createdAt?: string
           id: string
-          readAt?: string | null
+          read?: boolean
           target: string
           type: string
           updatedAt?: string
           userId: string
         }
         Update: {
-          actor?: string
+          actors?: string[] | null
           buildingId?: string
           createdAt?: string
           id?: string
-          readAt?: string | null
+          read?: boolean
           target?: string
           type?: string
           updatedAt?: string

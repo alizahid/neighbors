@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+import { translator } from '~/lib/intl'
 import { db } from '~/lib/prisma'
+import { sendPush } from '~/lib/push'
 import { ChatSendSchema } from '~/schemas/chat/create'
 
 import { isLoggedIn, isNotNull } from '../helpers'
@@ -160,7 +162,11 @@ export const chat = t.router({
 
     const channel = await db.channel.findFirst({
       include: {
-        members: true,
+        members: {
+          include: {
+            user: true,
+          },
+        },
       },
       where: {
         id: input.channelId,
@@ -193,8 +199,10 @@ export const chat = t.router({
     })
 
     const member = channel.members.find(({ userId }) => userId === ctx.user.id)
+    const other = channel.members.find(({ userId }) => userId !== ctx.user.id)
 
     isNotNull(member)
+    isNotNull(other)
 
     await db.member.update({
       data: {
@@ -204,6 +212,15 @@ export const chat = t.router({
         id: member.id,
       },
     })
+
+    if (process.env.NODE_ENV === 'production') {
+      await sendPush(other.userId, {
+        body: message.body,
+        subtitle: member.user.name,
+        title: translator('api.push.message.title'),
+        url: `/chat/${channel.id}`,
+      })
+    }
 
     return message
   }),

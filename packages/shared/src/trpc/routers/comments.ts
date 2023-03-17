@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+import { combineTarget } from '~/lib/notifications'
 import { db } from '~/lib/prisma'
+import { sendNotification } from '~/lib/push'
 import { CommentCreateSchema } from '~/schemas/comments/create'
 
 import { isLoggedIn, isNotNull, isResident } from '../helpers'
@@ -32,14 +34,12 @@ export const comments = t.router({
         },
       })
 
-      await db.notification.create({
-        data: {
-          actor: ctx.user.id,
-          buildingId: post.buildingId,
-          target: `${post.type}:${post.id}`,
-          type: 'comment',
-          userId: post.userId,
-        },
+      await sendNotification({
+        actorId: ctx.user.id,
+        buildingId: post.buildingId,
+        target: combineTarget(post.type, post.id),
+        type: 'comment',
+        userId: post.userId,
       })
 
       return comment

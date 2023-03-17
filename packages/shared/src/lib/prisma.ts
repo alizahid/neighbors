@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client'
 import { NotificationTypeSchema } from '~/schemas/notifications/type'
 import { UserMetaSchema } from '~/schemas/users/meta'
 
+import { type Target } from './notifications'
+
 declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined
@@ -17,6 +19,14 @@ if (process.env.NODE_ENV !== 'production') {
 export const db = prisma.$extends({
   result: {
     notification: {
+      target: {
+        compute({ target }) {
+          return target as Target
+        },
+        needs: {
+          target: true,
+        },
+      },
       type: {
         compute({ type }) {
           return NotificationTypeSchema.parse(type)

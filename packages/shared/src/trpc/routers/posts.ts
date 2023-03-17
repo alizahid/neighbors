@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+import { combineTarget } from '~/lib/notifications'
 import { db } from '~/lib/prisma'
+import { sendNotification } from '~/lib/push'
 import { PostSchema } from '~/schemas/posts'
 import { PostCreateSchema } from '~/schemas/posts/create'
 
@@ -118,6 +120,14 @@ export const posts = t.router({
             postId: post.id,
             userId: ctx.user.id,
           },
+        })
+
+        await sendNotification({
+          actorId: ctx.user.id,
+          buildingId: post.buildingId,
+          target: combineTarget(post.type, post.id),
+          type: 'like',
+          userId: post.userId,
         })
       }
 

@@ -10,6 +10,7 @@
   "dependencies": {
     "@formatjs/intl-datetimeformat": "^6.5.1",
     "@formatjs/intl-getcanonicallocales": "^2.1.0",
+    "@formatjs/intl-listformat": "^7.1.9",
     "@formatjs/intl-locale": "^3.1.1",
     "@formatjs/intl-numberformat": "^8.3.5",
     "@formatjs/intl-pluralrules": "^5.1.10",

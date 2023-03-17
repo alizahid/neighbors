@@ -24,6 +24,13 @@
         "projectId": "eb0dc900-5dde-44f6-8dcf-00d608dff6af"
       }
     },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps"
+        }
+      ]
+    },
     "icon": "./assets/img/icon.png",
     "ios": {
       "associatedDomains": ["applinks:nearbuds.co"],
@@ -34,6 +41,8 @@
     },
     "orientation": "portrait",
     "plugins": [
+      "sentry-expo",
+      "expo-localization",
       [
         "expo-image-picker",
         {
@@ -45,9 +54,7 @@
         {
           "cameraPermission": "nearbuds needs access to your camera."
         }
-      ],
-      "expo-localization",
-      "sentry-expo"
+      ]
     ],
     "splash": {
       "backgroundColor": "#fff",

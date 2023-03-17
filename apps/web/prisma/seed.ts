@@ -20,7 +20,7 @@ const main = async () => {
   const ali = await prisma.user.create({
     data: {
       email: 'ali.zahid@live.com',
-      id: '671f2d02-a209-48c2-b5e1-4c103f995fda',
+      id: '8d202ad2-9530-4de8-9e7e-ab3c1192c1b2',
       image: 'https://media.graphassets.com/GJrB3pURnqRlaj61Z3Qp',
       meta: {
         bio: 'Founder of nearbuds',
@@ -32,7 +32,7 @@ const main = async () => {
   const janet = await prisma.user.create({
     data: {
       email: 'hi@janetpaul.com',
-      id: 'd552c772-0e75-4a33-8b5c-f92a9fdfeea3',
+      id: '66b02752-7e66-4faf-84ed-8222149a2730',
       name: 'Janet Paul',
     },
   })

@@ -10,14 +10,18 @@ import { useCallback, useEffect, useMemo } from 'react'
 
 import { groupMessages } from '~/lib/chat'
 import { supabase } from '~/lib/supabase'
-import { queryClient, trpc } from '~/lib/trpc'
-import { ChatChannelSchema, type ChatChannelView } from '~/schemas/chat/channel'
+import { queryClient } from '~/lib/trpc'
+import { ChatChannelSchema } from '~/schemas/chat/channel'
 import { ChatMessageSchema, type ChatMessageView } from '~/schemas/chat/message'
 import { type Database } from '~/types/supabase'
+
+import { useChannelChecked } from './checked'
 
 type MessageRow = Database['public']['Tables']['Message']['Row']
 
 export const useChat = (channelId: string) => {
+  const { markChecked } = useChannelChecked(channelId)
+
   const { data: channel } = useQuery(['channels', channelId], async () => {
     const { data } = await supabase
       .from('channels')
@@ -27,8 +31,6 @@ export const useChat = (channelId: string) => {
 
     return ChatChannelSchema.parse(data)
   })
-
-  const utils = trpc.useContext()
 
   const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
     useInfiniteQuery(
@@ -57,41 +59,6 @@ export const useChat = (channelId: string) => {
         getNextPageParam: ({ next }) => next,
       }
     )
-
-  const { mutate: markChecked } = trpc.chat.markChecked.useMutation({
-    onSuccess({ userId }) {
-      utils.notifications.badge.invalidate()
-
-      queryClient.setQueryData<
-        InfiniteData<{
-          data: Array<ChatChannelView>
-          next?: number
-        }>
-      >(['channels'], (data) => {
-        if (!data) {
-          return data
-        }
-
-        return produce(data, (next) => {
-          const pageIndex = next.pages.findIndex(
-            ({ data }) => data.findIndex(({ id }) => id === channelId) >= 0
-          )
-
-          const channelIndex = next.pages[pageIndex]?.data.findIndex(
-            ({ id }) => id === channelId
-          )
-
-          const channel = next.pages[pageIndex]?.data[channelIndex]
-
-          const member = channel?.members.find((member) => member.id === userId)
-
-          if (member) {
-            member.checkedAt = new Date()
-          }
-        })
-      })
-    },
-  })
 
   useEffect(() => {
     markChecked({

@@ -82,7 +82,7 @@ export const PostCard: FunctionComponent<Props> = ({
             }
 
             return produce(data, (next) => {
-              const pageIndex = next?.pages.findIndex(
+              const pageIndex = next.pages.findIndex(
                 ({ posts }) => posts.findIndex(({ id }) => id === post.id) >= 0
               )
 

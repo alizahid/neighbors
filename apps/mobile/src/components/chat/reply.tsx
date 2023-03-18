@@ -6,6 +6,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslations } from 'use-intl'
 
+import { useChannelChecked } from '~/hooks/chat/checked'
 import { useKeyboard } from '~/hooks/keyboard'
 import { getImageUrl } from '~/lib/supabase'
 import { getSpace, tw } from '~/lib/tailwind'
@@ -40,11 +41,17 @@ export const ChatReply = forwardRef<ChatReplyComponent, Props>(
 
     const keyboard = useKeyboard()
 
+    const { markChecked } = useChannelChecked(channelId)
+
     const [uploading, setUploading] = useState(false)
 
     const send = trpc.chat.send.useMutation({
       onSuccess() {
         reset()
+
+        markChecked({
+          channelId,
+        })
       },
     })
 

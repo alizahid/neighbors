@@ -47,7 +47,7 @@ export const NotificationCard: FunctionComponent<Props> = ({
 
           const notificationIndex = next.pages[
             pageIndex
-          ].notifications.findIndex(({ id }) => id === notification.id)
+          ]?.notifications.findIndex(({ id }) => id === notification.id)
 
           const item = next.pages[pageIndex]?.notifications[notificationIndex]
 

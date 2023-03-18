@@ -1,7 +1,7 @@
 import * as Notifications from 'expo-notifications'
 import { useRouter } from 'expo-router'
 import { produce } from 'immer'
-import { type FunctionComponent, useCallback } from 'react'
+import { type FunctionComponent } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { formatBody, splitTarget } from '~/lib/notifications'
@@ -65,19 +65,17 @@ export const NotificationCard: FunctionComponent<Props> = ({
 
   const { id, type } = splitTarget(notification.target)
 
-  const onPress = useCallback(() => {
-    markRead.mutate({
-      id: notification.id,
-    })
-
-    if (notification.type === 'comment') {
-      router.push(`/posts/${id}`)
-    }
-  }, [id, markRead, notification, router])
-
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => {
+        markRead.mutate({
+          id: notification.id,
+        })
+
+        if (['comment', 'like'].includes(notification.type)) {
+          router.push(`/posts/${id}`)
+        }
+      }}
       style={[tw`flex-row items-center gap-2`, style]}
     >
       <Icon name={notification.type === 'comment' ? 'comment' : 'help'} />

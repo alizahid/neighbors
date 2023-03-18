@@ -117,12 +117,16 @@ export const notifications = t.router({
     .mutation(async ({ ctx, input }) => {
       isLoggedIn(ctx)
 
-      await db.device.create({
-        data: {
+      await db.device.upsert({
+        create: {
           id: input.id,
           token: input.token,
           type: input.token,
           userId: ctx.user.id,
+        },
+        update: {},
+        where: {
+          id: input.id,
         },
       })
     }),

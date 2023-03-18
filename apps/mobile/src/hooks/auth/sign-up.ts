@@ -5,12 +5,10 @@ import * as Sentry from 'sentry-expo'
 import { supabase } from '~/lib/supabase'
 import { trpc } from '~/lib/trpc'
 
-import { useProfile } from './profile'
-
 export const useSignUp = () => {
   const router = useRouter()
 
-  const { refetch } = useProfile()
+  const utils = trpc.useContext()
 
   const {
     error: mutationError,
@@ -48,9 +46,9 @@ export const useSignUp = () => {
           name,
         })
 
-        await refetch()
+        await utils.users.profile.fetch()
 
-        router.replace('/home')
+        router.replace('/')
       } catch (error) {
         setError(error.message)
 
@@ -59,7 +57,7 @@ export const useSignUp = () => {
         setLoading(false)
       }
     },
-    [mutateAsync, refetch, router]
+    [mutateAsync, router, utils.users.profile]
   )
 
   return {

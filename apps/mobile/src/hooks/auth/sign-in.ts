@@ -3,13 +3,12 @@ import { useCallback, useState } from 'react'
 import * as Sentry from 'sentry-expo'
 
 import { supabase } from '~/lib/supabase'
-
-import { useProfile } from './profile'
+import { trpc } from '~/lib/trpc'
 
 export const useSignIn = () => {
   const router = useRouter()
 
-  const { refetch } = useProfile()
+  const utils = trpc.useContext()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -29,9 +28,9 @@ export const useSignIn = () => {
           throw new Error(error.message)
         }
 
-        await refetch()
+        await utils.users.profile.fetch()
 
-        router.replace('/home')
+        router.replace('/')
       } catch (error) {
         setError(error.message)
 
@@ -40,7 +39,7 @@ export const useSignIn = () => {
         setLoading(false)
       }
     },
-    [refetch, router]
+    [router, utils.users.profile]
   )
 
   return {

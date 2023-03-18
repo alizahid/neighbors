@@ -27,6 +27,10 @@
     "hooks": {
       "postPublish": [
         {
+          "config": {
+            "organization": "designplox",
+            "project": "neighbors-mobile"
+          },
           "file": "sentry-expo/upload-sourcemaps"
         }
       ]
@@ -56,10 +60,17 @@
         }
       ]
     ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
     "splash": {
       "backgroundColor": "#fff",
       "image": "./assets/img/splash.png",
       "resizeMode": "contain"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/eb0dc900-5dde-44f6-8dcf-00d608dff6af"
     },
     "userInterfaceStyle": "light"
   }

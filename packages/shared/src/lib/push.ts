@@ -1,11 +1,10 @@
 import { type ExpoPushMessage } from 'expo-server-sdk'
 
 import { type NotificationTypeView } from '~/schemas/notifications/type'
-import { type PostTypeView } from '~/schemas/posts/type'
 
 import { expo } from './expo'
 import { translator } from './intl'
-import { splitTarget } from './notifications'
+import { splitTarget, type Target } from './notifications'
 import { db } from './prisma'
 
 export const getBadge = async (userId: string) => {
@@ -53,7 +52,7 @@ export const sendNotification = async ({
 }: {
   actorId: string
   buildingId: string
-  target: `${PostTypeView}:${string}`
+  target: Target
   type: NotificationTypeView
   userId: string
 }) => {
@@ -90,11 +89,23 @@ export const sendNotification = async ({
   }
 
   if (process.env.NODE_ENV === 'production') {
-    const { id } = splitTarget(target)
+    const { id, type: targetType } = splitTarget(target)
+
+    const user = await db.user.findUnique({
+      where: {
+        id: actorId,
+      },
+    })
 
     await sendPush(userId, {
-      body: translator(`api.push.${type}.body`),
-      title: translator(`api.push.${type}.title`),
+      body: translator(`api.push.${type}.body`, {
+        type: targetType,
+        user: user?.name ?? translator('api.push.someone'),
+      }),
+      title: translator(`api.push.${type}.title`, {
+        type: targetType,
+        user: user?.name ?? translator('api.push.someone'),
+      }),
       url: `/posts/${id}`,
     })
   }

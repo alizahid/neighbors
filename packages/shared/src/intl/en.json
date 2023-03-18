@@ -11,7 +11,8 @@
       },
       "message": {
         "title": "New message"
-      }
+      },
+      "someone": "Someone"
     }
   },
   "component": {

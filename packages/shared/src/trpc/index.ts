@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { createNextApiHandler } from '@trpc/server/adapters/next'
 
 import { createContext } from './context'
@@ -25,5 +26,8 @@ export type NeighborsRouter = typeof router
 export const createNextHandler = () =>
   createNextApiHandler({
     createContext,
+    onError({ error }) {
+      Sentry.captureException(error)
+    },
     router,
   })

@@ -104,12 +104,10 @@ export const sendPush = async (
   userId: string,
   {
     body,
-    subtitle,
     title,
     url,
   }: {
     body: string
-    subtitle?: string
     title: string
     url: string
   }
@@ -128,7 +126,6 @@ export const sendPush = async (
     data: {
       url,
     },
-    subtitle,
     title,
     to: token,
   }))

@@ -215,8 +215,7 @@ export const chat = t.router({
 
     if (process.env.NODE_ENV === 'production') {
       await sendPush(other.userId, {
-        body: message.body,
-        subtitle: member.user.name,
+        body: `${member.user.name}: ${message.body}`,
         title: translator('api.push.message.title'),
         url: `/chat/${channel.id}`,
       })

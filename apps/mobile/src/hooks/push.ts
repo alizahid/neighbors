@@ -5,7 +5,6 @@ import { useCallback, useEffect } from 'react'
 import { Platform } from 'react-native'
 
 import { trpc } from '~/lib/trpc'
-import { toast } from '~/providers/toast'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,25 +20,15 @@ export const usePush = () => {
   const register = trpc.notifications.register.useMutation()
 
   useEffect(() => {
-    const listener = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        const { body, data, title } = notification.request.content
+    const listener = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        const url = response.notification.request.content.data.url
 
-        if (!body) {
+        if (!url) {
           return
         }
 
-        toast({
-          icon: data.icon ?? 'notification',
-          message: body,
-          onPress: () => {
-            if (data.url) {
-              router.push(data.url)
-            }
-          },
-          title: title ?? undefined,
-          variant: 'notification',
-        })
+        router.push(url)
       }
     )
 

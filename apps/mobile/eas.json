@@ -8,12 +8,7 @@
       }
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "BASE_URL": "https://nearbuds.co",
-        "SUPABASE_PUBLIC_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a3F3dGFmaHpuaW15d3h6d2lmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNjcyOTcsImV4cCI6MTk5Mjc0MzI5N30.Vn6LyqlY09bOPD4dqkc2jwzPNCSWd19H52LnP4tY1Vc",
-        "SUPABASE_URL": "https://twkqwtafhznimywxzwif.supabase.co"
-      }
+      "distribution": "internal"
     },
     "production": {}
   }
